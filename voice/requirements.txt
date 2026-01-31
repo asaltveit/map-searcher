@@ -1,0 +1,5 @@
+# Pipecat and deps for STT/TTS voice integration.
+# See README.md for usage and Pipecat examples.
+pipecat-ai>=0.0.50
+python-dotenv>=1.0.0
+loguru>=0.7.0
