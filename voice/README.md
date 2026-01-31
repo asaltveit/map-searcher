@@ -2,6 +2,8 @@
 
 This folder is a scaffold for integrating **Pipecat** for speech-to-text (STT) and text-to-speech (TTS) with the Weave Hacks app.
 
+**API keys:** Pipecat itself does not use an API key; it’s an open-source framework. The **services** you use inside a Pipecat pipeline do require keys: STT (e.g. Whisper → `OPENAI_API_KEY`), TTS (e.g. OpenAI TTS, Cartesia, ElevenLabs), and transports (e.g. Daily → `DAILY_API_KEY`). See `voice/.env.example` for typical variables.
+
 ## Intended flow
 
 1. **Voice in**: User speaks → Pipecat STT → text → send text to the main app (e.g. as the chat message). The existing workflow (research → map) runs with that text.
@@ -24,7 +26,7 @@ This folder is a scaffold for integrating **Pipecat** for speech-to-text (STT) a
    pip install -r requirements.txt
    ```
 
-2. **Configure**: Copy `.env.example` (if present) and set `OPENAI_API_KEY` (for Whisper STT) and any transport keys (e.g. Daily) if you use that transport.
+2. **Configure**: Copy `voice/.env.example` to `voice/.env` and set the keys for the services you use (e.g. `OPENAI_API_KEY` for Whisper STT, transport keys if you use Daily/Twilio).
 
 3. **Run an example**: Use the [Pipecat examples](https://github.com/pipecat-ai/pipecat/tree/main/examples), e.g.:
    - [13-whisper-transcription.py](https://github.com/pipecat-ai/pipecat/blob/main/examples/foundational/13-whisper-transcription.py) – STT with Whisper.
