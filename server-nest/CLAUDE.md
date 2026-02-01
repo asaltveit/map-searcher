@@ -65,6 +65,12 @@ src/
 - Sentry captures unhandled exceptions via `SentryFilter`
 - Use NestJS built-in exception classes
 
+### API Documentation
+- Add Swagger/OpenAPI decorators to all endpoints (`@ApiTags`, `@ApiOperation`, `@ApiResponse`, etc.)
+- Update Postman collections when adding/modifying endpoints
+- Use Portman for contract testing against OpenAPI specs
+- Keep `openapi.json` in sync with endpoint changes
+
 ## Commit Conventions
 
 ```
