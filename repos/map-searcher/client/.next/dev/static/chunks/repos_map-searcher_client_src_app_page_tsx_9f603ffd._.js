@@ -1,14 +1,15 @@
 (globalThis.TURBOPACK_CHUNK_LISTS || (globalThis.TURBOPACK_CHUNK_LISTS = [])).push({
     script: typeof document === "object" ? document.currentScript : undefined,
     chunks: [
-  "static/chunks/0d5e3_maplibre-gl_dist_maplibre-gl_ade5c93c.js",
-  "static/chunks/repos_map-searcher_client_src_d002ae90._.js",
+  "static/chunks/0d5e3_maplibre-gl_dist_maplibre-gl_d0afe12b.js",
+  "static/chunks/repos_map-searcher_client_src_b498d457._.js",
   "static/chunks/0d5e3_@vis_gl_react-maplibre_dist_c9b5d728._.js",
   "static/chunks/0d5e3_tailwind-merge_dist_bundle-mjs_mjs_4ecae035._.js",
   "static/chunks/0d5e3_zod_v4_a13fc59e._.js",
   "static/chunks/0d5e3_date-fns_f43c2927._.js",
   "static/chunks/0d5e3_react-day-picker_dist_esm_e3478827._.js",
-  "static/chunks/0d5e3_c569e8d6._.js",
+  "static/chunks/0d5e3_@daily-co_daily-js_dist_daily-esm_a27f597b.js",
+  "static/chunks/0d5e3_fb2bc3dc._.js",
   "static/chunks/0d5e3_maplibre-gl_dist_maplibre-gl_b37a8f55.css"
 ],
     source: "dynamic"
