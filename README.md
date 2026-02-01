@@ -1,5 +1,9 @@
 # Weave Hacks – Research & Map
 
+**Description:** An AI-powered research and mapping app that turns natural-language questions into live map updates. You ask about places, routes, or current events in plain language (typed or spoken); AI agents run the research—searching stored findings and the web, with sources—then a map agent drives the UI by adding layers, pins, and viewport changes to a MapLibre map. The interface (map and chat) updates in response to the agents, so you see current research visualized on the map as the workflow runs. The project supports **self-healing agents and workflows**: W&B Weave traces research and map runs, automated scorers evaluate quality, and improvement reports suggest persona and config updates so agents get better over time.
+
+---
+
 Letta-based workflow: research agent → shared block → map agent. You type or say what you want to search; the app runs research, then updates a MapLibre map with layers and shows the result in chat.
 
 ## Plan
