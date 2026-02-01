@@ -137,6 +137,7 @@ async function bootstrap() {
     .addTag("Agents", "Letta agent endpoints")
     .addTag("Research", "Research storage endpoints")
     .addTag("Workflow", "Workflow endpoints")
+    .addTag("Alerts", "News alerts endpoints")
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,46 +1,68 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { createAlert, type AlertFrequency, type CreateAlertInput } from '@/lib/api';
+import { Input } from '@/components/ui/input';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { createAlert, type CreateAlertInput } from '@/lib/api';
+import {
+  createAlertSchema,
+  type CreateAlertFormData,
+  FREQUENCY_OPTIONS,
+} from '@/lib/validations/alert';
+import { cn } from '@/lib/utils';
 
 interface CreateAlertFormProps {
   onCreated: () => void;
   onCancel: () => void;
 }
 
-const FREQUENCY_OPTIONS: { value: AlertFrequency; label: string }[] = [
-  { value: 'MANUAL', label: 'Manual only' },
-  { value: 'DAILY', label: 'Daily' },
-  { value: 'WEEKLY', label: 'Weekly' },
-  { value: 'BIWEEKLY', label: 'Biweekly' },
-  { value: 'MONTHLY', label: 'Monthly' },
-];
-
 export function CreateAlertForm({ onCreated, onCancel }: CreateAlertFormProps) {
-  const [query, setQuery] = useState('');
-  const [region, setRegion] = useState('');
-  const [maxArticles, setMaxArticles] = useState(20);
-  const [frequency, setFrequency] = useState<AlertFrequency>('MANUAL');
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<CreateAlertFormData>({
+    resolver: zodResolver(createAlertSchema),
+    defaultValues: {
+      query: '',
+      region: '',
+      maxArticles: 20,
+      frequency: 'MANUAL',
+      fromDate: undefined,
+    },
+  });
+
+  const onSubmit = async (data: CreateAlertFormData) => {
     setError(null);
+    setSubmitting(true);
 
-    if (!query.trim() || !region.trim()) {
-      setError('Query and region are required');
-      return;
-    }
-
-    setLoading(true);
     try {
       const input: CreateAlertInput = {
-        query: query.trim(),
-        region: region.trim(),
-        maxArticles,
-        frequency,
+        query: data.query.trim(),
+        region: data.region.trim(),
+        maxArticles: data.maxArticles,
+        frequency: data.frequency,
         isActive: true,
       };
       await createAlert(input);
@@ -48,91 +70,161 @@ export function CreateAlertForm({ onCreated, onCancel }: CreateAlertFormProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create alert');
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="query" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-          Search Query
-        </label>
-        <input
-          id="query"
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="e.g., robberies, car accidents"
-          className="w-full px-3 py-2 border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-100"
-          disabled={loading}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="query"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Search Query</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="e.g., robberies, car accidents"
+                  disabled={submitting}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div>
-        <label htmlFor="region" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-          Region
-        </label>
-        <input
-          id="region"
-          type="text"
-          value={region}
-          onChange={(e) => setRegion(e.target.value)}
-          placeholder="e.g., Savannah, GA"
-          className="w-full px-3 py-2 border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-100"
-          disabled={loading}
+        <FormField
+          control={form.control}
+          name="region"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Region</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="e.g., Savannah, GA"
+                  disabled={submitting}
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                City, state, or area to search for news
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="maxArticles" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-            Max Articles
-          </label>
-          <input
-            id="maxArticles"
-            type="number"
-            min={1}
-            max={50}
-            value={maxArticles}
-            onChange={(e) => setMaxArticles(parseInt(e.target.value) || 20)}
-            className="w-full px-3 py-2 border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-100"
-            disabled={loading}
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="maxArticles"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Max Articles</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={50}
+                    disabled={submitting}
+                    {...field}
+                    onChange={(e) => field.onChange(parseInt(e.target.value) || 20)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="frequency"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Frequency</FormLabel>
+                <Select
+                  disabled={submitting}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select frequency" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {FREQUENCY_OPTIONS.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
 
-        <div>
-          <label htmlFor="frequency" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-            Frequency
-          </label>
-          <select
-            id="frequency"
-            value={frequency}
-            onChange={(e) => setFrequency(e.target.value as AlertFrequency)}
-            className="w-full px-3 py-2 border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-100"
-            disabled={loading}
-          >
-            {FREQUENCY_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+        <FormField
+          control={form.control}
+          name="fromDate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Initial Search Period</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      disabled={submitting}
+                      className={cn(
+                        'w-full pl-3 text-left font-normal',
+                        !field.value && 'text-muted-foreground'
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, 'PPP')
+                      ) : (
+                        <span>Pick a start date (optional)</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date > new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                Search for articles from this date. Defaults to today.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {error && (
+          <div className="text-sm text-red-600 dark:text-red-400">{error}</div>
+        )}
+
+        <div className="flex gap-3 justify-end pt-2">
+          <Button type="button" variant="outline" onClick={onCancel} disabled={submitting}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={submitting}>
+            {submitting ? 'Creating...' : 'Create Alert'}
+          </Button>
         </div>
-      </div>
-
-      {error && (
-        <div className="text-sm text-red-600 dark:text-red-400">{error}</div>
-      )}
-
-      <div className="flex gap-3 justify-end pt-2">
-        <Button type="button" variant="outline" onClick={onCancel} disabled={loading}>
-          Cancel
-        </Button>
-        <Button type="submit" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Alert'}
-        </Button>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
 }
