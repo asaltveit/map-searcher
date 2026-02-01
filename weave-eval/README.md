@@ -17,7 +17,7 @@ export WANDB_API_KEY=...
 3. **Write scores** back to Weave via `call.apply_scorer(...)` or feedback API.
 4. Use Weave UI or API to filter low-scoring traces and update `RESEARCH_PERSONA` / `MAP_PERSONA` in `server/agents-store.js`.
 
-See [Weave scorers](https://docs.wandb.ai/weave/guides/evaluation/scorers) and [docs/WEAVE_SELF_IMPROVEMENT.md](../docs/WEAVE_SELF_IMPROVEMENT.md) for the full self-improvement loop.
+See [Weave scorers](https://docs.wandb.ai/weave/guides/evaluation/scorers) and [docs/WEAVE_SELF_IMPROVEMENT.md](../docs/WEAVE_SELF_IMPROVEMENT.md) for the Weave-based loop. For a **separate** improvement cycle (no Weave): [docs/IMPROVEMENT_CYCLE.md](../docs/IMPROVEMENT_CYCLE.md).
 
 ## Scorer ideas
 

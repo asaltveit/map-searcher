@@ -9,6 +9,7 @@ import {
   ListMessagesParams,
   UpdateBlockParams,
 } from "../letta/letta.service";
+import { AgentTracingService } from "./agent-tracing.service";
 import {
   DEFAULT_AGENT_TOOLS,
   DEFAULT_AGENT_MODEL,
@@ -24,6 +25,7 @@ export class AgentsService {
   constructor(
     private readonly lettaService: LettaService,
     private readonly prisma: PrismaService,
+    private readonly agentTracingService: AgentTracingService,
   ) {}
 
   /**
@@ -157,8 +159,11 @@ export class AgentsService {
     agentId: string,
     params: SendMessageParams,
   ) {
-    await this.verifyOwnership(userId, agentId);
-    return this.lettaService.sendMessage(agentId, params);
+    return this.agentTracingService.sendMessageWithTrace(
+      userId,
+      agentId,
+      params,
+    );
   }
 
   async listMessages(

@@ -2,6 +2,8 @@
 
 This doc describes how to use W&B Weave so your research and map agents can **self-improve** via tracing, feedback, evaluation, and prompt/memory updates.
 
+**Two improvement cycles:** There is also a **separate** improvement cycle that does **not** use Weave (backlog + user submissions → code PRs and/or persona updates). See [IMPROVEMENT_CYCLE.md](./IMPROVEMENT_CYCLE.md).
+
 ## What You Have Today
 
 - **Tracing**: `server/tracing.js` wraps `sendMessage` and `updateBlock` in Weave ops when `WANDB_API_KEY` is set. Each Letta API call is one Weave trace.

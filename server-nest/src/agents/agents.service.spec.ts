@@ -2,12 +2,14 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AgentsService } from "./agents.service";
 import { LettaService } from "../letta/letta.service";
 import { PrismaService } from "../prisma.service";
+import { AgentTracingService } from "./agent-tracing.service";
 import { NotFoundException } from "@nestjs/common";
 
 describe("AgentsService", () => {
   let service: AgentsService;
   let lettaService: jest.Mocked<LettaService>;
   let prismaService: jest.Mocked<PrismaService>;
+  let agentTracingServiceMock: { sendMessageWithTrace: jest.Mock };
 
   const mockUserId = "user-123";
   const mockAgentId = "agent-456";
@@ -63,17 +65,22 @@ describe("AgentsService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    agentTracingServiceMock = {
+      sendMessageWithTrace: jest.fn(),
+    };
+
+    const testingModule: TestingModule = await Test.createTestingModule({
       providers: [
         AgentsService,
         { provide: LettaService, useValue: mockLettaService },
         { provide: PrismaService, useValue: mockPrismaService },
+        { provide: AgentTracingService, useValue: agentTracingServiceMock },
       ],
     }).compile();
 
-    service = module.get<AgentsService>(AgentsService);
-    lettaService = module.get(LettaService);
-    prismaService = module.get(PrismaService);
+    service = testingModule.get<AgentsService>(AgentsService);
+    lettaService = testingModule.get(LettaService);
+    prismaService = testingModule.get(PrismaService);
   });
 
   describe("verifyOwnership", () => {
@@ -243,22 +250,25 @@ describe("AgentsService", () => {
   });
 
   describe("sendMessage", () => {
-    it("should send message to agent", async () => {
-      (prismaService.agent.findFirst as jest.Mock).mockResolvedValue(mockAgent);
+    it("should delegate to agent tracing service", async () => {
       const mockResponse = {
         messages: [{ content: "Hello back!" }],
         usage: { total_tokens: 100 },
       };
-      lettaService.sendMessage.mockResolvedValue(mockResponse as never);
+      agentTracingServiceMock.sendMessageWithTrace.mockResolvedValue(
+        mockResponse,
+      );
 
       const result = await service.sendMessage(mockUserId, mockAgentId, {
         content: "Hello!",
       });
 
       expect(result).toEqual(mockResponse);
-      expect(lettaService.sendMessage).toHaveBeenCalledWith(mockAgentId, {
-        content: "Hello!",
-      });
+      expect(agentTracingServiceMock.sendMessageWithTrace).toHaveBeenCalledWith(
+        mockUserId,
+        mockAgentId,
+        { content: "Hello!" },
+      );
     });
   });
 

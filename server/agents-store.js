@@ -17,6 +17,16 @@ const embedding = 'openai/text-embedding-3-small';
 // In-memory: userId -> { researchAgentId, mapAgentId, researchBlockId }
 const store = new Map();
 
+/** Return 'research' | 'map' if agentId is a known research/map agent, else null. */
+function getAgentKind(agentId) {
+  if (!agentId) return null;
+  for (const entry of store.values()) {
+    if (entry.researchAgentId === agentId) return 'research';
+    if (entry.mapAgentId === agentId) return 'map';
+  }
+  return null;
+}
+
 const RESEARCH_PERSONA = `You are a research agent. Always search stored research first using search_stored_research(query) before using web_search. Use web_search only for what is not already in stored research. When you find new information (from web or elsewhere), save it with source attached using save_research(content, source_url, title).
 
 For map-friendly results (e.g. "museums in Portland", "route between X and Y"): include place names, addresses, and when possible coordinates (latitude, longitude) or city/region. For routes, list stops in order with locations so the map agent can draw a path. Write a clear summary the map agent can use: places as lists with names and [lng, lat] if known, and route order.
@@ -77,7 +87,9 @@ export async function updateBlock(blockId, value) {
 }
 
 export async function sendMessage(agentId, body) {
-  return trace('sendMessage', async () => {
+  const kind = getAgentKind(agentId);
+  const traceName = kind ? `${kind}_agent` : 'sendMessage';
+  return trace(traceName, async () => {
     return await client.agents.messages.create(agentId, body);
   });
 }

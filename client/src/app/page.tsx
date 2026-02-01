@@ -1,5 +1,5 @@
-import { VoiceSection } from "@/components/voice/VoiceSection";
-import { MapContainer } from '@/components/map';
+import { MapContainer } from "@/components/map";
+import { AgentInput } from "@/components/AgentInput";
 
 export default function Home() {
   return (
@@ -14,9 +14,9 @@ export default function Home() {
         </h1>
         <MapContainer className="h-[280px] w-full min-h-[220px] rounded-lg border border-zinc-200 overflow-hidden sm:h-[400px] sm:min-h-[300px] dark:border-zinc-800" />
         <p className="mb-6 text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
-          Use the Voice section below to speak (speech-to-text) or hear text read aloud (text-to-speech).
+          Ask research and map below (type or use the mic). The research agent will search and save findings; the map will update from that research.
         </p>
-        <VoiceSection className="w-full max-w-xl" />
+        <AgentInput />
       </main>
     </div>
   );

@@ -7,7 +7,7 @@ Candidate improvements for the improvement PR agent. Each entry can be read by t
 - **title**: Short label (e.g. "Keyboard-accessible map zoom")
 - **problem**: What gap or issue exists
 - **solution**: Brief outline of how to address it
-- **area**: `client` | `server` | `both`
+- **area**: `client` | `server` | `both` | `agents` — use `agents` for persona/prompt/tool improvements (handled by the [separate improvement cycle](./IMPROVEMENT_CYCLE.md), not the PR agent)
 - **id**: Optional unique id (for dedupe or API reference)
 
 ---
