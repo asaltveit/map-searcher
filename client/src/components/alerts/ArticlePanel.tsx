@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
-import { ExternalLink, MapPin, Calendar, User, Send, Search, Loader2 } from 'lucide-react';
+import { ExternalLink, MapPin, Calendar, User, Send, Search, Loader2, MessageCircle } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { chatWithArticles } from '@/lib/api';
+import { PipecatChat } from './PipecatChat';
 import type { AlertDetail, AlertArticle } from '@/lib/api';
 
 interface ChatMessage {
@@ -31,6 +32,7 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
+  const [showPipecatChat, setShowPipecatChat] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   console.log(`[PANEL] ArticlePanel RENDER - open=${open}, loading=${loading}, alertId=${alert?.id}, articleCount=${alert?.articles?.length || 0}`);
@@ -107,120 +109,140 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full sm:max-w-md flex flex-col">
         <SheetHeader>
-          <SheetTitle>
-            {loading ? (
-              <Skeleton className="h-6 w-48" />
-            ) : (
-              <>
-                {console.log(`[PANEL] SheetTitle displaying - query="${alert?.query}"`)}
-                {alert?.query ?? 'Alert Articles'}
-              </>
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <SheetTitle>
+                {loading ? (
+                  <Skeleton className="h-6 w-48" />
+                ) : (
+                  <>
+                    {console.log(`[PANEL] SheetTitle displaying - query="${alert?.query}"`)}
+                    {alert?.query ?? 'Alert Articles'}
+                  </>
+                )}
+              </SheetTitle>
+              <SheetDescription>
+                {loading ? (
+                  <Skeleton className="h-4 w-32" />
+                ) : (
+                  <>
+                    {console.log(`[PANEL] SheetDescription displaying - region="${alert?.region}"`)}
+                    {alert?.region ?? ''}
+                  </>
+                )}
+              </SheetDescription>
+            </div>
+            {alert && !loading && (
+              <Button
+                onClick={() => setShowPipecatChat(!showPipecatChat)}
+                variant={showPipecatChat ? 'default' : 'outline'}
+                size="sm"
+                className="ml-2 shrink-0"
+              >
+                <MessageCircle className="h-4 w-4" />
+              </Button>
             )}
-          </SheetTitle>
-          <SheetDescription>
-            {loading ? (
-              <Skeleton className="h-4 w-32" />
-            ) : (
-              <>
-                {console.log(`[PANEL] SheetDescription displaying - region="${alert?.region}"`)}
-                {alert?.region ?? ''}
-              </>
-            )}
-          </SheetDescription>
+          </div>
         </SheetHeader>
 
         {/* Scrollable content area */}
-        <div className="flex-1 overflow-y-auto mt-6 space-y-4" ref={chatContainerRef}>
-          {/* Articles list */}
-          {loading ? (
-            <>
-              {console.log(`[PANEL] ArticlePanel LOADING state`)}
-              {Array.from({ length: 3 }).map((_, i) => (
-                <ArticleSkeleton key={i} />
-              ))}
-            </>
-          ) : alert?.articles && alert.articles.length > 0 ? (
-            <>
-              {console.log(`[PANEL] ArticlePanel DISPLAYING ${alert.articles.length} articles`)}
-              {alert.articles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </>
-          ) : (
-            <>
-              {console.log(`[PANEL] ArticlePanel EMPTY state - no articles found`)}
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-8">
-                No articles found for this alert.
-              </p>
-            </>
-          )}
+        {showPipecatChat && alert?.id ? (
+          <PipecatChat alertId={alert.id} onClose={() => setShowPipecatChat(false)} />
+        ) : (
+          <>
+            <div className="flex-1 overflow-y-auto mt-6 space-y-4" ref={chatContainerRef}>
+              {/* Articles list */}
+              {loading ? (
+                <>
+                  {console.log(`[PANEL] ArticlePanel LOADING state`)}
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <ArticleSkeleton key={i} />
+                  ))}
+                </>
+              ) : alert?.articles && alert.articles.length > 0 ? (
+                <>
+                  {console.log(`[PANEL] ArticlePanel DISPLAYING ${alert.articles.length} articles`)}
+                  {alert.articles.map((article) => (
+                    <ArticleCard key={article.id} article={article} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {console.log(`[PANEL] ArticlePanel EMPTY state - no articles found`)}
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-8">
+                    No articles found for this alert.
+                  </p>
+                </>
+              )}
 
-          {/* Chat messages */}
-          {chatMessages.length > 0 && (
-            <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4 space-y-3">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Chat</p>
-              {chatMessages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`text-sm rounded-lg p-3 ${
-                    msg.role === 'user'
-                      ? 'bg-zinc-100 dark:bg-zinc-800 ml-4'
-                      : 'bg-teal-50 dark:bg-teal-900/20 mr-4'
-                  }`}
-                >
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
-                    {msg.role === 'user' ? 'You' : 'Assistant'}
-                  </p>
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
-                </div>
-              ))}
-              {chatLoading && (
-                <div className="bg-teal-50 dark:bg-teal-900/20 mr-4 rounded-lg p-3">
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
-                    Assistant
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-zinc-500">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Thinking...
-                  </div>
+              {/* Chat messages */}
+              {chatMessages.length > 0 && (
+                <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4 space-y-3">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Chat</p>
+                  {chatMessages.map((msg, i) => (
+                    <div
+                      key={i}
+                      className={`text-sm rounded-lg p-3 ${
+                        msg.role === 'user'
+                          ? 'bg-zinc-100 dark:bg-zinc-800 ml-4'
+                          : 'bg-teal-50 dark:bg-teal-900/20 mr-4'
+                      }`}
+                    >
+                      <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
+                        {msg.role === 'user' ? 'You' : 'Assistant'}
+                      </p>
+                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                    </div>
+                  ))}
+                  {chatLoading && (
+                    <div className="bg-teal-50 dark:bg-teal-900/20 mr-4 rounded-lg p-3">
+                      <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
+                        Assistant
+                      </p>
+                      <div className="flex items-center gap-2 text-sm text-zinc-500">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Thinking...
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
-        </div>
 
-        {/* Chat input - fixed at bottom */}
-        {alert && !loading && alert.articles && alert.articles.length > 0 && (
-          <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
-              Ask about these articles
-            </p>
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                <input
-                  type="text"
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Ask a question..."
-                  disabled={chatLoading}
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
-                />
+            {/* Chat input - fixed at bottom */}
+            {alert && !loading && alert.articles && alert.articles.length > 0 && (
+              <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
+                  Ask about these articles
+                </p>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                    <input
+                      type="text"
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Ask a question..."
+                      disabled={chatLoading}
+                      className="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
+                    />
+                  </div>
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={!chatInput.trim() || chatLoading}
+                    className="bg-teal-600 hover:bg-teal-700 text-white shrink-0"
+                  >
+                    {chatLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
-              <Button
-                onClick={handleSendMessage}
-                disabled={!chatInput.trim() || chatLoading}
-                className="bg-teal-600 hover:bg-teal-700 text-white shrink-0"
-              >
-                {chatLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          </div>
+            )}
+          </>
         )}
       </SheetContent>
     </Sheet>

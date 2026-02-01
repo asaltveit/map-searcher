@@ -290,6 +290,58 @@ export class AlertsController {
     }
   }
 
+  @Post("pipecat/connect")
+  @ApiOperation({
+    summary: "Connect to Pipecat voice bot",
+    description: "Establish a connection to the Pipecat voice AI agent for voice chat about alert articles",
+  })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        alertId: { type: "string", description: "Alert ID for context" },
+      },
+      required: ["alertId"],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Connection details for Pipecat client",
+    schema: {
+      type: "object",
+      properties: {
+        token: { type: "string" },
+        sessionId: { type: "string" },
+        roomUrl: { type: "string" },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: "Alert not found" })
+  async pipecatConnect(
+    @Req() req: JwtRequest,
+    @Body() body: { alertId: string },
+  ): Promise<{
+    token: string;
+    sessionId: string;
+    roomUrl: string;
+  }> {
+    this.logger.log(`[CTRL] pipecatConnect START - userId=${req.user.userId}, alertId=${body.alertId}`);
+    this.validateUuid(body.alertId);
+
+    try {
+      const result = await this.alertsService.pipecatConnect(
+        req.user.userId,
+        body.alertId,
+      );
+      this.logger.log(`[CTRL] pipecatConnect SUCCESS - alertId=${body.alertId}`);
+      return result;
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`[CTRL] pipecatConnect FAILED - alertId=${body.alertId}, error=${errorMsg}`);
+      throw error;
+    }
+  }
+
   private validateUuid(id: string): void {
     const uuidRegex =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

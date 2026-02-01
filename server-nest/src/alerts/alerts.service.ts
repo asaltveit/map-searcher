@@ -806,4 +806,57 @@ export class AlertsService {
     }
     return LocationType.OTHER;
   }
+
+  /**
+   * Connect to Pipecat voice bot for an alert
+   */
+  async pipecatConnect(userId: string, alertId: string) {
+    this.logger.log(`[SVC] pipecatConnect START - userId=${userId}, alertId=${alertId}`);
+
+    // Verify alert exists and belongs to user
+    const alert = await this.prisma.newsAlert.findFirst({
+      where: { id: alertId, userId },
+      include: {
+        articles: {
+          include: {
+            locations: true,
+          },
+        },
+      },
+    });
+
+    if (!alert) {
+      this.logger.error(`[SVC] pipecatConnect ALERT NOT FOUND - userId=${userId}, alertId=${alertId}`);
+      throw new NotFoundException(`Alert not found`);
+    }
+
+    this.logger.log(`[SVC] pipecatConnect ALERT FOUND - alertId=${alertId}, articleCount=${alert.articles.length}`);
+
+    // In a real implementation, you would:
+    // 1. Create or get a Daily.co room
+    // 2. Generate tokens for both the user and the bot
+    // 3. Initialize the Pipecat agent with article context
+    // 4. Return connection details to the client
+
+    // For now, return mock connection details
+    // Replace with actual Daily.co integration
+    const sessionId = `session_${Date.now()}`;
+    const roomName = `alert_${alertId}`;
+    const roomUrl = `https://pipecat.daily.co/${roomName}`;
+    const token = Buffer.from(JSON.stringify({
+      user_name: `user_${userId}`,
+      user_id: userId,
+      room_name: roomName,
+      alert_id: alertId,
+      article_count: alert.articles.length,
+    })).toString('base64');
+
+    this.logger.log(`[SVC] pipecatConnect SUCCESS - sessionId=${sessionId}, roomUrl=${roomUrl}`);
+
+    return {
+      token,
+      sessionId,
+      roomUrl,
+    };
+  }
 }
