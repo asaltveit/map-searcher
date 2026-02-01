@@ -1253,6 +1253,282 @@ function addAuthPaths(document: OpenAPIObject): OpenAPIObject {
   return document;
 }
 
+// Manually add Alerts paths (AlertsModule imports JwtAuthGuard causing potential deps issues)
+function addAlertsPaths(document: OpenAPIObject): OpenAPIObject {
+  // Schemas
+  document.components = document.components || {};
+  document.components.schemas = document.components.schemas || {};
+
+  document.components.schemas["CreateAlertDto"] = {
+    type: "object",
+    required: ["query", "region"],
+    properties: {
+      query: { type: "string", minLength: 2, maxLength: 200, description: "Search query for news articles", example: "robberies" },
+      region: { type: "string", minLength: 2, maxLength: 200, description: "Region for geocoding context", example: "Savannah, GA" },
+      maxArticles: { type: "integer", minimum: 1, maximum: 50, default: 20, description: "Maximum articles per run" },
+      frequency: { type: "string", enum: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY", "MANUAL"], default: "MANUAL", description: "How often to run" },
+      isActive: { type: "boolean", default: true, description: "Whether alert is active" },
+    },
+  };
+
+  document.components.schemas["UpdateAlertDto"] = {
+    type: "object",
+    properties: {
+      query: { type: "string", minLength: 2, maxLength: 200 },
+      region: { type: "string", minLength: 2, maxLength: 200 },
+      maxArticles: { type: "integer", minimum: 1, maximum: 50 },
+      frequency: { type: "string", enum: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY", "MANUAL"] },
+      isActive: { type: "boolean" },
+    },
+  };
+
+  document.components.schemas["AlertResponseDto"] = {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      query: { type: "string" },
+      region: { type: "string" },
+      maxArticles: { type: "integer" },
+      frequency: { type: "string", enum: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY", "MANUAL"] },
+      isActive: { type: "boolean" },
+      lastRunAt: { type: "string", format: "date-time", nullable: true },
+      nextRunAt: { type: "string", format: "date-time", nullable: true },
+      createdAt: { type: "string", format: "date-time" },
+      updatedAt: { type: "string", format: "date-time" },
+      articleCount: { type: "integer" },
+    },
+  };
+
+  document.components.schemas["AlertListItemDto"] = {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      query: { type: "string" },
+      region: { type: "string" },
+      frequency: { type: "string", enum: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY", "MANUAL"] },
+      isActive: { type: "boolean" },
+      lastRunAt: { type: "string", format: "date-time", nullable: true },
+      nextRunAt: { type: "string", format: "date-time", nullable: true },
+      articleCount: { type: "integer" },
+      createdAt: { type: "string", format: "date-time" },
+    },
+  };
+
+  document.components.schemas["AlertArticleDto"] = {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      url: { type: "string" },
+      title: { type: "string" },
+      author: { type: "string", nullable: true },
+      source: { type: "string" },
+      publishedAt: { type: "string", format: "date-time" },
+      summary: { type: "string", nullable: true },
+      sentiment: { type: "string", nullable: true },
+      locationCount: { type: "integer" },
+      createdAt: { type: "string", format: "date-time" },
+    },
+  };
+
+  document.components.schemas["AlertDetailDto"] = {
+    allOf: [
+      { $ref: "#/components/schemas/AlertResponseDto" },
+      {
+        type: "object",
+        properties: {
+          articles: { type: "array", items: { $ref: "#/components/schemas/AlertArticleDto" } },
+        },
+      },
+    ],
+  };
+
+  document.components.schemas["RunAlertResponseDto"] = {
+    type: "object",
+    properties: {
+      jobId: { type: "string" },
+      message: { type: "string" },
+    },
+  };
+
+  document.components.schemas["AlertGeoJsonFeatureDto"] = {
+    type: "object",
+    properties: {
+      type: { type: "string", enum: ["Feature"] },
+      geometry: {
+        type: "object",
+        properties: {
+          type: { type: "string", enum: ["Point"] },
+          coordinates: { type: "array", items: { type: "number" }, example: [-81.0998, 32.0809] },
+        },
+      },
+      properties: {
+        type: "object",
+        properties: {
+          locationId: { type: "string" },
+          articleId: { type: "string" },
+          alertId: { type: "string" },
+          articleTitle: { type: "string" },
+          mention: { type: "string" },
+          mentionType: { type: "string" },
+          formattedAddress: { type: "string", nullable: true },
+          confidence: { type: "number", nullable: true },
+          articleUrl: { type: "string" },
+          publishedAt: { type: "string" },
+        },
+      },
+    },
+  };
+
+  document.components.schemas["AlertGeoJsonResponseDto"] = {
+    type: "object",
+    properties: {
+      type: { type: "string", enum: ["FeatureCollection"] },
+      features: { type: "array", items: { $ref: "#/components/schemas/AlertGeoJsonFeatureDto" } },
+    },
+  };
+
+  // Endpoints
+  document.paths["/api/alerts"] = {
+    post: {
+      operationId: "AlertsController_createAlert",
+      summary: "Create a new alert",
+      description: "Creates a new news alert for recurring or manual searches",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/CreateAlertDto" },
+          },
+        },
+      },
+      responses: {
+        "201": {
+          description: "Alert created",
+          content: { "application/json": { schema: { $ref: "#/components/schemas/AlertResponseDto" } } },
+        },
+        "400": { description: "Invalid input" },
+      },
+    },
+    get: {
+      operationId: "AlertsController_listAlerts",
+      summary: "List user's alerts",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      responses: {
+        "200": {
+          description: "List of alerts",
+          content: { "application/json": { schema: { type: "array", items: { $ref: "#/components/schemas/AlertListItemDto" } } } },
+        },
+      },
+    },
+  };
+
+  document.paths["/api/alerts/locations"] = {
+    get: {
+      operationId: "AlertsController_getAlertsLocations",
+      summary: "Get all alert locations as GeoJSON",
+      description: "Returns all geocoded locations from active alerts as a GeoJSON FeatureCollection",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      parameters: [
+        { name: "alertIds", in: "query", required: false, description: "Comma-separated alert IDs to filter by", schema: { type: "string" } },
+      ],
+      responses: {
+        "200": {
+          description: "GeoJSON FeatureCollection",
+          content: { "application/json": { schema: { $ref: "#/components/schemas/AlertGeoJsonResponseDto" } } },
+        },
+      },
+    },
+  };
+
+  document.paths["/api/alerts/{id}"] = {
+    get: {
+      operationId: "AlertsController_getAlert",
+      summary: "Get alert details",
+      description: "Returns alert details with recent articles",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      parameters: [
+        { name: "id", in: "path", required: true, description: "Alert ID", schema: { type: "string" } },
+      ],
+      responses: {
+        "200": {
+          description: "Alert details",
+          content: { "application/json": { schema: { $ref: "#/components/schemas/AlertDetailDto" } } },
+        },
+        "404": { description: "Alert not found" },
+      },
+    },
+    patch: {
+      operationId: "AlertsController_updateAlert",
+      summary: "Update an alert",
+      description: "Update alert configuration (query, frequency, etc.)",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      parameters: [
+        { name: "id", in: "path", required: true, description: "Alert ID", schema: { type: "string" } },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: "#/components/schemas/UpdateAlertDto" },
+          },
+        },
+      },
+      responses: {
+        "200": {
+          description: "Alert updated",
+          content: { "application/json": { schema: { $ref: "#/components/schemas/AlertResponseDto" } } },
+        },
+        "404": { description: "Alert not found" },
+      },
+    },
+    delete: {
+      operationId: "AlertsController_deleteAlert",
+      summary: "Delete an alert",
+      description: "Delete an alert and all its articles",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      parameters: [
+        { name: "id", in: "path", required: true, description: "Alert ID", schema: { type: "string" } },
+      ],
+      responses: {
+        "200": {
+          description: "Alert deleted",
+          content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" } } } } },
+        },
+        "404": { description: "Alert not found" },
+      },
+    },
+  };
+
+  document.paths["/api/alerts/{id}/run"] = {
+    post: {
+      operationId: "AlertsController_runAlert",
+      summary: "Manually trigger an alert",
+      description: "Queue the alert for immediate processing",
+      tags: ["Alerts"],
+      security: [{ "access-token": [] }],
+      parameters: [
+        { name: "id", in: "path", required: true, description: "Alert ID", schema: { type: "string" } },
+      ],
+      responses: {
+        "200": {
+          description: "Alert queued for processing",
+          content: { "application/json": { schema: { $ref: "#/components/schemas/RunAlertResponseDto" } } },
+        },
+        "404": { description: "Alert not found" },
+      },
+    },
+  };
+
+  return document;
+}
+
 async function generateOpenApi() {
   // Create app with minimal module (excludes Letta/Agents/Tools/Models)
   const app = await NestFactory.create(OpenApiAppModule, { logger: false });
@@ -1280,6 +1556,7 @@ async function generateOpenApi() {
     .addTag("Tools", "Global tool management")
     .addTag("Models", "Model discovery endpoints")
     .addTag("News Workflow", "News article search and location extraction workflows")
+    .addTag("Alerts", "News alerts endpoints")
     .build();
 
   let document = SwaggerModule.createDocument(app, config, {
@@ -1295,6 +1572,9 @@ async function generateOpenApi() {
 
   // Add News Workflow paths manually
   document = addNewsWorkflowPaths(document);
+
+  // Add Alerts paths manually
+  document = addAlertsPaths(document);
 
   // Add request body for research endpoint
   const researchRequestBody = {
