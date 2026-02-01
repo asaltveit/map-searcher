@@ -167,6 +167,7 @@ export default function Home() {
             onOpenChange={setArticlePanelOpen}
             alert={selectedAlert}
             loading={locationsLoading && selectedAlertId !== null}
+            onVoiceChatOpen={() => setVoiceChatOpen(true)}
           />
 
           {/* Voice Chat Panel */}

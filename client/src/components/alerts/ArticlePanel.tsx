@@ -26,9 +26,10 @@ interface ArticlePanelProps {
   onOpenChange: (open: boolean) => void;
   alert: AlertDetail | null;
   loading?: boolean;
+  onVoiceChatOpen?: () => void;
 }
 
-export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePanelProps) {
+export function ArticlePanel({ open, onOpenChange, alert, loading, onVoiceChatOpen }: ArticlePanelProps) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
@@ -229,7 +230,14 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
                     />
                   </div>
                   <Button
-                    onClick={() => setShowPipecatChat(true)}
+                    onClick={() => {
+                      if (onVoiceChatOpen) {
+                        onOpenChange(false); // Close article panel
+                        onVoiceChatOpen(); // Open voice chat panel
+                      } else {
+                        setShowPipecatChat(true);
+                      }
+                    }}
                     variant="outline"
                     size="icon"
                     className="shrink-0 h-10 w-10"
