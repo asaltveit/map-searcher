@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:local": "NEXT_PUBLIC_API_URL=http://localhost:3001 next dev",
+    "dev:production": "NEXT_PUBLIC_API_URL=https://map-searcher-api.fly.dev next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

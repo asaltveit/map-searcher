@@ -4,6 +4,9 @@
   "framework": "nextjs",
   "installCommand": "npm install",
   "buildCommand": "npm run build",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://map-searcher-api.fly.dev"
+  },
   "github": {
     "enabled": false
   }
