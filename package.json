@@ -8,7 +8,9 @@
     "dev:server": "node server/index.js",
     "dev:client": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "install:all": "npm install && cd client && npm install"
+    "install:all": "npm install && cd client && npm install",
+    "test": "node --test server/test/*.test.js",
+    "test:server": "node --test server/test/*.test.js"
   },
   "dependencies": {
     "@letta-ai/letta-client": "^1.7.0",
@@ -22,6 +24,7 @@
     "weave": "^0.6.3"
   },
   "devDependencies": {
-    "concurrently": "^9.0.1"
+    "concurrently": "^9.0.1",
+    "supertest": "^7.0.0"
   }
 }

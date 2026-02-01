@@ -11,7 +11,7 @@ This folder is a scaffold for integrating **Pipecat** for speech-to-text (STT) a
 
 ## Options
 
-- **Browser-only**: Use the Web Speech API (`SpeechRecognition` / `speechSynthesis`) in the client for STT/TTS without a separate service. No Pipecat.
+- **Browser-only (implemented)**: The app includes a **Voice** section that uses the Web Speech API (`SpeechRecognition` / `speechSynthesis`) in the client for STT/TTS. No Pipecat or backend needed: click the mic to speak (speech-to-text), or enter text and click speak (text-to-speech). Works in Chrome, Edge, Safari; optional `onTranscript` callback to send spoken text to the chat/workflow when you wire it.
 - **Pipecat service**: Run a Pipecat pipeline (e.g. with WebRTC or Daily transport) that:
   - Accepts audio from the client (WebSocket/WebRTC).
   - Runs STT (e.g. Whisper), sends transcript to your backend or client.
