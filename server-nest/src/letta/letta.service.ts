@@ -58,7 +58,7 @@ export class LettaService implements OnModuleInit {
       this.logger.warn("LETTA_API_KEY not set; Letta features disabled.");
       return;
     }
-    this.client = new Letta({ token: apiKey });
+    this.client = new Letta({ apiKey });
     this.logger.log("Letta client initialized");
   }
 
@@ -79,7 +79,11 @@ export class LettaService implements OnModuleInit {
       model: params.model || "openai/gpt-4o-mini",
       embedding: params.embedding || "openai/text-embedding-3-small",
       system: params.system,
-      memoryBlocks: params.memoryBlocks || [
+      memory_blocks: params.memoryBlocks?.map((block) => ({
+        label: block.label,
+        value: block.value,
+        limit: block.limit,
+      })) || [
         {
           label: "persona",
           value: "I am a friendly AI assistant here to help you.",
@@ -113,7 +117,7 @@ export class LettaService implements OnModuleInit {
 
   async updateAgent(agentId: string, params: UpdateAgentParams) {
     const client = this.ensureClient();
-    const agent = await client.agents.modify(agentId, {
+    const agent = await client.agents.update(agentId, {
       name: params.name,
       description: params.description,
       model: params.model,
@@ -152,24 +156,24 @@ export class LettaService implements OnModuleInit {
 
   async listMessages(agentId: string, params: ListMessagesParams = {}) {
     const client = this.ensureClient();
-    const messages = await client.agents.messages.list(agentId, {
+    const messages = [];
+    for await (const message of client.agents.messages.list(agentId, {
       limit: params.limit,
       before: params.before,
       after: params.after,
-      order: params.order,
-    });
+    })) {
+      messages.push(message);
+    }
     return messages;
   }
 
   async resetMessages(agentId: string, addDefaultInitialMessages = true) {
     const client = this.ensureClient();
-    // Reset by modifying the agent's message sequence
-    // The Letta API handles this through agent modification
-    const agent = await client.agents.modify(agentId, {
-      messageIds: [], // Clear message history
+    const result = await client.agents.messages.reset(agentId, {
+      add_default_initial_messages: addDefaultInitialMessages,
     });
     this.logger.log(`Reset messages for agent: ${agentId}`);
-    return agent;
+    return result;
   }
 
   // ==================== Memory Blocks ====================
@@ -185,13 +189,16 @@ export class LettaService implements OnModuleInit {
 
   async getBlock(agentId: string, label: string) {
     const client = this.ensureClient();
-    const block = await client.agents.blocks.retrieve(agentId, label);
+    const block = await client.agents.blocks.retrieve(label, {
+      agent_id: agentId,
+    });
     return block;
   }
 
   async updateBlock(agentId: string, label: string, params: UpdateBlockParams) {
     const client = this.ensureClient();
-    const block = await client.agents.blocks.modify(agentId, label, {
+    const block = await client.agents.blocks.update(label, {
+      agent_id: agentId,
       value: params.value,
       description: params.description,
       limit: params.limit,
@@ -213,14 +220,18 @@ export class LettaService implements OnModuleInit {
 
   async attachTool(agentId: string, toolId: string) {
     const client = this.ensureClient();
-    const agent = await client.agents.tools.attach(agentId, toolId);
+    const agent = await client.agents.tools.attach(toolId, {
+      agent_id: agentId,
+    });
     this.logger.log(`Attached tool ${toolId} to agent: ${agentId}`);
     return agent;
   }
 
   async detachTool(agentId: string, toolId: string) {
     const client = this.ensureClient();
-    const agent = await client.agents.tools.detach(agentId, toolId);
+    const agent = await client.agents.tools.detach(toolId, {
+      agent_id: agentId,
+    });
     this.logger.log(`Detached tool ${toolId} from agent: ${agentId}`);
     return agent;
   }
@@ -232,7 +243,6 @@ export class LettaService implements OnModuleInit {
     const tools = [];
     for await (const tool of client.tools.list({
       name: params?.name,
-      search: params?.search,
     })) {
       tools.push(tool);
     }
@@ -248,8 +258,7 @@ export class LettaService implements OnModuleInit {
   async createTool(params: CreateToolParams) {
     const client = this.ensureClient();
     const tool = await client.tools.create({
-      sourceCode: params.sourceCode,
-      name: params.name,
+      source_code: params.sourceCode,
       description: params.description,
       tags: params.tags,
     });
@@ -267,19 +276,13 @@ export class LettaService implements OnModuleInit {
 
   async listModels() {
     const client = this.ensureClient();
-    const models = [];
-    for await (const model of client.models.list()) {
-      models.push(model);
-    }
+    const models = await client.models.list();
     return models;
   }
 
   async listEmbeddingModels() {
     const client = this.ensureClient();
-    const models = [];
-    for await (const model of client.models.embedding.list()) {
-      models.push(model);
-    }
+    const models = await client.models.embeddings.list();
     return models;
   }
 }
