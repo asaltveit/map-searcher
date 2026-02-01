@@ -25,27 +25,6 @@ export function ResearchMapPage() {
 
   return (
     <div className="flex min-h-screen min-h-[100dvh] flex-col bg-background font-sans">
-      {/* Header: product name + live indicator */}
-      <header className="sticky top-0 z-10 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-2">
-            <span className="font-display text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-              Pulse
-            </span>
-            <span className="hidden rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:inline">
-              Research
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5 rounded-full border border-border bg-muted/50 px-2.5 py-1 text-xs text-muted-foreground">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-            </span>
-            Live research
-          </div>
-        </div>
-      </header>
-
       <main
         id="main-content"
         className="mx-auto w-full max-w-4xl flex-1 px-4 py-6 sm:px-6 sm:py-8"

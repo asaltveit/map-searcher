@@ -1,0 +1,1405 @@
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/utils.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "cn",
+    ()=>cn
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/clsx/dist/clsx.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$tailwind$2d$merge$2f$dist$2f$bundle$2d$mjs$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/tailwind-merge/dist/bundle-mjs.mjs [app-client] (ecmascript)");
+;
+;
+function cn(...inputs) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$tailwind$2d$merge$2f$dist$2f$bundle$2d$mjs$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["twMerge"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["clsx"])(inputs));
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/map-config.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "DEFAULT_VIEW_STATE",
+    ()=>DEFAULT_VIEW_STATE,
+    "MAP_STYLES",
+    ()=>MAP_STYLES
+]);
+const DEFAULT_VIEW_STATE = {
+    longitude: -98.5795,
+    latitude: 39.8283,
+    zoom: 4
+};
+const MAP_STYLES = {
+    liberty: 'https://tiles.openfreemap.org/styles/liberty'
+};
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "MapPinsLayer",
+    ()=>MapPinsLayer,
+    "PINS_LAYER_ID",
+    ()=>PINS_LAYER_ID
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$react$2d$map$2d$gl$2f$dist$2f$maplibre$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/react-map-gl/dist/maplibre.js [app-client] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/@vis.gl/react-maplibre/dist/index.js [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+'use client';
+;
+;
+const PINS_LAYER_ID = 'research-pins';
+const PINS_SOURCE_ID = 'research-pins-source';
+const circleLayerStyle = {
+    id: PINS_LAYER_ID,
+    type: 'circle',
+    source: PINS_SOURCE_ID,
+    paint: {
+        'circle-radius': 10,
+        'circle-color': '#0d9488',
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff'
+    }
+};
+function getBounds(features) {
+    if (features.length === 0) return null;
+    let minLng = Infinity;
+    let minLat = Infinity;
+    let maxLng = -Infinity;
+    let maxLat = -Infinity;
+    for (const f of features){
+        const coords = f.geometry?.coordinates;
+        if (!coords || coords.length < 2) continue;
+        const [lng, lat] = coords;
+        minLng = Math.min(minLng, lng);
+        minLat = Math.min(minLat, lat);
+        maxLng = Math.max(maxLng, lng);
+        maxLat = Math.max(maxLat, lat);
+    }
+    return [
+        [
+            minLng,
+            minLat
+        ],
+        [
+            maxLng,
+            maxLat
+        ]
+    ];
+}
+function MapPinsLayer({ data, selectedFeature, onClearSelect }) {
+    _s();
+    const fitDoneRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
+    const mapRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMap"])();
+    const features = data?.features ?? [];
+    const hasFeatures = features.length > 0;
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "MapPinsLayer.useEffect": ()=>{
+            if (!hasFeatures || fitDoneRef.current) return;
+            const map = mapRef?.current?.getMap?.();
+            if (!map) return;
+            const bounds = getBounds(features);
+            if (!bounds) return;
+            const padding = 40;
+            const duration = ("TURBOPACK compile-time value", "object") !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 600;
+            map.fitBounds(bounds, {
+                padding,
+                duration
+            });
+            fitDoneRef.current = true;
+        }
+    }["MapPinsLayer.useEffect"], [
+        hasFeatures,
+        features,
+        mapRef
+    ]);
+    if (!data || data.features.length === 0) return null;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Source"], {
+                id: PINS_SOURCE_ID,
+                type: "geojson",
+                data: data,
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Layer"], {
+                    ...circleLayerStyle
+                }, void 0, false, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx",
+                    lineNumber: 83,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx",
+                lineNumber: 82,
+                columnNumber: 7
+            }, this),
+            selectedFeature && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Popup"], {
+                longitude: selectedFeature.lngLat[0],
+                latitude: selectedFeature.lngLat[1],
+                onClose: onClearSelect,
+                closeButton: true,
+                closeOnClick: false,
+                anchor: "bottom",
+                className: "map-pin-popup",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "min-w-[180px] max-w-[280px] text-left",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "font-semibold text-foreground",
+                            children: selectedFeature.feature.properties?.title ?? 'Location'
+                        }, void 0, false, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx",
+                            lineNumber: 96,
+                            columnNumber: 13
+                        }, this),
+                        selectedFeature.feature.properties?.snippet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "mt-1 text-sm text-muted-foreground",
+                            children: selectedFeature.feature.properties.snippet
+                        }, void 0, false, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx",
+                            lineNumber: 100,
+                            columnNumber: 15
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx",
+                    lineNumber: 95,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx",
+                lineNumber: 86,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true);
+}
+_s(MapPinsLayer, "o097fENQNtZNrEWuaBXKiOemsK0=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMap"]
+    ];
+});
+_c = MapPinsLayer;
+var _c;
+__turbopack_context__.k.register(_c, "MapPinsLayer");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/data/demo-research-geojson.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Demo GeoJSON for hackathon: sample research locations with titles and snippets.
+ * Used when no live workflow data is available so the map always has pins.
+ */ __turbopack_context__.s([
+    "DEMO_RESEARCH_GEOJSON",
+    ()=>DEMO_RESEARCH_GEOJSON
+]);
+const DEMO_RESEARCH_GEOJSON = {
+    type: "FeatureCollection",
+    features: [
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    -122.6765,
+                    45.5231
+                ]
+            },
+            properties: {
+                id: "demo-1",
+                title: "Portland Art Museum",
+                snippet: "Research: Major museum in downtown Portland with rotating exhibits."
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    -122.6819,
+                    45.5122
+                ]
+            },
+            properties: {
+                id: "demo-2",
+                title: "Powell's City of Books",
+                snippet: "Research: World's largest independent bookstore, a Portland landmark."
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    -122.6587,
+                    45.5302
+                ]
+            },
+            properties: {
+                id: "demo-3",
+                title: "Washington Park",
+                snippet: "Research: Home to Oregon Zoo, Japanese Garden, and Hoyt Arboretum."
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    -122.6764,
+                    45.5152
+                ]
+            },
+            properties: {
+                id: "demo-4",
+                title: "Portland Saturday Market",
+                snippet: "Research: Open-air arts and crafts market by the waterfront."
+            }
+        }
+    ]
+};
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "MapContainer",
+    ()=>MapContainer
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$react$2d$map$2d$gl$2f$dist$2f$maplibre$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/react-map-gl/dist/maplibre.js [app-client] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$components$2f$map$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__Map__as__default$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/@vis.gl/react-maplibre/dist/components/map.js [app-client] (ecmascript) <export Map as default>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/@vis.gl/react-maplibre/dist/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/utils.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$map$2d$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/map-config.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$map$2d$pins$2d$layer$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-pins-layer.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$data$2f$demo$2d$research$2d$geojson$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/data/demo-research-geojson.ts [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+'use client';
+;
+;
+;
+;
+;
+;
+;
+function MapContainer({ className, children, pinsData }) {
+    _s();
+    const [selectedFeature, setSelectedFeature] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const data = pinsData ?? __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$data$2f$demo$2d$research$2d$geojson$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEMO_RESEARCH_GEOJSON"];
+    const hasPins = data.features.length > 0;
+    const handleMapClick = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "MapContainer.useCallback[handleMapClick]": (ev)=>{
+            const f = ev.features?.[0];
+            if (!f || f.geometry?.type !== 'Point') {
+                setSelectedFeature(null);
+                return;
+            }
+            const coords = f.geometry.coordinates;
+            setSelectedFeature({
+                feature: f,
+                lngLat: [
+                    ev.lngLat.lng,
+                    ev.lngLat.lat
+                ]
+            });
+        }
+    }["MapContainer.useCallback[handleMapClick]"], []);
+    const clearSelection = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "MapContainer.useCallback[clearSelection]": ()=>setSelectedFeature(null)
+    }["MapContainer.useCallback[clearSelection]"], []);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("relative border-border", className),
+        role: "application",
+        "aria-label": "Interactive map of research locations",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$components$2f$map$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__Map__as__default$3e$__["default"], {
+            initialViewState: __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$map$2d$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_VIEW_STATE"],
+            style: {
+                width: '100%',
+                height: '100%'
+            },
+            mapStyle: __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$map$2d$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MAP_STYLES"].liberty,
+            onClick: handleMapClick,
+            cursor: hasPins ? 'pointer' : undefined,
+            interactiveLayerIds: hasPins ? [
+                __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$map$2d$pins$2d$layer$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PINS_LAYER_ID"]
+            ] : undefined,
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NavigationControl"], {
+                    position: "top-right"
+                }, void 0, false, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx",
+                    lineNumber: 57,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$map$2d$pins$2d$layer$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MapPinsLayer"], {
+                    data: data,
+                    selectedFeature: selectedFeature,
+                    onClearSelect: clearSelection
+                }, void 0, false, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx",
+                    lineNumber: 58,
+                    columnNumber: 9
+                }, this),
+                children
+            ]
+        }, void 0, true, {
+            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx",
+            lineNumber: 49,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx",
+        lineNumber: 44,
+        columnNumber: 5
+    }, this);
+}
+_s(MapContainer, "D1nnCMyWA7o83sllZI/eMGqDcgY=");
+_c = MapContainer;
+var _c;
+__turbopack_context__.k.register(_c, "MapContainer");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/index.ts [app-client] (ecmascript) <locals>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$map$2d$container$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx [app-client] (ecmascript)");
+;
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/hooks/useSpeechRecognition.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useSpeechRecognition",
+    ()=>useSpeechRecognition
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+function getSpeechRecognition() {
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    return window.SpeechRecognition ?? window.webkitSpeechRecognition ?? null;
+}
+function useSpeechRecognition(options) {
+    _s();
+    const [isListening, setIsListening] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [transcript, setTranscript] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [interimTranscript, setInterimTranscript] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    // Defer support check to useEffect so server and first client render match (avoid hydration mismatch)
+    const [isSupported, setIsSupported] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const recognitionRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const onResultRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(options?.onResult);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "useSpeechRecognition.useEffect": ()=>{
+            setIsSupported(!!getSpeechRecognition());
+        }
+    }["useSpeechRecognition.useEffect"], []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "useSpeechRecognition.useEffect": ()=>{
+            onResultRef.current = options?.onResult;
+        }
+    }["useSpeechRecognition.useEffect"], [
+        options?.onResult
+    ]);
+    const start = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useSpeechRecognition.useCallback[start]": ()=>{
+            const SR = getSpeechRecognition();
+            if (!SR) {
+                setError("Speech recognition is not supported in this browser.");
+                return;
+            }
+            setError(null);
+            setTranscript("");
+            setInterimTranscript("");
+            const recognition = new SR();
+            recognition.continuous = options?.continuous ?? true;
+            recognition.lang = options?.lang ?? "en-US";
+            recognition.interimResults = true;
+            recognition.onresult = ({
+                "useSpeechRecognition.useCallback[start]": (event)=>{
+                    let interim = "";
+                    let final = "";
+                    for(let i = event.resultIndex; i < event.results.length; i++){
+                        const result = event.results[i];
+                        const text = result[0].transcript;
+                        if (result.isFinal) {
+                            final += text;
+                        } else {
+                            interim += text;
+                        }
+                    }
+                    if (interim) setInterimTranscript(interim);
+                    if (final) {
+                        setTranscript({
+                            "useSpeechRecognition.useCallback[start]": (prev)=>(prev + final).trim()
+                        }["useSpeechRecognition.useCallback[start]"]);
+                        setInterimTranscript("");
+                        onResultRef.current?.(final, true);
+                    }
+                }
+            })["useSpeechRecognition.useCallback[start]"];
+            recognition.onerror = ({
+                "useSpeechRecognition.useCallback[start]": (event)=>{
+                    if (event.error === "not-allowed") {
+                        setError("Microphone access was denied.");
+                    } else if (event.error === "no-speech") {
+                        setError("No speech detected. Try again.");
+                    } else {
+                        setError(event.error || "Speech recognition error.");
+                    }
+                    setIsListening(false);
+                }
+            })["useSpeechRecognition.useCallback[start]"];
+            recognition.onend = ({
+                "useSpeechRecognition.useCallback[start]": ()=>{
+                    setIsListening(false);
+                }
+            })["useSpeechRecognition.useCallback[start]"];
+            recognition.start();
+            recognitionRef.current = recognition;
+            setIsListening(true);
+        }
+    }["useSpeechRecognition.useCallback[start]"], [
+        options?.continuous,
+        options?.lang
+    ]);
+    const stop = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useSpeechRecognition.useCallback[stop]": ()=>{
+            if (recognitionRef.current) {
+                recognitionRef.current.stop();
+                recognitionRef.current = null;
+            }
+            setIsListening(false);
+        }
+    }["useSpeechRecognition.useCallback[stop]"], []);
+    const reset = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useSpeechRecognition.useCallback[reset]": ()=>{
+            setTranscript("");
+            setInterimTranscript("");
+            setError(null);
+        }
+    }["useSpeechRecognition.useCallback[reset]"], []);
+    return {
+        isSupported,
+        isListening,
+        transcript,
+        interimTranscript,
+        error,
+        start,
+        stop,
+        reset
+    };
+}
+_s(useSpeechRecognition, "3TGW9irfc4Riovj5dVslr1ccYd0=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/hooks/useSpeechSynthesis.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useSpeechSynthesis",
+    ()=>useSpeechSynthesis
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+function useSpeechSynthesis(options) {
+    _s();
+    const [isSpeaking, setIsSpeaking] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isSupported] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        "useSpeechSynthesis.useState": ()=>("TURBOPACK compile-time value", "object") !== "undefined" && "speechSynthesis" in window
+    }["useSpeechSynthesis.useState"]);
+    const speak = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useSpeechSynthesis.useCallback[speak]": (text)=>{
+            if (("TURBOPACK compile-time value", "object") === "undefined" || !window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = options?.lang ?? "en-US";
+            utterance.rate = options?.rate ?? 1;
+            utterance.pitch = options?.pitch ?? 1;
+            utterance.onstart = ({
+                "useSpeechSynthesis.useCallback[speak]": ()=>setIsSpeaking(true)
+            })["useSpeechSynthesis.useCallback[speak]"];
+            utterance.onend = ({
+                "useSpeechSynthesis.useCallback[speak]": ()=>setIsSpeaking(false)
+            })["useSpeechSynthesis.useCallback[speak]"];
+            utterance.onerror = ({
+                "useSpeechSynthesis.useCallback[speak]": ()=>setIsSpeaking(false)
+            })["useSpeechSynthesis.useCallback[speak]"];
+            window.speechSynthesis.speak(utterance);
+        }
+    }["useSpeechSynthesis.useCallback[speak]"], [
+        options?.lang,
+        options?.rate,
+        options?.pitch
+    ]);
+    const cancel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useSpeechSynthesis.useCallback[cancel]": ()=>{
+            if (("TURBOPACK compile-time value", "object") !== "undefined" && window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+                setIsSpeaking(false);
+            }
+        }
+    }["useSpeechSynthesis.useCallback[cancel]"], []);
+    return {
+        isSupported,
+        isSpeaking,
+        speak,
+        cancel
+    };
+}
+_s(useSpeechSynthesis, "/4vS8eeJ5GEJ/gLrWzYFnJWfypQ=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/button.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Button",
+    ()=>Button,
+    "buttonVariants",
+    ()=>buttonVariants
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$slot$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/@radix-ui/react-slot/dist/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$class$2d$variance$2d$authority$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/class-variance-authority/dist/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/utils.ts [app-client] (ecmascript)");
+;
+;
+;
+;
+const buttonVariants = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$class$2d$variance$2d$authority$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cva"])("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive", {
+    variants: {
+        variant: {
+            default: "bg-primary text-primary-foreground hover:bg-primary/90",
+            destructive: "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+            outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+            secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+            link: "text-primary underline-offset-4 hover:underline"
+        },
+        size: {
+            default: "h-9 px-4 py-2 has-[>svg]:px-3",
+            xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
+            sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+            lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+            icon: "size-9",
+            "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
+            "icon-sm": "size-8",
+            "icon-lg": "size-10"
+        }
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default"
+    }
+});
+function Button({ className, variant = "default", size = "default", asChild = false, ...props }) {
+    const Comp = asChild ? __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$slot$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Slot"] : "button";
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Comp, {
+        "data-slot": "button",
+        "data-variant": variant,
+        "data-size": size,
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])(buttonVariants({
+            variant,
+            size,
+            className
+        })),
+        ...props
+    }, void 0, false, {
+        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/button.tsx",
+        lineNumber: 54,
+        columnNumber: 5
+    }, this);
+}
+_c = Button;
+;
+var _c;
+__turbopack_context__.k.register(_c, "Button");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/input.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Input",
+    ()=>Input
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/utils.ts [app-client] (ecmascript)");
+;
+;
+function Input({ className, type, ...props }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+        type: type,
+        "data-slot": "input",
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]", "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive", className),
+        ...props
+    }, void 0, false, {
+        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/input.tsx",
+        lineNumber: 7,
+        columnNumber: 5
+    }, this);
+}
+_c = Input;
+;
+var _c;
+__turbopack_context__.k.register(_c, "Input");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/api.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getAgents",
+    ()=>getAgents,
+    "getLastAssistantContent",
+    ()=>getLastAssistantContent,
+    "getMapState",
+    ()=>getMapState,
+    "sendAgentMessage",
+    ()=>sendAgentMessage,
+    "updateResearchBlock",
+    ()=>updateResearchBlock
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+/** Default backend port when running client in dev (server-nest). */ const DEFAULT_API_PORT = "3001";
+/**
+ * Client API for the backend (server-nest by default).
+ * Set NEXT_PUBLIC_API_URL in production (e.g. https://api.example.com).
+ * In dev, defaults to http://localhost:3001 so API calls always hit the backend even if the client runs on another port.
+ */ function getBase() {
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const env = __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL;
+    if (env) return env.replace(/\/$/, "");
+    if ("TURBOPACK compile-time truthy", 1) return `http://localhost:${DEFAULT_API_PORT}`;
+    //TURBOPACK unreachable
+    ;
+}
+/** Turn API error response body into a user-facing message (avoid showing HTML 404 pages). */ async function getErrorMessage(res) {
+    const text = await res.text().catch(()=>res.statusText);
+    const trimmed = text.trim();
+    if (trimmed.startsWith("<!") || trimmed.toLowerCase().startsWith("<!doctype")) {
+        return "Could not reach the research service. Make sure the backend is running (e.g. server-nest on port 3001).";
+    }
+    if (res.status === 404) return "Research service not found. Is the backend running?";
+    if (res.status >= 500) return "Research service error. Try again later.";
+    return trimmed || res.statusText;
+}
+async function getAgents() {
+    const res = await fetch(`${getBase()}/api/workflow/agents`, {
+        credentials: "include"
+    });
+    if (!res.ok) throw new Error(await getErrorMessage(res));
+    return res.json();
+}
+async function sendAgentMessage(agentId, content) {
+    const res = await fetch(`${getBase()}/api/workflow/send-message`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            agentId,
+            content
+        })
+    });
+    if (!res.ok) throw new Error(await getErrorMessage(res));
+    return res.json();
+}
+async function updateResearchBlock(researchBlockId, value) {
+    const res = await fetch(`${getBase()}/api/workflow/update-block`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            researchBlockId,
+            value
+        })
+    });
+    if (!res.ok) throw new Error(await getErrorMessage(res));
+}
+function getLastAssistantContent(response) {
+    const r = response;
+    const messages = r?.messages ?? r?.steps;
+    if (Array.isArray(messages)) {
+        for(let i = messages.length - 1; i >= 0; i--){
+            const m = messages[i];
+            if (m?.role === "assistant" && typeof m?.content === "string") return m.content;
+        }
+    }
+    const content = r?.content ?? r?.output;
+    if (typeof content === "string") return content;
+    return "";
+}
+async function getMapState() {
+    const res = await fetch(`${getBase()}/api/workflow/map-state`, {
+        credentials: "include"
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data?.geoJson?.type || data.geoJson.type !== "FeatureCollection") return null;
+    return data;
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "AgentInput",
+    ()=>AgentInput
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/hooks/useSpeechRecognition.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$hooks$2f$useSpeechSynthesis$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/hooks/useSpeechSynthesis.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/button.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/input.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/api.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/utils.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/lucide-react/dist/esm/icons/search.js [app-client] (ecmascript) <export default as Search>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/lucide-react/dist/esm/icons/file-text.js [app-client] (ecmascript) <export default as FileText>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/lucide-react/dist/esm/icons/mic.js [app-client] (ecmascript) <export default as Mic>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MicOff$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/lucide-react/dist/esm/icons/mic-off.js [app-client] (ecmascript) <export default as MicOff>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/lucide-react/dist/esm/icons/volume-2.js [app-client] (ecmascript) <export default as Volume2>");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+;
+;
+const MAP_PROMPT = "Update the map using the research in your context. Add layers for any places or routes mentioned.";
+function AgentInput({ className, onAfterMapAgentResponse }) {
+    _s();
+    const [agents, setAgents] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [askInput, setAskInput] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [lastResponse, setLastResponse] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const { speak: speakText } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$hooks$2f$useSpeechSynthesis$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechSynthesis"])();
+    const { isSupported: sttSupported, isListening, transcript, interimTranscript, error: sttError, start: startListening, stop: stopListening, reset: resetTranscript } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechRecognition"])({
+        continuous: true
+    });
+    const ensureAgents = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "AgentInput.useCallback[ensureAgents]": async ()=>{
+            if (agents) return agents;
+            const ids = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAgents"])();
+            setAgents(ids);
+            return ids;
+        }
+    }["AgentInput.useCallback[ensureAgents]"], [
+        agents
+    ]);
+    const submitMessage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "AgentInput.useCallback[submitMessage]": async (userText)=>{
+            const text = userText.trim();
+            if (!text) return;
+            setLoading(true);
+            setError(null);
+            setLastResponse("");
+            try {
+                const ids = await ensureAgents();
+                const researchResponse = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendAgentMessage"])(ids.researchAgentId, text);
+                const researchContent = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLastAssistantContent"])(researchResponse);
+                if (researchContent) {
+                    await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["updateResearchBlock"])(ids.researchBlockId, researchContent);
+                    const mapResponse = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendAgentMessage"])(ids.mapAgentId, MAP_PROMPT);
+                    const mapContent = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLastAssistantContent"])(mapResponse);
+                    setLastResponse(mapContent || researchContent);
+                    await onAfterMapAgentResponse?.();
+                } else {
+                    setLastResponse((0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLastAssistantContent"])(researchResponse) || "No reply from research agent.");
+                }
+            } catch (e) {
+                setError(e instanceof Error ? e.message : String(e));
+            } finally{
+                setLoading(false);
+            }
+        }
+    }["AgentInput.useCallback[submitMessage]"], [
+        ensureAgents,
+        onAfterMapAgentResponse
+    ]);
+    const handleAskSubmit = ()=>{
+        submitMessage(askInput);
+        setAskInput("");
+    };
+    const handleToggleMic = ()=>{
+        if (isListening) {
+            stopListening();
+            const full = (transcript + " " + interimTranscript).trim();
+            if (full) {
+                setAskInput(full);
+                submitMessage(full);
+            }
+        } else {
+            resetTranscript();
+            setAskInput("");
+            startListening();
+        }
+    };
+    const liveTranscript = (transcript + " " + interimTranscript).trim();
+    const showMic = sttSupported !== false; // show slot when unknown or supported (avoids layout shift)
+    const micReady = sttSupported === true;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("space-y-6", className),
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "space-y-2",
+                "aria-label": "Research query",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                        htmlFor: "ask-input",
+                        className: "sr-only",
+                        children: "Ask a research question"
+                    }, void 0, false, {
+                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                        lineNumber: 111,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap gap-2 sm:flex-nowrap",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "relative flex-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__["Search"], {
+                                        className: "pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground",
+                                        "aria-hidden": true
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                        lineNumber: 116,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                        id: "ask-input",
+                                        type: "text",
+                                        placeholder: isListening ? liveTranscript || "Listening…" : "Search events, places, or ask a question…",
+                                        value: askInput,
+                                        onChange: (e)=>setAskInput(e.target.value),
+                                        onKeyDown: (e)=>e.key === "Enter" && handleAskSubmit(),
+                                        disabled: loading || isListening,
+                                        className: "min-h-[48px] touch-manipulation pl-9 text-base shadow-sm sm:min-h-[52px] sm:pl-10 sm:text-base",
+                                        "aria-describedby": showMic ? "ask-mic-hint" : undefined,
+                                        "aria-live": isListening ? "polite" : undefined,
+                                        "aria-atomic": isListening
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                        lineNumber: 120,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                lineNumber: 115,
+                                columnNumber: 11
+                            }, this),
+                            showMic && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                type: "button",
+                                variant: isListening ? "destructive" : "outline",
+                                size: "icon",
+                                className: "min-h-[48px] min-w-[48px] shrink-0 touch-manipulation sm:min-h-[52px] sm:min-w-[52px]",
+                                onClick: handleToggleMic,
+                                disabled: loading || !micReady,
+                                "aria-label": !micReady ? "Voice input loading" : isListening ? "Stop listening and send" : "Speak your question",
+                                "aria-pressed": isListening,
+                                "aria-busy": !micReady,
+                                children: isListening ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MicOff$3e$__["MicOff"], {
+                                    className: "size-4",
+                                    "aria-hidden": true
+                                }, void 0, false, {
+                                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                    lineNumber: 156,
+                                    columnNumber: 30
+                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"], {
+                                    className: "size-4",
+                                    "aria-hidden": true
+                                }, void 0, false, {
+                                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                    lineNumber: 156,
+                                    columnNumber: 74
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                lineNumber: 139,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                type: "button",
+                                onClick: handleAskSubmit,
+                                disabled: loading || !askInput.trim(),
+                                className: "min-h-[48px] shrink-0 touch-manipulation px-5 sm:min-h-[52px]",
+                                children: loading ? "Researching…" : "Research"
+                            }, void 0, false, {
+                                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                lineNumber: 159,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                        lineNumber: 114,
+                        columnNumber: 9
+                    }, this),
+                    showMic && micReady && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        id: "ask-mic-hint",
+                        className: "text-xs text-muted-foreground",
+                        children: isListening ? "Tap the mic again to stop and send." : "Use the mic to speak your question."
+                    }, void 0, false, {
+                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                        lineNumber: 169,
+                        columnNumber: 11
+                    }, this),
+                    sttError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-xs text-destructive",
+                        role: "alert",
+                        children: sttError
+                    }, void 0, false, {
+                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                        lineNumber: 174,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                lineNumber: 110,
+                columnNumber: 7
+            }, this),
+            error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive",
+                role: "alert",
+                children: error
+            }, void 0, false, {
+                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                lineNumber: 181,
+                columnNumber: 9
+            }, this),
+            lastResponse && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "rounded-xl border border-border bg-card px-4 py-4 shadow-sm sm:px-5 sm:py-5",
+                "aria-label": "Findings",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mb-3 flex flex-wrap items-center justify-between gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2 text-sm font-medium text-foreground",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                        className: "size-4 shrink-0 text-muted-foreground",
+                                        "aria-hidden": true
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                        lineNumber: 196,
+                                        columnNumber: 15
+                                    }, this),
+                                    "Findings"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                lineNumber: 195,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                type: "button",
+                                variant: "ghost",
+                                size: "sm",
+                                className: "h-8 gap-1.5 text-muted-foreground hover:text-foreground",
+                                onClick: ()=>speakText(lastResponse),
+                                "aria-label": "Speak findings aloud",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"], {
+                                        className: "size-4",
+                                        "aria-hidden": true
+                                    }, void 0, false, {
+                                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                        lineNumber: 207,
+                                        columnNumber: 15
+                                    }, this),
+                                    "Speak"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                                lineNumber: 199,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                        lineNumber: 194,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "whitespace-pre-wrap text-sm leading-relaxed text-foreground/90",
+                        children: lastResponse
+                    }, void 0, false, {
+                        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                        lineNumber: 211,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+                lineNumber: 190,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx",
+        lineNumber: 108,
+        columnNumber: 5
+    }, this);
+}
+_s(AgentInput, "zWo4Yum92NYobnut26+Wt2VTznA=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$hooks$2f$useSpeechSynthesis$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechSynthesis"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechRecognition"]
+    ];
+});
+_c = AgentInput;
+var _c;
+__turbopack_context__.k.register(_c, "AgentInput");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "ResearchMapPage",
+    ()=>ResearchMapPage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/index.ts [app-client] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$map$2d$container$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/map/map-container.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$AgentInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/AgentInput.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/lib/api.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$data$2f$demo$2d$research$2d$geojson$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/data/demo-research-geojson.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/lucide-react/dist/esm/icons/map-pin.js [app-client] (ecmascript) <export default as MapPin>");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+function ResearchMapPage() {
+    _s();
+    const [mapState, setMapState] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ResearchMapPage.useEffect": ()=>{
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getMapState"])().then({
+                "ResearchMapPage.useEffect": (s)=>s?.geoJson && setMapState(s.geoJson)
+            }["ResearchMapPage.useEffect"]).catch({
+                "ResearchMapPage.useEffect": ()=>{}
+            }["ResearchMapPage.useEffect"]);
+        }
+    }["ResearchMapPage.useEffect"], []);
+    const onAfterMapAgentResponse = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "ResearchMapPage.useCallback[onAfterMapAgentResponse]": async ()=>{
+            const s = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getMapState"])();
+            if (s?.geoJson) setMapState(s.geoJson);
+        }
+    }["ResearchMapPage.useCallback[onAfterMapAgentResponse]"], []);
+    const pinsData = mapState ?? __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$data$2f$demo$2d$research$2d$geojson$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEMO_RESEARCH_GEOJSON"];
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "flex min-h-screen min-h-[100dvh] flex-col bg-background font-sans",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+            id: "main-content",
+            className: "mx-auto w-full max-w-4xl flex-1 px-4 py-6 sm:px-6 sm:py-8",
+            "aria-label": "Main content",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                    className: "mb-6 sm:mb-8",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                            className: "font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl",
+                            children: "Current events, researched and mapped"
+                        }, void 0, false, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                            lineNumber: 35,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "mt-1.5 max-w-xl text-sm text-muted-foreground sm:text-base",
+                            children: "Ask about places, routes, or events in plain language. Results are researched and plotted on the map below."
+                        }, void 0, false, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                            lineNumber: 38,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                    lineNumber: 34,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$AgentInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AgentInput"], {
+                    onAfterMapAgentResponse: onAfterMapAgentResponse
+                }, void 0, false, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                    lineNumber: 44,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                    className: "mt-6 sm:mt-8",
+                    "aria-label": "Research map",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "mb-2 flex items-center gap-2 text-sm text-muted-foreground",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                    className: "size-4 shrink-0",
+                                    "aria-hidden": true
+                                }, void 0, false, {
+                                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                                    lineNumber: 49,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    children: "Findings on map"
+                                }, void 0, false, {
+                                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                                    lineNumber: 50,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                            lineNumber: 48,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$map$2f$map$2d$container$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MapContainer"], {
+                            className: "h-[320px] w-full min-h-[260px] rounded-xl border border-border overflow-hidden shadow-sm sm:h-[420px] sm:min-h-[340px]",
+                            pinsData: pinsData
+                        }, void 0, false, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                            lineNumber: 52,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+                    lineNumber: 47,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+            lineNumber: 28,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ResearchMapPage.tsx",
+        lineNumber: 27,
+        columnNumber: 5
+    }, this);
+}
+_s(ResearchMapPage, "8wbmvcFMm3yZZj364h8fDqxvgN4=");
+_c = ResearchMapPage;
+var _c;
+__turbopack_context__.k.register(_c, "ResearchMapPage");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/ProtectedRoute.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "ProtectedRoute",
+    ()=>ProtectedRoute
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/contexts/AuthContext.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+function ProtectedRoute({ children }) {
+    _s();
+    const { user, loading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ProtectedRoute.useEffect": ()=>{
+            if (!loading && !user) {
+                router.replace("/login");
+            }
+        }
+    }["ProtectedRoute.useEffect"], [
+        user,
+        loading,
+        router
+    ]);
+    // Show loading state while checking auth (inherits bg-background from layout)
+    if (loading) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "flex min-h-screen min-h-[100dvh] items-center justify-center bg-background",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "text-muted-foreground",
+                children: "Loading..."
+            }, void 0, false, {
+                fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/ProtectedRoute.tsx",
+                lineNumber: 25,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/ProtectedRoute.tsx",
+            lineNumber: 24,
+            columnNumber: 7
+        }, this);
+    }
+    // Don't render children if not authenticated
+    if (!user) {
+        return null;
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: children
+    }, void 0, false);
+}
+_s(ProtectedRoute, "Zr2WDa/YWeMetzDhcnOimt0LiKE=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
+_c = ProtectedRoute;
+var _c;
+__turbopack_context__.k.register(_c, "ProtectedRoute");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/UserHeader.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "UserHeader",
+    ()=>UserHeader
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/contexts/AuthContext.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/ui/button.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+function UserHeader() {
+    _s();
+    const { user, logout, loading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
+    if (!user) return null;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+        className: "border-b border-border bg-card px-4 py-3",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "mx-auto flex max-w-2xl items-center justify-between",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                    className: "text-sm text-muted-foreground",
+                    children: [
+                        "Signed in as",
+                        " ",
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "font-medium text-foreground",
+                            children: user.email
+                        }, void 0, false, {
+                            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/UserHeader.tsx",
+                            lineNumber: 16,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/UserHeader.tsx",
+                    lineNumber: 14,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                    variant: "ghost",
+                    size: "sm",
+                    onClick: logout,
+                    disabled: loading,
+                    children: "Sign out"
+                }, void 0, false, {
+                    fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/UserHeader.tsx",
+                    lineNumber: 20,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/UserHeader.tsx",
+            lineNumber: 13,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/Documents/projects/tech-competitions/weave-hacks/client/src/components/auth/UserHeader.tsx",
+        lineNumber: 12,
+        columnNumber: 5
+    }, this);
+}
+_s(UserHeader, "Wu+csSnf+1aKI+hP/dR6ZNNX/Cc=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$Documents$2f$projects$2f$tech$2d$competitions$2f$weave$2d$hacks$2f$client$2f$src$2f$contexts$2f$AuthContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"]
+    ];
+});
+_c = UserHeader;
+var _c;
+__turbopack_context__.k.register(_c, "UserHeader");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=Documents_projects_tech-competitions_weave-hacks_client_src_7d56b7b8._.js.map

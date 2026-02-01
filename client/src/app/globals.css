@@ -1,5 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+/* Use path relative to this file so resolution works when run from monorepo root */
+@import "../../node_modules/tailwindcss/index.css";
+@import "../../node_modules/tw-animate-css/dist/tw-animate.css";
 
 @custom-variant dark (&:is(.dark *));
 
