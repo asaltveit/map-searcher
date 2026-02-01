@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -5,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import { resolveUser } from './auth.js';
 import { requestLogger, log } from './logger.js';
+import { isValidId } from './validation.js';
 import * as researchStore from './research-store.js';
 import * as agentsStore from './agents-store.js';
 
@@ -77,6 +79,9 @@ app.post('/api/research', async (req, res) => {
 app.post('/api/agents/:id/messages', async (req, res) => {
   try {
     const { id } = req.params;
+    if (!isValidId(id)) {
+      return res.status(400).json({ error: 'Invalid agent id' });
+    }
     const body = req.body;
     const response = await agentsStore.sendMessage(id, body);
     res.json(response);
@@ -94,6 +99,9 @@ app.post('/api/workflow/update-block', async (req, res) => {
     if (!researchBlockId || value == null) {
       return res.status(400).json({ error: 'researchBlockId and value required' });
     }
+    if (!isValidId(researchBlockId)) {
+      return res.status(400).json({ error: 'Invalid researchBlockId' });
+    }
     await agentsStore.updateBlock(researchBlockId, value);
     res.json({ ok: true });
   } catch (e) {
@@ -107,6 +115,11 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server at http://localhost:${PORT}`);
-});
+export { app };
+
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] === __filename) {
+  app.listen(PORT, () => {
+    console.log(`Server at http://localhost:${PORT}`);
+  });
+}

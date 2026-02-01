@@ -26,6 +26,12 @@ export function resolveUser(req, res, next) {
   }
   const newId = 'anon_' + crypto.randomUUID().replace(/-/g, '');
   req.userId = newId;
-  res.cookie(ANON_COOKIE, newId, { httpOnly: true, maxAge: 365 * 24 * 60 * 60 * 1000 });
+  const isProduction = process.env.NODE_ENV === 'production';
+  res.cookie(ANON_COOKIE, newId, {
+    httpOnly: true,
+    maxAge: 365 * 24 * 60 * 60 * 1000,
+    secure: isProduction,
+    sameSite: isProduction ? 'lax' : 'lax',
+  });
   next();
 }

@@ -50,6 +50,11 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
 3. Type a request, e.g. **"Research museums in Portland and show a route between them on the map"**
 4. Send. The workflow runs: research agent (search stored research first, then web search, save with source) → shared block updated → map agent (adds layers and sets view). Map and chat update as tools run.
 
+## Testing
+
+- **Server:** `npm run test:server` (from repo root). Requires network (supertest binds a port). Tests: validation (`isValidId`), auth (user id sanitization), and route security (400 for invalid agent id, researchBlockId, source_url, missing content).
+- **Client:** `cd client && npm run test`. Vitest + React Testing Library + jest-axe. Tests: home page and VoiceSection accessibility (main landmark, region/labels, live transcript, button labels, no axe violations).
+
 ## Project layout
 
 - `server/` – Express backend: Letta proxy, Redis research store, per-user agents (hybrid), auth stub
@@ -87,6 +92,6 @@ The server uses structured "wide event" logging (JSON lines): each request logs 
 - Map: focus the map container then use **arrow keys** to pan and **+ / −** to zoom; actions are announced in the live region. A short hint is shown above the map.
 - Chat: labeled input, aria-describedby hint, and status/alert regions for errors and map updates.
 
-## Voice (Pipecat)
+## Voice
 
-For voice input and spoken responses, see **[voice/README.md](voice/README.md)**. The `voice/` folder provides a Pipecat STT/TTS scaffold: install deps, run a Pipecat pipeline (e.g. Whisper STT with WebRTC or Daily transport), and wire transcript/response text to this app. Alternatively use the browser Web Speech API in the client without a separate service.
+The app includes a **Voice** section (client) using the **Web Speech API**: mic for speech-to-text, and text-to-speech for typed or pasted text. No backend or Pipecat required. See **[voice/README.md](voice/README.md)** for details and for the optional Pipecat STT/TTS scaffold (server-side, higher quality).
