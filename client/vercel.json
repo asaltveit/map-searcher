@@ -2,6 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "framework": "nextjs",
+  "installCommand": "echo 'Using pnpm workspace dependencies'",
+  "buildCommand": "npx next build",
   "github": {
     "enabled": false
   }
