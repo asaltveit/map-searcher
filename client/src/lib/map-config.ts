@@ -5,5 +5,5 @@ export const DEFAULT_VIEW_STATE = {
 } as const;
 
 export const MAP_STYLES = {
-  liberty: 'https://tiles.openfreemap.org/styles/liberty/style.json',
+  liberty: 'https://tiles.openfreemap.org/styles/liberty',
 } as const;
