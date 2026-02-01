@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { VoiceSection } from "@/components/voice/VoiceSection";
 
 export default function Home() {
@@ -13,5 +14,16 @@ export default function Home() {
         <VoiceSection className="max-w-xl" />
       </main>
     </div>
+=======
+'use client';
+
+import { MapContainer } from '@/components/map';
+
+export default function Home() {
+  return (
+    <main className="h-screen w-screen">
+      <MapContainer className="h-full w-full" />
+    </main>
+>>>>>>> 7fb986692aa2e5b0b0458fc042eb84c79fbd99b3
   );
 }
