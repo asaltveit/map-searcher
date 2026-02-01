@@ -844,6 +844,12 @@ export class AlertsService {
       if (!response.ok) {
         const errorText = await response.text().catch(() => response.statusText);
         this.logger.error(`[SVC] textToSpeech FAILED - status=${response.status}, error=${errorText}`);
+        if (response.status === 429) {
+          throw new BadRequestException("OpenAI rate limit exceeded. Please check your API key has billing enabled.");
+        }
+        if (response.status === 401) {
+          throw new BadRequestException("OpenAI API key is invalid. Please check your OPENAI_API_KEY.");
+        }
         throw new BadRequestException(`TTS API error: ${response.status}`);
       }
 

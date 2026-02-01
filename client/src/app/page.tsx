@@ -15,7 +15,7 @@ import {
 import { useAlerts } from "@/hooks/useAlerts";
 import { calculateBounds, DEFAULT_FIT_BOUNDS_OPTIONS } from "@/lib/map-utils";
 import { Button } from "@/components/ui/button";
-import { FileText, Loader2, Mic } from "lucide-react";
+import { FileText, Loader2 } from "lucide-react";
 
 export default function Home() {
   const mapRef = useRef<MapRef>(null);

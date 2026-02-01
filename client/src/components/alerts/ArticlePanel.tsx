@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
-import { ExternalLink, MapPin, Calendar, User, Send, Search, Loader2, MessageCircle } from 'lucide-react';
+import { ExternalLink, MapPin, Calendar, User, Search, Loader2, MessageCircle, Mic, MessageSquare } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -213,7 +213,7 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
             {alert && !loading && alert.articles && alert.articles.length > 0 && (
               <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4">
                 <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
-                  Ask about these articles
+                  Chat with your alert&apos;s articles below.
                 </p>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
@@ -223,23 +223,38 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Ask a question..."
+                      placeholder="Ask about the selected alert's articles..."
                       disabled={chatLoading}
-                      className="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
                     />
                   </div>
                   <Button
+                    onClick={() => setShowPipecatChat(true)}
+                    variant="outline"
+                    size="icon"
+                    className="shrink-0 h-10 w-10"
+                    title="Use voice chat"
+                  >
+                    <Mic className="h-4 w-4" />
+                  </Button>
+                  <Button
                     onClick={handleSendMessage}
                     disabled={!chatInput.trim() || chatLoading}
-                    className="bg-teal-600 hover:bg-teal-700 text-white shrink-0"
+                    className="bg-teal-700 hover:bg-teal-800 text-white shrink-0 gap-2 px-4"
                   >
                     {chatLoading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <Send className="h-4 w-4" />
+                      <>
+                        <MessageSquare className="h-4 w-4" />
+                        Chat
+                      </>
                     )}
                   </Button>
                 </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">
+                  Use the mic to speak your question.
+                </p>
               </div>
             )}
           </>

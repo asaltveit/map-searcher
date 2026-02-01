@@ -250,12 +250,12 @@ export function VoiceChatPanel({
             variant={isListening ? "destructive" : "default"}
             size="lg"
             className={cn(
-              "rounded-full h-16 w-16 shadow-lg",
-              isListening && "animate-pulse"
+              "rounded-full h-16 shadow-lg",
+              isListening ? "w-auto px-6" : "w-16"
             )}
           >
             {isListening ? (
-              <MicOff className="h-6 w-6" />
+              <span className="font-bold">Send!!</span>
             ) : (
               <Mic className="h-6 w-6" />
             )}

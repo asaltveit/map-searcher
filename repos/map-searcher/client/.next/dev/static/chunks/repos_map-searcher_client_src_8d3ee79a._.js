@@ -772,67 +772,6 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
-"[project]/repos/map-searcher/client/src/hooks/useSpeechSynthesis.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
-
-__turbopack_context__.s([
-    "useSpeechSynthesis",
-    ()=>useSpeechSynthesis
-]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-var _s = __turbopack_context__.k.signature();
-"use client";
-;
-function useSpeechSynthesis(options) {
-    _s();
-    const [isSpeaking, setIsSpeaking] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [isSupported] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        "useSpeechSynthesis.useState": ()=>("TURBOPACK compile-time value", "object") !== "undefined" && "speechSynthesis" in window
-    }["useSpeechSynthesis.useState"]);
-    const speak = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "useSpeechSynthesis.useCallback[speak]": (text)=>{
-            if (("TURBOPACK compile-time value", "object") === "undefined" || !window.speechSynthesis) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = options?.lang ?? "en-US";
-            utterance.rate = options?.rate ?? 1;
-            utterance.pitch = options?.pitch ?? 1;
-            utterance.onstart = ({
-                "useSpeechSynthesis.useCallback[speak]": ()=>setIsSpeaking(true)
-            })["useSpeechSynthesis.useCallback[speak]"];
-            utterance.onend = ({
-                "useSpeechSynthesis.useCallback[speak]": ()=>setIsSpeaking(false)
-            })["useSpeechSynthesis.useCallback[speak]"];
-            utterance.onerror = ({
-                "useSpeechSynthesis.useCallback[speak]": ()=>setIsSpeaking(false)
-            })["useSpeechSynthesis.useCallback[speak]"];
-            window.speechSynthesis.speak(utterance);
-        }
-    }["useSpeechSynthesis.useCallback[speak]"], [
-        options?.lang,
-        options?.rate,
-        options?.pitch
-    ]);
-    const cancel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "useSpeechSynthesis.useCallback[cancel]": ()=>{
-            if (("TURBOPACK compile-time value", "object") !== "undefined" && window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-                setIsSpeaking(false);
-            }
-        }
-    }["useSpeechSynthesis.useCallback[cancel]"], []);
-    return {
-        isSupported,
-        isSpeaking,
-        speak,
-        cancel
-    };
-}
-_s(useSpeechSynthesis, "/4vS8eeJ5GEJ/gLrWzYFnJWfypQ=");
-if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
-    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
-}
-}),
 "[project]/repos/map-searcher/client/src/components/ui/button.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
@@ -1275,7 +1214,6 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/hooks/useSpeechRecognition.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechSynthesis$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/hooks/useSpeechSynthesis.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/input.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/api.ts [app-client] (ecmascript)");
@@ -1296,7 +1234,6 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-;
 const MAP_PROMPT = "Update the map using the research in your context. Add layers for any places or routes mentioned.";
 function AgentInput({ className, selectedAlertId, onAfterMapAgentResponse, onVoiceClick }) {
     _s();
@@ -1305,7 +1242,7 @@ function AgentInput({ className, selectedAlertId, onAfterMapAgentResponse, onVoi
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [lastResponse, setLastResponse] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const { speak: speakText } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechSynthesis$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechSynthesis"])();
+    const { speak: speakText } = useSpeechSynthesis();
     const { isSupported: sttSupported, isListening, transcript, interimTranscript, error: sttError, start: startListening, stop: stopListening, reset: resetTranscript } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechRecognition"])({
         continuous: true
     });
@@ -1624,9 +1561,8 @@ function AgentInput({ className, selectedAlertId, onAfterMapAgentResponse, onVoi
         columnNumber: 5
     }, this);
 }
-_s(AgentInput, "zWo4Yum92NYobnut26+Wt2VTznA=", false, function() {
+_s(AgentInput, "zWo4Yum92NYobnut26+Wt2VTznA=", true, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechSynthesis$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechSynthesis"],
         __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechRecognition"]
     ];
 });
@@ -6940,4 +6876,4 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }),
 ]);
 
-//# sourceMappingURL=repos_map-searcher_client_src_c153c56a._.js.map
+//# sourceMappingURL=repos_map-searcher_client_src_8d3ee79a._.js.map

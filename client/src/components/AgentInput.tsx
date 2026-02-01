@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
-import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
+import { useTTS } from "@/hooks/useTTS";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -39,7 +39,7 @@ export function AgentInput({
   const [lastResponse, setLastResponse] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { speak: speakText } = useSpeechSynthesis();
+  const { speak: speakText, isLoading: ttsLoading, isPlaying: ttsSpeaking, error: ttsError } = useTTS({ voice: "nova" });
   const {
     isSupported: sttSupported,
     isListening,
@@ -71,6 +71,11 @@ export function AgentInput({
           console.log(`[AgentInput] Using article chat for alert ${selectedAlertId}`);
           const response = await chatWithArticles(selectedAlertId, text);
           setLastResponse(response.response);
+          // Auto-speak the response using OpenAI TTS
+          if (response.response) {
+            console.log(`[AgentInput] Auto-speaking response...`);
+            speakText(response.response);
+          }
           return;
         }
 
@@ -93,7 +98,7 @@ export function AgentInput({
         setLoading(false);
       }
     },
-    [ensureAgents, onAfterMapAgentResponse, selectedAlertId]
+    [ensureAgents, onAfterMapAgentResponse, selectedAlertId, speakText]
   );
 
   const handleAskSubmit = () => {
@@ -103,16 +108,25 @@ export function AgentInput({
 
   const handleToggleMic = () => {
     if (isListening) {
+      // Just stop listening, don't auto-send - let user review and hit Send
       stopListening();
       const full = (transcript + " " + interimTranscript).trim();
       if (full) {
         setAskInput(full);
-        submitMessage(full);
       }
     } else {
       resetTranscript();
       setAskInput("");
       startListening();
+    }
+  };
+
+  const handleSendWhileListening = () => {
+    stopListening();
+    const full = (transcript + " " + interimTranscript).trim() || askInput.trim();
+    if (full) {
+      setAskInput("");
+      submitMessage(full);
     }
   };
 
@@ -175,25 +189,33 @@ export function AgentInput({
               {isListening ? <MicOff className="size-4" aria-hidden /> : <Mic className="size-4" aria-hidden />}
             </Button>
           )}
-          <Button
-            type="button"
-            onClick={handleAskSubmit}
-            disabled={loading || !askInput.trim()}
-            className="min-h-[48px] shrink-0 touch-manipulation px-5 sm:min-h-[52px]"
-          >
-            {loading
-              ? (isArticleChatMode ? "Chatting…" : "Researching…")
-              : (isArticleChatMode ? (
-                  <>
-                    <MessageSquare className="size-4 mr-1.5" aria-hidden />
-                    Chat
-                  </>
-                ) : "Research")}
-          </Button>
+          {/* Chat button - only show in article chat mode */}
+          {isArticleChatMode && onVoiceClick && (
+            <Button
+              type="button"
+              onClick={onVoiceClick}
+              disabled={loading}
+              className="min-h-[48px] shrink-0 touch-manipulation px-4 sm:min-h-[52px]"
+            >
+              <MessageSquare className="size-4 mr-1.5" aria-hidden />
+              Chat
+            </Button>
+          )}
+          {/* Submit button - hide in article chat mode since Voice is primary action */}
+          {!isArticleChatMode && (
+            <Button
+              type="button"
+              onClick={isListening ? handleSendWhileListening : handleAskSubmit}
+              disabled={loading || (!askInput.trim() && !isListening && !liveTranscript)}
+              className="min-h-[48px] shrink-0 touch-manipulation px-5 sm:min-h-[52px]"
+            >
+              {loading ? "Researching…" : isListening ? "Send" : "Research"}
+            </Button>
+          )}
         </div>
         {showMic && micReady && (
           <p id="ask-mic-hint" className="text-xs text-muted-foreground">
-            {isListening ? "Tap the mic again to stop and send." : "Use the mic to speak your question."}
+            {isListening ? "Hit Send when done, or tap mic to stop without sending." : "Use the mic to speak your question."}
           </p>
         )}
         {sttError && (
@@ -232,12 +254,18 @@ export function AgentInput({
               size="sm"
               className="h-8 gap-1.5 text-muted-foreground hover:text-foreground"
               onClick={() => speakText(lastResponse)}
+              disabled={ttsLoading || ttsSpeaking}
               aria-label="Speak findings aloud"
             >
               <Volume2 className="size-4" aria-hidden />
-              Speak
+              {ttsLoading ? "Loading..." : ttsSpeaking ? "Speaking..." : "Speak"}
             </Button>
           </div>
+          {ttsError && (
+            <p className="text-xs text-destructive mb-2" role="alert">
+              TTS Error: {ttsError}
+            </p>
+          )}
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{lastResponse}</p>
         </section>
       )}

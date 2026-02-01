@@ -44,7 +44,7 @@ export function AudioWaveform({
   return (
     <div
       className={cn(
-        "flex items-center justify-center gap-1",
+        "flex items-end justify-center gap-1 h-6",  // Fixed height container, items-end for bottom alignment
         className
       )}
       role="status"
@@ -62,13 +62,12 @@ export function AudioWaveform({
         <div
           key={i}
           className={cn(
-            "w-1 rounded-full transition-all duration-150",
-            state === "idle" ? "h-2" : "h-4",
+            "w-1 h-6 rounded-full origin-bottom",  // Fixed height, transform origin at bottom
             getBarClasses(i)
           )}
           style={{
             animationDelay: `${i * 0.1}s`,
-            height: state === "idle" ? "8px" : undefined,
+            transform: state === "idle" ? "scaleY(0.33)" : undefined,  // 8px / 24px
           }}
         />
       ))}
@@ -76,10 +75,10 @@ export function AudioWaveform({
       <style jsx>{`
         @keyframes waveform {
           0%, 100% {
-            height: 8px;
+            transform: scaleY(0.33);
           }
           50% {
-            height: 24px;
+            transform: scaleY(1);
           }
         }
       `}</style>

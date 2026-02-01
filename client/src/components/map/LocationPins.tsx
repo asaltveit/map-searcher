@@ -35,24 +35,6 @@ const layerHoverStyle = {
   filter: ['==', ['get', 'locationId'], ''],
 };
 
-const labelLayerStyle = {
-  id: 'alert-locations-labels',
-  type: 'symbol' as const,
-  layout: {
-    'text-field': ['get', 'articleTitle'],
-    'text-size': 12,
-    'text-offset': [0, 1.5],  // Position below the pin
-    'text-anchor': 'top',
-    'text-max-width': 15,     // Wrap long titles
-    'text-allow-overlap': false,  // Hide overlapping labels
-  },
-  paint: {
-    'text-color': '#1f2937',  // gray-800
-    'text-halo-color': '#ffffff',
-    'text-halo-width': 1.5,   // White outline for readability
-  },
-};
-
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', {
     month: 'short',
@@ -123,7 +105,6 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
           {...layerHoverStyle}
           filter={hoverFilter as unknown as undefined}
         />
-        <Layer {...labelLayerStyle} />
       </Source>
 
       {popupInfo && (
@@ -168,4 +149,4 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
 }
 
 // Export the interactiveLayerIds for the map
-export const LOCATION_PINS_LAYER_IDS = ['alert-locations', 'alert-locations-labels'];
+export const LOCATION_PINS_LAYER_IDS = ['alert-locations'];
