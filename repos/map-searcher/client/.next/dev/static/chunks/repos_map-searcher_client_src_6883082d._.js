@@ -776,6 +776,8 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "use strict";
 
 __turbopack_context__.s([
+    "TTSRateLimitError",
+    ()=>TTSRateLimitError,
     "chatWithArticles",
     ()=>chatWithArticles,
     "createAlert",
@@ -1077,6 +1079,12 @@ async function resetPreferences() {
     if (!res.ok) throw new Error(await res.text().catch(()=>res.statusText));
     return res.json();
 }
+class TTSRateLimitError extends Error {
+    constructor(message){
+        super(message);
+        this.name = "TTSRateLimitError";
+    }
+}
 async function textToSpeech(text, voice = "nova") {
     const url = `${getBase()}/api/alerts/tts`;
     console.log(`[API] textToSpeech START - textLength=${text.length}, voice=${voice}`);
@@ -1094,6 +1102,10 @@ async function textToSpeech(text, voice = "nova") {
     if (!res.ok) {
         const errorText = await res.text().catch(()=>res.statusText);
         console.error(`[API] textToSpeech FAILED - status=${res.status}, error=${errorText}`);
+        // Check for rate limit error
+        if (errorText.includes("RATE_LIMITED") || res.status === 429) {
+            throw new TTSRateLimitError("Rate limited - using browser TTS");
+        }
         throw new Error(errorText);
     }
     const blob = await res.blob();
@@ -1117,13 +1129,52 @@ var _s = __turbopack_context__.k.signature();
 "use client";
 ;
 ;
+/**
+ * Use browser's built-in speech synthesis as fallback
+ */ function speakWithBrowserTTS(text, onStart, onEnd, onError) {
+    if (("TURBOPACK compile-time value", "object") === "undefined" || !window.speechSynthesis) {
+        console.warn("[useTTS] Browser TTS not supported");
+        onError?.(new Error("Browser TTS not supported"));
+        return null;
+    }
+    console.log("[useTTS] Using browser TTS fallback");
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    // Try to get a good voice
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find((v)=>v.name.includes("Samantha") || v.name.includes("Google") || v.lang.startsWith("en"));
+    if (preferredVoice) {
+        utterance.voice = preferredVoice;
+    }
+    utterance.onstart = ()=>{
+        console.log("[useTTS] Browser TTS started");
+        onStart?.();
+    };
+    utterance.onend = ()=>{
+        console.log("[useTTS] Browser TTS ended");
+        onEnd?.();
+    };
+    utterance.onerror = (e)=>{
+        console.error("[useTTS] Browser TTS error:", e);
+        onError?.(new Error("Browser TTS failed"));
+    };
+    window.speechSynthesis.speak(utterance);
+    return utterance;
+}
 function useTTS(options) {
     _s();
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isPlaying, setIsPlaying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [usingFallback, setUsingFallback] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const audioRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const audioUrlRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const utteranceRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const useFallback = options?.useFallback ?? true;
     const cleanup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "useTTS.useCallback[cleanup]": ()=>{
             if (audioRef.current) {
@@ -1134,6 +1185,10 @@ function useTTS(options) {
             if (audioUrlRef.current) {
                 URL.revokeObjectURL(audioUrlRef.current);
                 audioUrlRef.current = null;
+            }
+            if (utteranceRef.current && ("TURBOPACK compile-time value", "object") !== "undefined" && window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+                utteranceRef.current = null;
             }
         }
     }["useTTS.useCallback[cleanup]"], []);
@@ -1147,6 +1202,7 @@ function useTTS(options) {
             cleanup();
             setIsLoading(true);
             setError(null);
+            setUsingFallback(false);
             try {
                 console.log("[useTTS] Calling textToSpeech API...");
                 const audioBlob = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["textToSpeech"])(text, options?.voice ?? "nova");
@@ -1185,20 +1241,45 @@ function useTTS(options) {
                     }
                 })["useTTS.useCallback[speak]"];
                 console.log("[useTTS] Attempting to play audio...");
+                setIsLoading(false);
                 await audio.play();
                 console.log("[useTTS] audio.play() succeeded");
             } catch (err) {
                 console.error("[useTTS] Error:", err);
+                setIsLoading(false);
+                // Check if rate limited and fallback is enabled
+                if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TTSRateLimitError"] && useFallback) {
+                    console.log("[useTTS] Rate limited - falling back to browser TTS");
+                    setUsingFallback(true);
+                    setError(null); // Clear error since we're handling it
+                    utteranceRef.current = speakWithBrowserTTS(text, {
+                        "useTTS.useCallback[speak]": ()=>{
+                            setIsPlaying(true);
+                            options?.onStart?.();
+                        }
+                    }["useTTS.useCallback[speak]"], {
+                        "useTTS.useCallback[speak]": ()=>{
+                            setIsPlaying(false);
+                            options?.onEnd?.();
+                        }
+                    }["useTTS.useCallback[speak]"], {
+                        "useTTS.useCallback[speak]": (fallbackErr)=>{
+                            setError(fallbackErr.message);
+                            setIsPlaying(false);
+                            options?.onError?.(fallbackErr);
+                        }
+                    }["useTTS.useCallback[speak]"]);
+                    return;
+                }
                 const error = err instanceof Error ? err : new Error(String(err));
                 setError(error.message);
                 options?.onError?.(error);
-            } finally{
-                setIsLoading(false);
             }
         }
     }["useTTS.useCallback[speak]"], [
         cleanup,
-        options
+        options,
+        useFallback
     ]);
     const stop = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "useTTS.useCallback[stop]": ()=>{
@@ -1213,10 +1294,11 @@ function useTTS(options) {
         stop,
         isLoading,
         isPlaying,
-        error
+        error,
+        /** True if currently using browser TTS instead of OpenAI */ usingFallback
     };
 }
-_s(useTTS, "dNO4fG5U/10prYM3ySE0+V5DSJ4=");
+_s(useTTS, "zvXHIu7TCxCD3Wnr/yfeP0mglO4=");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

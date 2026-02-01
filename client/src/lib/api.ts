@@ -407,7 +407,17 @@ export async function resetPreferences(): Promise<{ success: boolean }> {
 
 export type TTSVoice = "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer";
 
-/** Convert text to speech using backend TTS endpoint. Returns audio blob. */
+/** Custom error class for rate limit errors */
+export class TTSRateLimitError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "TTSRateLimitError";
+  }
+}
+
+/** Convert text to speech using backend TTS endpoint. Returns audio blob.
+ * Throws TTSRateLimitError if rate limited (caller should use browser TTS fallback).
+ */
 export async function textToSpeech(text: string, voice: TTSVoice = "nova"): Promise<Blob> {
   const url = `${getBase()}/api/alerts/tts`;
   console.log(`[API] textToSpeech START - textLength=${text.length}, voice=${voice}`);
@@ -422,6 +432,11 @@ export async function textToSpeech(text: string, voice: TTSVoice = "nova"): Prom
   if (!res.ok) {
     const errorText = await res.text().catch(() => res.statusText);
     console.error(`[API] textToSpeech FAILED - status=${res.status}, error=${errorText}`);
+
+    // Check for rate limit error
+    if (errorText.includes("RATE_LIMITED") || res.status === 429) {
+      throw new TTSRateLimitError("Rate limited - using browser TTS");
+    }
     throw new Error(errorText);
   }
 

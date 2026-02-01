@@ -1,21 +1,80 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { textToSpeech, type TTSVoice } from "@/lib/api";
+import { textToSpeech, TTSRateLimitError, type TTSVoice } from "@/lib/api";
 
 export interface UseTTSOptions {
   voice?: TTSVoice;
   onStart?: () => void;
   onEnd?: () => void;
   onError?: (error: Error) => void;
+  /** If true, will use browser TTS when API fails. Default: true */
+  useFallback?: boolean;
+}
+
+/**
+ * Use browser's built-in speech synthesis as fallback
+ */
+function speakWithBrowserTTS(
+  text: string,
+  onStart?: () => void,
+  onEnd?: () => void,
+  onError?: (error: Error) => void
+): SpeechSynthesisUtterance | null {
+  if (typeof window === "undefined" || !window.speechSynthesis) {
+    console.warn("[useTTS] Browser TTS not supported");
+    onError?.(new Error("Browser TTS not supported"));
+    return null;
+  }
+
+  console.log("[useTTS] Using browser TTS fallback");
+
+  // Cancel any ongoing speech
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+
+  // Try to get a good voice
+  const voices = window.speechSynthesis.getVoices();
+  const preferredVoice = voices.find(
+    (v) => v.name.includes("Samantha") || v.name.includes("Google") || v.lang.startsWith("en")
+  );
+  if (preferredVoice) {
+    utterance.voice = preferredVoice;
+  }
+
+  utterance.onstart = () => {
+    console.log("[useTTS] Browser TTS started");
+    onStart?.();
+  };
+
+  utterance.onend = () => {
+    console.log("[useTTS] Browser TTS ended");
+    onEnd?.();
+  };
+
+  utterance.onerror = (e) => {
+    console.error("[useTTS] Browser TTS error:", e);
+    onError?.(new Error("Browser TTS failed"));
+  };
+
+  window.speechSynthesis.speak(utterance);
+  return utterance;
 }
 
 export function useTTS(options?: UseTTSOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [usingFallback, setUsingFallback] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef<string | null>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const useFallback = options?.useFallback ?? true;
 
   const cleanup = useCallback(() => {
     if (audioRef.current) {
@@ -26,6 +85,10 @@ export function useTTS(options?: UseTTSOptions) {
     if (audioUrlRef.current) {
       URL.revokeObjectURL(audioUrlRef.current);
       audioUrlRef.current = null;
+    }
+    if (utteranceRef.current && typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      utteranceRef.current = null;
     }
   }, []);
 
@@ -40,6 +103,7 @@ export function useTTS(options?: UseTTSOptions) {
       cleanup();
       setIsLoading(true);
       setError(null);
+      setUsingFallback(false);
 
       try {
         console.log("[useTTS] Calling textToSpeech API...");
@@ -79,18 +143,44 @@ export function useTTS(options?: UseTTSOptions) {
         };
 
         console.log("[useTTS] Attempting to play audio...");
+        setIsLoading(false);
         await audio.play();
         console.log("[useTTS] audio.play() succeeded");
       } catch (err) {
         console.error("[useTTS] Error:", err);
+        setIsLoading(false);
+
+        // Check if rate limited and fallback is enabled
+        if (err instanceof TTSRateLimitError && useFallback) {
+          console.log("[useTTS] Rate limited - falling back to browser TTS");
+          setUsingFallback(true);
+          setError(null); // Clear error since we're handling it
+
+          utteranceRef.current = speakWithBrowserTTS(
+            text,
+            () => {
+              setIsPlaying(true);
+              options?.onStart?.();
+            },
+            () => {
+              setIsPlaying(false);
+              options?.onEnd?.();
+            },
+            (fallbackErr) => {
+              setError(fallbackErr.message);
+              setIsPlaying(false);
+              options?.onError?.(fallbackErr);
+            }
+          );
+          return;
+        }
+
         const error = err instanceof Error ? err : new Error(String(err));
         setError(error.message);
         options?.onError?.(error);
-      } finally {
-        setIsLoading(false);
       }
     },
-    [cleanup, options]
+    [cleanup, options, useFallback]
   );
 
   const stop = useCallback(() => {
@@ -104,5 +194,7 @@ export function useTTS(options?: UseTTSOptions) {
     isLoading,
     isPlaying,
     error,
+    /** True if currently using browser TTS instead of OpenAI */
+    usingFallback,
   };
 }

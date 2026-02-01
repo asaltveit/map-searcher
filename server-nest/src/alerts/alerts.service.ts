@@ -48,6 +48,15 @@ export class AlertsService {
   // Store chat agents: alertId -> lettaAgentId
   private chatAgents = new Map<string, string>();
 
+  // TTS cache: hash(text+voice) -> { buffer, timestamp }
+  private ttsCache = new Map<string, { buffer: Buffer; timestamp: number }>();
+  private readonly TTS_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+  private readonly TTS_CACHE_MAX_SIZE = 50; // Max cached items
+
+  // TTS rate limiting
+  private lastTTSRequest = 0;
+  private readonly TTS_MIN_INTERVAL = 1500; // 1.5 seconds between requests (safe for 3 RPM limit)
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly geocodingService: GeocodingService,
@@ -808,7 +817,58 @@ export class AlertsService {
   }
 
   /**
-   * Text to speech using OpenAI TTS API
+   * Generate a cache key for TTS
+   */
+  private getTTSCacheKey(text: string, voice: string): string {
+    // Simple hash - combine text and voice
+    const crypto = require("crypto");
+    return crypto.createHash("md5").update(`${voice}:${text}`).digest("hex");
+  }
+
+  /**
+   * Clean old TTS cache entries
+   */
+  private cleanTTSCache(): void {
+    const now = Date.now();
+    const keysToDelete: string[] = [];
+
+    for (const [key, value] of this.ttsCache.entries()) {
+      if (now - value.timestamp > this.TTS_CACHE_TTL) {
+        keysToDelete.push(key);
+      }
+    }
+
+    for (const key of keysToDelete) {
+      this.ttsCache.delete(key);
+    }
+
+    // If still over max size, remove oldest entries
+    if (this.ttsCache.size > this.TTS_CACHE_MAX_SIZE) {
+      const entries = Array.from(this.ttsCache.entries())
+        .sort((a, b) => a[1].timestamp - b[1].timestamp);
+      const toRemove = entries.slice(0, entries.length - this.TTS_CACHE_MAX_SIZE);
+      for (const [key] of toRemove) {
+        this.ttsCache.delete(key);
+      }
+    }
+  }
+
+  /**
+   * Wait for rate limit if needed
+   */
+  private async waitForTTSRateLimit(): Promise<void> {
+    const now = Date.now();
+    const elapsed = now - this.lastTTSRequest;
+    if (elapsed < this.TTS_MIN_INTERVAL) {
+      const waitTime = this.TTS_MIN_INTERVAL - elapsed;
+      this.logger.log(`[SVC] textToSpeech - Rate limiting: waiting ${waitTime}ms`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+    this.lastTTSRequest = Date.now();
+  }
+
+  /**
+   * Text to speech using OpenAI TTS API with caching and rate limiting
    */
   async textToSpeech(
     text: string,
@@ -825,6 +885,20 @@ export class AlertsService {
     // Limit text length to avoid excessive API costs
     const maxLength = 4096;
     const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+    // Check cache first
+    const cacheKey = this.getTTSCacheKey(truncatedText, voice);
+    const cached = this.ttsCache.get(cacheKey);
+    if (cached) {
+      this.logger.log(`[SVC] textToSpeech CACHE HIT - returning cached audio (${cached.buffer.length} bytes)`);
+      return cached.buffer;
+    }
+
+    // Clean old cache entries
+    this.cleanTTSCache();
+
+    // Rate limit - wait if needed
+    await this.waitForTTSRateLimit();
 
     try {
       const response = await fetch("https://api.openai.com/v1/audio/speech", {
@@ -845,7 +919,8 @@ export class AlertsService {
         const errorText = await response.text().catch(() => response.statusText);
         this.logger.error(`[SVC] textToSpeech FAILED - status=${response.status}, error=${errorText}`);
         if (response.status === 429) {
-          throw new BadRequestException("OpenAI rate limit exceeded. Please check your API key has billing enabled.");
+          // Rate limited - throw special error so frontend can use browser TTS
+          throw new BadRequestException("RATE_LIMITED:OpenAI TTS rate limit exceeded. Using browser fallback.");
         }
         if (response.status === 401) {
           throw new BadRequestException("OpenAI API key is invalid. Please check your OPENAI_API_KEY.");
@@ -856,6 +931,11 @@ export class AlertsService {
       const arrayBuffer = await response.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
       this.logger.log(`[SVC] textToSpeech SUCCESS - audioSize=${buffer.length} bytes`);
+
+      // Cache the result
+      this.ttsCache.set(cacheKey, { buffer, timestamp: Date.now() });
+      this.logger.log(`[SVC] textToSpeech CACHED - cacheSize=${this.ttsCache.size}`);
+
       return buffer;
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
