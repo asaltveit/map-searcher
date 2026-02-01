@@ -111,6 +111,41 @@ app.post('/api/workflow/update-block', async (req, res) => {
   }
 });
 
+// POST /api/improvements — submit improvement request (JWT + string) to storage API (built separately)
+// Body: { improvement: string }. Forward Authorization header to IMPROVEMENT_STORAGE_URL if set.
+app.post('/api/improvements', async (req, res) => {
+  try {
+    const improvement = typeof (req.body && req.body.improvement) === 'string' ? req.body.improvement.trim() : '';
+    if (!improvement) {
+      return res.status(400).json({ error: 'improvement string required' });
+    }
+    const storageUrl = process.env.IMPROVEMENT_STORAGE_URL;
+    if (!storageUrl) {
+      return res.status(501).json({ error: 'Improvement storage not configured (IMPROVEMENT_STORAGE_URL)' });
+    }
+    const authHeader = req.headers.authorization;
+    const response = await fetch(storageUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      },
+      body: JSON.stringify({ improvement }),
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      log('request_error', { path: '/api/improvements', requestId: req.requestId, upstreamStatus: response.status });
+      return res.status(response.status).json({ error: text || 'Storage API error' });
+    }
+    const data = await response.json().catch(() => ({}));
+    res.status(201).json(data);
+  } catch (e) {
+    log('request_error', { path: '/api/improvements', requestId: req.requestId, error: e?.message ?? String(e) });
+    console.error('POST /api/improvements', e);
+    res.status(500).json({ error: 'Failed to submit improvement' });
+  }
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
