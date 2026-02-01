@@ -2,6 +2,8 @@
 
 Candidate improvements for the improvement PR agent. Each entry can be read by the agent to pick work; **requesters/count** are not stored here—the agent gets them by **searching the storage API for similar improvements** when prioritizing and when writing the PR body.
 
+**Cleanup**: By default the agent does **not** remove an entry after creating a PR. Use `--remove-from-backlog` when running the agent so the chosen entry is removed after a successful PR and the backlog does not bloat or get re-picked. See [weave-eval/README.md](../weave-eval/README.md) and [IMPROVEMENT_CYCLE.md](./IMPROVEMENT_CYCLE.md).
+
 ## Format (per entry)
 
 - **title**: Short label (e.g. "Keyboard-accessible map zoom")

@@ -24,6 +24,25 @@ except ImportError:
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
+def remove_entry_from_backlog(path: Path, title: str) -> bool:
+    """
+    Remove one entry (by exact title) from the backlog file to avoid re-picking it.
+    Removes the block from '### Title' up to (but not including) the next '### ' or EOF.
+    Returns True if an entry was removed.
+    """
+    text = path.read_text()
+    # Match ### <exact title> at start of line; capture until next ### or end
+    pattern = re.compile(
+        r"^### " + re.escape(title) + r"\s*\n(?:.*?\n)*?(?=^### |\Z)",
+        re.MULTILINE | re.DOTALL,
+    )
+    new_text, n = pattern.subn("", text)
+    if n == 0:
+        return False
+    path.write_text(new_text.rstrip() + "\n", encoding="utf-8")
+    return True
+
+
 def parse_backlog(path: Path) -> list[dict]:
     """Parse docs/improvement-backlog.md into list of entries with title, problem, solution, area."""
     text = path.read_text()
@@ -90,11 +109,22 @@ def run(cmd: list[str], cwd: Path = REPO_ROOT, capture: bool = True) -> subproce
     )
 
 
-def git_branch_create(slug: str) -> bool:
-    """Create and checkout branch improvement/<slug>. Return True on success."""
+def git_branch_create(slug: str) -> tuple[bool, str]:
+    """Create and checkout branch improvement/<slug>. Return (success, error_message)."""
     branch = f"improvement/{slug}"
+    # Require clean working tree
+    status = run(["git", "status", "--porcelain"])
+    if status.returncode == 0 and status.stdout.strip():
+        return False, "Working tree has uncommitted changes. Stash or commit them first."
+    # Switch to main and remove existing improvement branch if present
+    r = run(["git", "checkout", "main"])
+    if r.returncode != 0:
+        return False, (r.stderr or r.stdout or "git checkout main failed").strip()
+    run(["git", "branch", "-D", branch], cwd=REPO_ROOT)  # ignore failure if branch doesn't exist
     r = run(["git", "checkout", "-b", branch])
-    return r.returncode == 0
+    if r.returncode == 0:
+        return True, ""
+    return False, (r.stderr or r.stdout or "unknown error").strip()
 
 
 def call_llm_for_code(entry: dict, repo_root: Path) -> str:
@@ -106,8 +136,8 @@ def call_llm_for_code(entry: dict, repo_root: Path) -> str:
         raise RuntimeError("OPENAI_API_KEY not set")
     client = openai.OpenAI(api_key=api_key)
     area = entry.get("area", "client")
-    test_dir = "client/src/test" if area in ("client", "both") else "server/test"
-    impl_dirs = "client/src (components, app, hooks, lib) and/or server/"
+    test_dir = "client/src/test" if area in ("client", "both") else "server-nest/src"
+    impl_dirs = "client/src (components, app, hooks, lib) and/or server-nest/"
     prompt = f"""You are implementing an improvement for a codebase. Use TDD: write a FAILING test first, then minimal implementation.
 
 Improvement:
@@ -116,7 +146,7 @@ Improvement:
 - Solution: {entry.get('solution', '')}
 - Area: {area}
 
-Codebase: Next.js + Vite React TS in client/, Express in server/. Client tests: Vitest + React Testing Library + jest-axe in {test_dir}. Server tests: Node test runner in server/test/.
+Codebase: Next.js + Vite React TS in client/, NestJS in server-nest/. Client tests: Vitest + React Testing Library + jest-axe in {test_dir}. Server tests: Jest in server-nest/ (*.spec.ts).
 
 Output exactly two blocks in this format (no extra text):
 ---FILE---
@@ -126,9 +156,9 @@ full file content
 ---END---
 
 First block: a new or modified test file that encodes the expected behavior and currently FAILS (test path: {test_dir}/...).
-Second block: the minimal implementation so the test passes (path under client/src or server/).
+Second block: the minimal implementation so the test passes (path under client/src or server-nest/).
 
-Use existing patterns: client tests import from @/ and use describe/it/expect; server tests use node:test and assert. Keep changes minimal and focused."""
+Use existing patterns: client tests import from @/ and use describe/it/expect; server-nest tests use Jest (describe/it/expect). Keep changes minimal and focused."""
 
     response = client.chat.completions.create(
         model=os.environ.get("OPENAI_MODEL", "gpt-4o-mini"),
@@ -187,6 +217,11 @@ def main() -> int:
     parser.add_argument("--improvement", type=str, help="Title of improvement (overrides --index)")
     parser.add_argument("--dry-run", action="store_true", help="Do not push or create PR")
     parser.add_argument("--skip-llm", action="store_true", help="Skip LLM and tests (branch + PR body only)")
+    parser.add_argument(
+        "--remove-from-backlog",
+        action="store_true",
+        help="After successful PR, remove this entry from the backlog file so it is not picked again",
+    )
     args = parser.parse_args()
 
     backlog_path = args.backlog if args.backlog.is_absolute() else REPO_ROOT / args.backlog
@@ -213,8 +248,12 @@ def main() -> int:
     users_affected = search_similar_improvements(entry.get("problem", "") or title)
 
     if not args.skip_llm:
-        if not git_branch_create(slug):
-            print("Failed to create branch (already exists or dirty?).", file=sys.stderr)
+        ok, err = git_branch_create(slug)
+        if not ok:
+            print("Failed to create branch.", file=sys.stderr)
+            if err:
+                print(err, file=sys.stderr)
+            print("Ensure you're on main with a clean working tree, or stash/commit changes.", file=sys.stderr)
             return 1
         try:
             content = call_llm_for_code(entry, REPO_ROOT)
@@ -232,8 +271,11 @@ def main() -> int:
             print(test_out[-2000:], file=sys.stderr)
             return 1
     else:
-        if not git_branch_create(slug):
+        ok, err = git_branch_create(slug)
+        if not ok:
             print("Failed to create branch.", file=sys.stderr)
+            if err:
+                print(err, file=sys.stderr)
             return 1
 
     template_path = REPO_ROOT / "docs" / "pr-template-improvement.md"
@@ -260,6 +302,12 @@ def main() -> int:
             print(r.stderr or r.stdout, file=sys.stderr)
             return 1
         print("PR created.")
+        if getattr(args, "remove_from_backlog", False):
+            if remove_entry_from_backlog(backlog_path, title):
+                print(f"Removed '{title}' from backlog.")
+            else:
+                print(f"Could not find entry '{title}' in backlog to remove.", file=sys.stderr)
+        run(["git", "checkout", "main"], cwd=REPO_ROOT)
     finally:
         if body_file.exists():
             body_file.unlink()

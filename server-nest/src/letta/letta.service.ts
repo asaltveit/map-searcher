@@ -151,9 +151,25 @@ export class LettaService implements OnModuleInit {
       });
       return response;
     } catch (error) {
-      this.logger.error(`Error sending message to agent ${agentId}:`, error);
-      throw error;
+      const normalized = this.normalizeError(error, `Letta sendMessage(${agentId})`);
+      this.logger.error(`Error sending message to agent ${agentId}:`, normalized.message);
+      throw normalized;
     }
+  }
+
+  /**
+   * Convert fetch Response or other non-Error rejections into an Error so we never
+   * throw/reject with a raw Response (which causes "UnhandledPromiseRejection: #<_Response>").
+   */
+  private normalizeError(error: unknown, context: string): Error {
+    if (error instanceof Error) return error;
+    const r = error as { ok?: boolean; status?: number; statusText?: string };
+    if (typeof r?.ok === "boolean" && typeof r?.status === "number") {
+      return new Error(
+        `${context}: API returned ${r.status} ${r.statusText ?? ""}`.trim(),
+      );
+    }
+    return new Error(`${context}: ${String(error)}`);
   }
 
   async listMessages(agentId: string, params: ListMessagesParams = {}) {

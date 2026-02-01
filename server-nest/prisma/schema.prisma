@@ -142,3 +142,16 @@ enum LocationType {
   CITY
   OTHER
 }
+
+// ==================== Improvement Requests (user-submitted) ====================
+
+model Improvement {
+  id        String   @id @default(uuid())
+  text      String   @db.Text
+  userId    String   @map("user_id") // Resolved id from middleware (X-User-Id, cookie, or "default")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([text])
+  @@map("improvements")
+}

@@ -21,11 +21,11 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
    pnpm install
    ```
 
-2. Copy the env template and set your values (the app reads from `.env`, not `.env.example`):
+2. Copy the env template and set your values (the app reads from `server-nest/.env`):
 
    ```bash
-   cp .env.example server-nest/.env
-   # Edit server-nest/.env: set LETTA_API_KEY, REDIS_URL, DATABASE_URL (and optional keys)
+   cp server-nest/.env.example server-nest/.env
+   # Edit server-nest/.env: set LETTA_API_KEY, REDIS_URL, DATABASE_URL, JWT_SECRET (and optional keys)
    ```
 
 3. Start Redis (if local):
@@ -58,7 +58,7 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
 - `server-nest/` – NestJS backend: Letta workflow (agents, send-message, update-block), research store, auth, health
 - `client/` – Next.js React TS: MapLibre map, chat, voice section, workflow API client
 - `voice/` – Pipecat STT/TTS scaffold (see [voice/README.md](voice/README.md))
-- `.env` – Backend reads from `server-nest/.env`. See root `.env.example` for a template (copy to `server-nest/.env`).
+- `server-nest/.env` – Backend and its scripts read from here. Copy from `server-nest/.env.example`.
 
 ## Env
 
@@ -71,6 +71,7 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
 | WANDB_ENTITY | No | W&B username/team if you see "Default entity name not found" |
 | ENABLE_HYBRID_MULTI_USER | No | Set to `true` for per-user agents + my research; requires X-User-Id or cookie |
 | NEXT_PUBLIC_API_URL | No | Client: API base URL in production (e.g. https://your-api.fly.dev) |
+| GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN | No | Used by GitHub MCP (`.cursor/mcp.json`) and improvement PR agent for creating PRs; set in env so Cursor agent can submit improvement PRs via MCP |
 
 ## Security
 
@@ -81,6 +82,17 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
 ## Tracing (Weave)
 
 When `WANDB_API_KEY` is set, the NestJS backend initializes W&B Weave and traces `sendMessage` and `updateBlock` calls for latency and observability. If the Weave SDK fails to initialize (e.g. missing netrc), tracing is disabled and the app continues without it.
+
+## Self-improvement demo
+
+To show the self-improvement loop in a demo:
+
+1. Set `WANDB_API_KEY` and `WANDB_ENTITY` in `server-nest/.env` (same as above).
+2. Start the app, load agents, and send a few research + map messages.
+3. From the repo root: `cd weave-eval && pip install -r requirements.txt`, then `python demo_mode.py`.
+4. The script scores recent traces and prints one summary (low-scoring Research/Map counts and suggested persona edits). Update personas, redeploy, and run again to show improvement.
+
+See [weave-eval/README.md](weave-eval/README.md) for the full eval pipeline and [docs/WEAVE_SELF_IMPROVEMENT.md](docs/WEAVE_SELF_IMPROVEMENT.md) for the design.
 
 ## Logging
 

@@ -12,6 +12,18 @@ import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import cookieParser from "cookie-parser";
 import basicAuth from "express-basic-auth";
 
+// Log unhandled rejections with a clear message (e.g. when a library rejects with a fetch Response)
+process.on("unhandledRejection", (reason: unknown) => {
+  const r = reason as { ok?: boolean; status?: number; statusText?: string };
+  if (typeof r?.ok === "boolean" && typeof r?.status === "number") {
+    console.error(
+      `UnhandledPromiseRejection: API response ${r.status} ${r.statusText ?? ""}`.trim(),
+    );
+    return;
+  }
+  console.error("UnhandledPromiseRejection:", reason);
+});
+
 // Initialize Sentry BEFORE anything else
 if (process.env.SENTRY_DSN) {
   Sentry.init({

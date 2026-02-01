@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "pnpm -r run lint:check",
     "test": "pnpm -r run test",
+    "test:server": "pnpm --filter server-nest test",
     "build": "pnpm -r run build",
     "typecheck": "pnpm -r run typecheck"
   }

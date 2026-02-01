@@ -1,0 +1,67 @@
+# Run the improvement PR agent on a schedule: pick from backlog, generate test + impl, open PR.
+# Requires: OPENAI_API_KEY repo secret. Optional: IMPROVEMENT_STORAGE_URL (e.g. your API base for "users affected").
+name: Improvement cron
+
+on:
+  schedule:
+    # 2am UTC daily
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      backlog_index:
+        description: "Backlog entry index (0-based)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  run-improvement-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install improvement agent dependencies
+        run: pip install -r weave-eval/requirements.txt
+
+      - name: Set up Node (for agent-run tests)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install project dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Generate Prisma client
+        run: pnpm --filter server-nest prisma:generate
+
+      - name: Run improvement PR agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          IMPROVEMENT_STORAGE_URL: ${{ secrets.IMPROVEMENT_STORAGE_URL }}
+          IMPROVEMENT_SEARCH_URL: ${{ secrets.IMPROVEMENT_SEARCH_URL }}
+        run: |
+          INDEX="${{ github.event.inputs.backlog_index }}"
+          python3 -u weave-eval/improvement_agent.py \
+            --backlog docs/improvement-backlog.md \
+            --index "${INDEX:-0}"
+        continue-on-error: true

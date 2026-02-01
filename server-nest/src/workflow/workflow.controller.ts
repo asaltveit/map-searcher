@@ -17,12 +17,14 @@ export class WorkflowAgentsDto implements WorkflowAgents {
   researchBlockId!: string;
 }
 
-export class UpdateBlockDto {
+/** Workflow-specific DTO (unique name to avoid Swagger conflict with agents/dto) */
+export class WorkflowUpdateBlockDto {
   researchBlockId!: string;
   value!: string;
 }
 
-export class SendMessageDto {
+/** Workflow-specific DTO (unique name to avoid Swagger conflict with agents/dto) */
+export class WorkflowSendMessageDto {
   agentId!: string;
   content!: string;
 }
@@ -51,7 +53,7 @@ export class WorkflowController {
   @ApiResponse({ status: 200, description: "Block updated" })
   async updateBlock(
     @Req() _req: Express.Request,
-    @Body() dto: UpdateBlockDto,
+    @Body() dto: WorkflowUpdateBlockDto,
   ): Promise<{ ok: boolean }> {
     const { researchBlockId, value } = dto;
     if (!researchBlockId || value == null) {
@@ -66,7 +68,7 @@ export class WorkflowController {
   @ApiResponse({ status: 201, description: "Agent response" })
   async sendMessage(
     @Req() req: Express.Request,
-    @Body() dto: SendMessageDto,
+    @Body() dto: WorkflowSendMessageDto,
   ): Promise<unknown> {
     const userId = (req as Express.Request & { userId?: string }).userId ?? "default";
     const { agentId, content } = dto;

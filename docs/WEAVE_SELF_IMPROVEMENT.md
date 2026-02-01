@@ -92,13 +92,14 @@ Put the Python eval script in `weave-eval/` (or similar), use `weave.init(projec
 3. **Human feedback**  
    Use the Weave UI to add 👍/👎 and notes (and human-annotation scorers) on traces. Use these to pick examples for prompt edits.
 
-4. **Automated evals**  
-   Add a Python script (e.g. `weave-eval/run_scorers.py`) that:
+4. **Automated evals (implemented)**  
+   Use the Python pipeline in `weave-eval/`: **run_scorers.py** (score recent traces with `research_has_place_or_coords` and `map_has_action`) and **improvement_report.py** (print suggested persona edits from low scores). Run on a schedule; see [weave-eval/README.md](../weave-eval/README.md).  
+   (Legacy: Add a Python script that:
    - Uses `weave.init("weave-hacks")` (same project as server).
    - Fetches recent calls (or reads from a queue).
    - Runs 1–2 simple scorers (e.g. “research_has_coordinates”, “map_has_set_view”).
    - Writes scores back via `call.apply_scorer(...)` or equivalent.
-   Run it on a schedule or after each workflow run.
+   Run it on a schedule or after each workflow run. Now implemented as run_scorers.py + improvement_report.py.)
 
 5. **Improvement loop**  
    Regularly review low-scoring and 👎 traces in Weave, update `RESEARCH_PERSONA` / `MAP_PERSONA` (or memory blocks) in `agents-store.js`, and redeploy. Optionally add good examples as few-shot or memory.

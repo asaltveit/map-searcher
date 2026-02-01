@@ -1,0 +1,14 @@
+---
+description: Server logic lives in server-nest only; do not add or change code in the server folder
+alwaysApply: true
+---
+
+# Server Backend Location
+
+**All server-side changes belong in `server-nest/`, not in `server/`.**
+
+- Implement new backend features, API routes, and services in **server-nest** (NestJS).
+- Do not add, edit, or move logic into the **server** folder. The `server/` directory is legacy; the canonical backend is `server-nest/`.
+- When adding endpoints, modules, or Letta/workflow logic, create or update files under `server-nest/src/` (e.g. `workflow/`, `agents/`, `letta/`, etc.).
+
+Example: workflow agents, research block, send-message, and update-block behavior live in `server-nest/src/workflow/` and `server-nest/src/letta/`, not in `server/`.

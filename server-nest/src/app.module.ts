@@ -1,5 +1,7 @@
+import { join } from "path";
 import { Module, MiddlewareConsumer, NestModule } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { ScheduleModule } from "@nestjs/schedule";
 import { BullModule } from "@nestjs/bullmq";
 import { BullBoardModule } from "@bull-board/nestjs";
 import { ExpressAdapter } from "@bull-board/express";
@@ -17,12 +19,18 @@ import { ToolsModule } from "./tools/tools.module";
 import { ModelsModule } from "./models/models.module";
 import { WorkflowModule } from "./workflow/workflow.module";
 import { NewsWorkflowModule } from "./news-workflow/news-workflow.module";
+import { ImprovementsModule } from "./improvements/improvements.module";
 import { UserResolverMiddleware } from "./common/middleware/user-resolver.middleware";
 import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // Resolve .env from package root (works from src/ in dev and dist/src in prod)
+      envFilePath: join(__dirname, "..", "..", ".env"),
+    }),
+    ScheduleModule.forRoot(),
 
     // Configure BullMQ with Redis connection (Upstash)
     BullModule.forRootAsync({
@@ -42,6 +50,8 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
         }
 
         const config = getRedisConfig();
+        const isLocalRedis =
+          config.host === "localhost" || config.host === "127.0.0.1";
         console.log(
           `📡 Redis config: ${config.host}:${config.port} (TLS: ${config.tls})`,
         );
@@ -52,9 +62,10 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
             port: config.port,
             password: config.password,
             connectTimeout: 10000,
-            maxRetriesPerRequest: null,
+            // When Redis is local, don't retry forever on connection refused
+            maxRetriesPerRequest: isLocalRedis ? 0 : null,
             enableReadyCheck: false,
-            lazyConnect: false,
+            lazyConnect: true,
             ...(config.tls && {
               tls: {},
             }),
@@ -87,6 +98,7 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
     ModelsModule,
     WorkflowModule,
     NewsWorkflowModule,
+    ImprovementsModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

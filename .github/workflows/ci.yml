@@ -82,3 +82,26 @@ jobs:
       - run: pnpm --filter server-nest typecheck
       - run: pnpm --filter server-nest build
       - run: pnpm --filter client build
+
+  # Auto-merge Dependabot patch/minor PRs only after all tests pass.
+  # Major updates run the same CI (lint, test, build) but are not auto-merged.
+  dependabot-automerge:
+    needs: [build]
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: dependabot/fetch-metadata@v2
+        id: metadata
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Enable auto-merge for patch and minor updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
