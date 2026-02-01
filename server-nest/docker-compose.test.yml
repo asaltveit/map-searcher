@@ -1,0 +1,27 @@
+services:
+  postgres-test:
+    image: postgres:17-alpine
+    container_name: map-searcher-postgres-test
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: map_searcher_test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d map_searcher_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-test:
+    image: redis:7-alpine
+    container_name: map-searcher-redis-test
+    ports:
+      - '6379:6379'
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
