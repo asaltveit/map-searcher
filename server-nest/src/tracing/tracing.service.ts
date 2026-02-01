@@ -14,28 +14,94 @@ export class TracingService {
   /**
    * Run fn with optional Weave op tracing.
    * Returns fn() result; no-op if Weave not available.
+   * Tracing errors are logged but don't affect the main function result.
    */
   async trace<T>(name: string, fn: () => Promise<T>): Promise<T> {
     const ok = await this.ensureWeave();
-    if (ok && this.op) {
-      const traced = this.op(fn, { name });
-      return traced();
+    if (!ok || !this.op) {
+      return fn();
     }
-    return fn();
+
+    // Store the result separately so we can return it even if Weave fails after fn() completes
+    let result: T;
+    let fnCompleted = false;
+
+    try {
+      // Create a wrapper that captures the result before Weave processes it
+      const wrappedFn = async (): Promise<T> => {
+        result = await fn();
+        fnCompleted = true;
+        return result;
+      };
+
+      const traced = this.op(wrappedFn, { name });
+      return await traced();
+    } catch (error) {
+      // Check if the function completed successfully before Weave failed
+      if (fnCompleted) {
+        // The function ran successfully but Weave failed (likely 403, network error, etc.)
+        this.logger.warn(
+          `[TRACING] Weave reporting failed after fn completed (name=${name}): ${
+            error instanceof Response
+              ? `Response ${error.status}`
+              : error instanceof Error
+                ? error.message
+                : String(error)
+          }. Returning successful result.`,
+        );
+        return result!;
+      }
+
+      // The function itself failed, re-throw the error
+      throw error;
+    }
   }
 
   /**
    * Run fn(input) with optional Weave op tracing.
    * The input is recorded in the trace (e.g. the question sent to an agent).
    * Returns fn(input) result; no-op if Weave not available.
+   * Tracing errors are logged but don't affect the main function result.
    */
   async traceWithInput<T, I>(name: string, fn: (input: I) => Promise<T>, input: I): Promise<T> {
     const ok = await this.ensureWeave();
-    if (ok && this.op) {
-      const traced = this.op(fn, { name });
-      return traced(input);
+    if (!ok || !this.op) {
+      return fn(input);
     }
-    return fn(input);
+
+    // Store the result separately so we can return it even if Weave fails after fn() completes
+    let result: T;
+    let fnCompleted = false;
+
+    try {
+      // Create a wrapper that captures the result before Weave processes it
+      const wrappedFn = async (inp: I): Promise<T> => {
+        result = await fn(inp);
+        fnCompleted = true;
+        return result;
+      };
+
+      const traced = this.op(wrappedFn, { name });
+      return await traced(input);
+    } catch (error) {
+      // Check if the function completed successfully before Weave failed
+      if (fnCompleted) {
+        // The function ran successfully but Weave failed (likely 403, network error, etc.)
+        this.logger.warn(
+          `[TRACING] Weave reporting failed after fn completed (name=${name}): ${
+            error instanceof Response
+              ? `Response ${error.status}`
+              : error instanceof Error
+                ? error.message
+                : String(error)
+          }. Returning successful result.`,
+        );
+        return result!;
+      }
+
+      // The function itself failed, re-throw the error
+      throw error;
+    }
   }
 
   isTracingEnabled(): boolean {

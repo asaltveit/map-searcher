@@ -104,6 +104,7 @@ export async function getMapState(): Promise<MapStateResponse | null> {
 // ==================== Alerts API ====================
 
 export type AlertFrequency = "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "MANUAL";
+export type AlertProcessingStatus = "IDLE" | "PROCESSING" | "COMPLETED" | "FAILED";
 
 export interface Alert {
   id: string;
@@ -112,6 +113,7 @@ export interface Alert {
   maxArticles: number;
   frequency: AlertFrequency;
   isActive: boolean;
+  processingStatus: AlertProcessingStatus;
   lastRunAt?: string;
   nextRunAt?: string;
   createdAt: string;
@@ -125,6 +127,7 @@ export interface AlertListItem {
   region: string;
   frequency: AlertFrequency;
   isActive: boolean;
+  processingStatus: AlertProcessingStatus;
   lastRunAt?: string;
   nextRunAt?: string;
   articleCount: number;
@@ -191,32 +194,62 @@ export interface GeoJsonFeatureCollection {
 
 /** List all alerts for the current user */
 export async function listAlerts(): Promise<AlertListItem[]> {
-  const res = await fetch(`${getBase()}/api/alerts`, {
+  const url = `${getBase()}/api/alerts`;
+  console.log(`[API] listAlerts START - url=${url}`);
+  const res = await fetch(url, {
     credentials: "include",
   });
-  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
-  return res.json();
+  console.log(`[API] listAlerts response - status=${res.status}, ok=${res.ok}`);
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] listAlerts FAILED - status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+  const data = await res.json();
+  console.log(`[API] listAlerts SUCCESS - count=${data?.length || 0}, alerts=`, data?.map((a: AlertListItem) => ({ id: a.id, query: a.query, articleCount: a.articleCount })));
+  return data;
 }
 
 /** Get a single alert with its articles */
 export async function getAlert(alertId: string): Promise<AlertDetail> {
-  const res = await fetch(`${getBase()}/api/alerts/${alertId}`, {
+  const url = `${getBase()}/api/alerts/${alertId}`;
+  console.log(`[API] getAlert START - alertId=${alertId}, url=${url}`);
+  const res = await fetch(url, {
     credentials: "include",
   });
-  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
-  return res.json();
+  console.log(`[API] getAlert response - status=${res.status}, ok=${res.ok}`);
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] getAlert FAILED - alertId=${alertId}, status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+  const data = await res.json();
+  console.log(`[API] getAlert SUCCESS - alertId=${alertId}, query="${data.query}", region="${data.region}", articleCount=${data.articleCount}, articlesReturned=${data.articles?.length || 0}`);
+  if (data.articles && data.articles.length > 0) {
+    console.log(`[API] getAlert ARTICLES SAMPLE:`, data.articles.slice(0, 2).map((a: AlertArticle) => ({ id: a.id, title: a.title, locationCount: a.locationCount })));
+  }
+  return data;
 }
 
 /** Create a new alert */
 export async function createAlert(input: CreateAlertInput): Promise<Alert> {
-  const res = await fetch(`${getBase()}/api/alerts`, {
+  const url = `${getBase()}/api/alerts`;
+  console.log(`[API] createAlert START - query="${input.query}", region="${input.region}", frequency=${input.frequency || 'MANUAL'}, maxArticles=${input.maxArticles || 20}`);
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify(input),
   });
-  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
-  return res.json();
+  console.log(`[API] createAlert response - status=${res.status}, ok=${res.ok}`);
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] createAlert FAILED - status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+  const data = await res.json();
+  console.log(`[API] createAlert SUCCESS - alertId=${data.id}, query="${data.query}", region="${data.region}"`);
+  return data;
 }
 
 /** Update an existing alert */
@@ -243,22 +276,45 @@ export async function deleteAlert(alertId: string): Promise<{ success: boolean }
 
 /** Manually trigger an alert to run */
 export async function runAlert(alertId: string): Promise<{ jobId: string; message: string }> {
-  const res = await fetch(`${getBase()}/api/alerts/${alertId}/run`, {
+  const url = `${getBase()}/api/alerts/${alertId}/run`;
+  console.log(`[API] runAlert START - alertId=${alertId}, url=${url}`);
+  const res = await fetch(url, {
     method: "POST",
     credentials: "include",
   });
-  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
-  return res.json();
+  console.log(`[API] runAlert response - status=${res.status}, ok=${res.ok}`);
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] runAlert FAILED - alertId=${alertId}, status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+  const data = await res.json();
+  console.log(`[API] runAlert SUCCESS - alertId=${alertId}, jobId=${data.jobId}, message="${data.message}"`);
+  return data;
 }
 
 /** Get GeoJSON locations for alerts */
 export async function getAlertsLocations(alertIds?: string[]): Promise<GeoJsonFeatureCollection> {
   const params = alertIds?.length ? `?alertIds=${alertIds.join(",")}` : "";
-  const res = await fetch(`${getBase()}/api/alerts/locations${params}`, {
+  const url = `${getBase()}/api/alerts/locations${params}`;
+  console.log(`[API] getAlertsLocations START - alertIds=${JSON.stringify(alertIds)}, url=${url}`);
+  const res = await fetch(url, {
     credentials: "include",
   });
-  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
-  return res.json();
+  console.log(`[API] getAlertsLocations response - status=${res.status}, ok=${res.ok}`);
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] getAlertsLocations FAILED - status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+  const data = await res.json();
+  console.log(`[API] getAlertsLocations SUCCESS - featureCount=${data.features?.length || 0}, type=${data.type}`);
+  if (data.features && data.features.length > 0) {
+    console.log(`[API] getAlertsLocations SAMPLE FEATURES (first 3):`, data.features.slice(0, 3).map((f: GeoJsonFeature) => ({ mention: f.properties.mention, articleTitle: f.properties.articleTitle, coords: f.geometry.coordinates })));
+  } else {
+    console.warn(`[API] getAlertsLocations WARNING - NO FEATURES RETURNED! This means no map pins will show.`);
+  }
+  return data;
 }
 
 // ==================== User Preferences API ====================

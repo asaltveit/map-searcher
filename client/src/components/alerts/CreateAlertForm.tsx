@@ -54,6 +54,7 @@ export function CreateAlertForm({ onCreated, onCancel }: CreateAlertFormProps) {
   });
 
   const onSubmit = async (data: CreateAlertFormData) => {
+    console.log(`[FORM] CreateAlertForm onSubmit START - query="${data.query}", region="${data.region}", frequency=${data.frequency}, maxArticles=${data.maxArticles}`);
     setError(null);
     setSubmitting(true);
 
@@ -65,10 +66,14 @@ export function CreateAlertForm({ onCreated, onCancel }: CreateAlertFormProps) {
         frequency: data.frequency,
         isActive: true,
       };
+      console.log(`[FORM] CreateAlertForm submitting - input=`, input);
       await createAlert(input);
+      console.log(`[FORM] CreateAlertForm SUCCESS`);
       onCreated();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create alert');
+      const errorMsg = err instanceof Error ? err.message : 'Failed to create alert';
+      console.error(`[FORM] CreateAlertForm FAILED - error=${errorMsg}`);
+      setError(errorMsg);
     } finally {
       setSubmitting(false);
     }

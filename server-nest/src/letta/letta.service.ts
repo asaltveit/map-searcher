@@ -145,9 +145,11 @@ export class LettaService implements OnModuleInit {
   // ==================== Messages ====================
 
   async sendMessage(agentId: string, params: SendMessageParams) {
+    this.logger.log(`[LETTA] sendMessage START - agentId=${agentId}, contentLength=${params.content.length}`);
     const client = this.ensureClient();
     try {
       // Client-level timeout is already set to 15 minutes
+      this.logger.log(`[LETTA] sendMessage calling agent API...`);
       const response = await client.agents.messages.create(agentId, {
         messages: [
           {
@@ -156,10 +158,18 @@ export class LettaService implements OnModuleInit {
           },
         ],
       });
+      this.logger.log(`[LETTA] sendMessage RESPONSE RECEIVED - type=${typeof response}, hasMessages=${!!(response as any).messages}`);
+      if ((response as any).messages) {
+        this.logger.log(`[LETTA] sendMessage RESPONSE - messageCount=${(response as any).messages.length}`);
+        for (let i = 0; i < (response as any).messages.length; i++) {
+          const msg = (response as any).messages[i];
+          this.logger.log(`[LETTA] sendMessage MESSAGE ${i + 1} - type="${msg.message_type || msg.role}", hasContent=${!!(msg.content || msg.assistant_message || msg.tool_return)}`);
+        }
+      }
       return response;
     } catch (error) {
       const normalized = this.normalizeError(error, `Letta sendMessage(${agentId})`);
-      this.logger.error(`Error sending message to agent ${agentId}:`, normalized.message);
+      this.logger.error(`[LETTA] sendMessage FAILED - agentId=${agentId}, error=${normalized.message}`);
       throw normalized;
     }
   }

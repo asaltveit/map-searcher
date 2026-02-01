@@ -179,7 +179,8 @@ model NewsAlert {
   nextRunAt DateTime?      @map("next_run_at")
 
   // Status
-  isActive Boolean @default(true) @map("is_active")
+  isActive         Boolean             @default(true) @map("is_active")
+  processingStatus AlertProcessingStatus @default(IDLE) @map("processing_status")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -190,6 +191,13 @@ model NewsAlert {
   @@index([userId])
   @@index([nextRunAt, isActive])
   @@map("news_alerts")
+}
+
+enum AlertProcessingStatus {
+  IDLE
+  PROCESSING
+  COMPLETED
+  FAILED
 }
 
 enum AlertFrequency {

@@ -10,6 +10,7 @@ import {
   Req,
   UseGuards,
   BadRequestException,
+  Logger,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -38,6 +39,8 @@ import type { JwtRequest } from "../common/types";
 @UseGuards(JwtAuthGuard)
 @Controller("api/alerts")
 export class AlertsController {
+  private readonly logger = new Logger(AlertsController.name);
+
   constructor(private readonly alertsService: AlertsService) {}
 
   @Post()
@@ -56,7 +59,15 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Body() dto: CreateAlertDto,
   ): Promise<AlertResponseDto> {
-    return this.alertsService.createAlert(req.user.userId, dto);
+    this.logger.log(`[CTRL] createAlert START - userId=${req.user.userId}, dto=${JSON.stringify(dto)}`);
+    try {
+      const result = await this.alertsService.createAlert(req.user.userId, dto);
+      this.logger.log(`[CTRL] createAlert SUCCESS - alertId=${result.id}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] createAlert FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   @Get()
@@ -67,7 +78,15 @@ export class AlertsController {
     type: [AlertListItemDto],
   })
   async listAlerts(@Req() req: JwtRequest): Promise<AlertListItemDto[]> {
-    return this.alertsService.listAlerts(req.user.userId);
+    this.logger.log(`[CTRL] listAlerts START - userId=${req.user.userId}`);
+    try {
+      const result = await this.alertsService.listAlerts(req.user.userId);
+      this.logger.log(`[CTRL] listAlerts SUCCESS - userId=${req.user.userId}, count=${result.length}, alerts=${JSON.stringify(result.map(a => ({ id: a.id, query: a.query, articleCount: a.articleCount })))}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] listAlerts FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   @Get("locations")
@@ -90,13 +109,27 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Query("alertIds") alertIdsStr?: string,
   ): Promise<AlertGeoJsonResponseDto> {
+    this.logger.log(`[CTRL] getAlertsLocations START - userId=${req.user.userId}, alertIdsStr="${alertIdsStr || 'ALL'}"`);
     const alertIds = alertIdsStr
       ? alertIdsStr.split(",").filter(Boolean)
       : undefined;
-    return this.alertsService.getAlertsLocationsGeoJson(
-      req.user.userId,
-      alertIds,
-    );
+    this.logger.log(`[CTRL] getAlertsLocations parsed alertIds=${JSON.stringify(alertIds)}`);
+    try {
+      const result = await this.alertsService.getAlertsLocationsGeoJson(
+        req.user.userId,
+        alertIds,
+      );
+      this.logger.log(`[CTRL] getAlertsLocations SUCCESS - userId=${req.user.userId}, featureCount=${result.features.length}`);
+      if (result.features.length > 0) {
+        this.logger.log(`[CTRL] getAlertsLocations SAMPLE FEATURES - first 3: ${JSON.stringify(result.features.slice(0, 3).map(f => ({ articleTitle: f.properties.articleTitle, mention: f.properties.mention, coords: f.geometry.coordinates })))}`);
+      } else {
+        this.logger.warn(`[CTRL] getAlertsLocations NO FEATURES FOUND - userId=${req.user.userId}, alertIds=${JSON.stringify(alertIds)}`);
+      }
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] getAlertsLocations FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   @Get(":id")
@@ -115,8 +148,21 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Param("id") alertId: string,
   ): Promise<AlertDetailDto> {
+    this.logger.log(`[CTRL] getAlert START - userId=${req.user.userId}, alertId=${alertId}`);
     this.validateUuid(alertId);
-    return this.alertsService.getAlert(req.user.userId, alertId);
+    try {
+      const result = await this.alertsService.getAlert(req.user.userId, alertId);
+      this.logger.log(`[CTRL] getAlert SUCCESS - alertId=${alertId}, query="${result.query}", region="${result.region}", articleCount=${result.articleCount}, articlesReturned=${result.articles?.length || 0}`);
+      if (result.articles && result.articles.length > 0) {
+        this.logger.log(`[CTRL] getAlert ARTICLES SAMPLE - first 3: ${JSON.stringify(result.articles.slice(0, 3).map(a => ({ id: a.id, title: a.title, locationCount: a.locationCount })))}`);
+      } else {
+        this.logger.warn(`[CTRL] getAlert NO ARTICLES - alertId=${alertId}`);
+      }
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] getAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   @Patch(":id")
@@ -137,8 +183,16 @@ export class AlertsController {
     @Param("id") alertId: string,
     @Body() dto: UpdateAlertDto,
   ): Promise<AlertResponseDto> {
+    this.logger.log(`[CTRL] updateAlert START - userId=${req.user.userId}, alertId=${alertId}, dto=${JSON.stringify(dto)}`);
     this.validateUuid(alertId);
-    return this.alertsService.updateAlert(req.user.userId, alertId, dto);
+    try {
+      const result = await this.alertsService.updateAlert(req.user.userId, alertId, dto);
+      this.logger.log(`[CTRL] updateAlert SUCCESS - alertId=${alertId}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] updateAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   @Delete(":id")
@@ -153,8 +207,16 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Param("id") alertId: string,
   ): Promise<{ success: boolean }> {
+    this.logger.log(`[CTRL] deleteAlert START - userId=${req.user.userId}, alertId=${alertId}`);
     this.validateUuid(alertId);
-    return this.alertsService.deleteAlert(req.user.userId, alertId);
+    try {
+      const result = await this.alertsService.deleteAlert(req.user.userId, alertId);
+      this.logger.log(`[CTRL] deleteAlert SUCCESS - alertId=${alertId}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] deleteAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   @Post(":id/run")
@@ -173,8 +235,16 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Param("id") alertId: string,
   ): Promise<RunAlertResponseDto> {
+    this.logger.log(`[CTRL] runAlert START - userId=${req.user.userId}, alertId=${alertId}`);
     this.validateUuid(alertId);
-    return this.alertsService.runAlert(req.user.userId, alertId);
+    try {
+      const result = await this.alertsService.runAlert(req.user.userId, alertId);
+      this.logger.log(`[CTRL] runAlert SUCCESS - alertId=${alertId}, jobId=${result.jobId}, message="${result.message}"`);
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] runAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   private validateUuid(id: string): void {

@@ -21,6 +21,11 @@ interface ArticlePanelProps {
 }
 
 export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePanelProps) {
+  console.log(`[PANEL] ArticlePanel RENDER - open=${open}, loading=${loading}, alertId=${alert?.id}, articleCount=${alert?.articles?.length || 0}`);
+  if (!loading && alert?.articles && alert.articles.length === 0) {
+    console.warn(`[PANEL] ArticlePanel NO ARTICLES - query="${alert.query}", region="${alert.region}"`);
+  }
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full sm:max-w-md overflow-y-auto">
@@ -29,31 +34,46 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
             {loading ? (
               <Skeleton className="h-6 w-48" />
             ) : (
-              alert?.query ?? 'Alert Articles'
+              <>
+                {console.log(`[PANEL] SheetTitle displaying - query="${alert?.query}"`)}
+                {alert?.query ?? 'Alert Articles'}
+              </>
             )}
           </SheetTitle>
           <SheetDescription>
             {loading ? (
               <Skeleton className="h-4 w-32" />
             ) : (
-              alert?.region ?? ''
+              <>
+                {console.log(`[PANEL] SheetDescription displaying - region="${alert?.region}"`)}
+                {alert?.region ?? ''}
+              </>
             )}
           </SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 space-y-4">
           {loading ? (
-            Array.from({ length: 3 }).map((_, i) => (
-              <ArticleSkeleton key={i} />
-            ))
+            <>
+              {console.log(`[PANEL] ArticlePanel LOADING state`)}
+              {Array.from({ length: 3 }).map((_, i) => (
+                <ArticleSkeleton key={i} />
+              ))}
+            </>
           ) : alert?.articles && alert.articles.length > 0 ? (
-            alert.articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))
+            <>
+              {console.log(`[PANEL] ArticlePanel DISPLAYING ${alert.articles.length} articles`)}
+              {alert.articles.map((article) => (
+                <ArticleCard key={article.id} article={article} />
+              ))}
+            </>
           ) : (
-            <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-8">
-              No articles found for this alert.
-            </p>
+            <>
+              {console.log(`[PANEL] ArticlePanel EMPTY state - no articles found`)}
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-8">
+                No articles found for this alert.
+              </p>
+            </>
           )}
         </div>
       </SheetContent>

@@ -44,12 +44,20 @@ function formatDate(dateStr: string): string {
 }
 
 export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
+  console.log(`[PINS] LocationPins RENDER - featureCount=${data.features.length}`);
+  if (data.features.length === 0) {
+    console.warn(`[PINS] LocationPins WARNING - NO FEATURES! Map will be empty.`);
+  } else {
+    console.log(`[PINS] LocationPins SAMPLE FEATURES:`, data.features.slice(0, 3).map(f => ({ mention: f.properties.mention, coords: f.geometry.coordinates })));
+  }
+
   const [popupInfo, setPopupInfo] = useState<GeoJsonFeature | null>(null);
   const [hoverInfo, setHoverInfo] = useState<string | null>(null);
 
   const onClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const feature = event.features?.[0];
+      console.log(`[PINS] onClick - feature clicked:`, feature?.properties?.mention);
       if (feature && feature.geometry.type === 'Point') {
         const props = feature.properties as GeoJsonFeature['properties'];
         const geoJsonFeature: GeoJsonFeature = {
@@ -60,6 +68,7 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
           },
           properties: props,
         };
+        console.log(`[PINS] onClick SHOWING popup for:`, props.mention);
         setPopupInfo(geoJsonFeature);
         onFeatureClick?.(geoJsonFeature);
       }
@@ -69,12 +78,14 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
 
   const onMouseEnter = useCallback((event: MapLayerMouseEvent) => {
     const feature = event.features?.[0];
+    console.log(`[PINS] onMouseEnter - locationId=${feature?.properties?.locationId}`);
     if (feature) {
       setHoverInfo(feature.properties?.locationId || null);
     }
   }, []);
 
   const onMouseLeave = useCallback(() => {
+    console.log(`[PINS] onMouseLeave`);
     setHoverInfo(null);
   }, []);
 
