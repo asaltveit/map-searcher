@@ -246,18 +246,17 @@ export function ArticlePanel({ open, onOpenChange, alert, loading, onVoiceChatOp
                     <Mic className="h-4 w-4" />
                   </Button>
                   <Button
-                    onClick={handleSendMessage}
-                    disabled={!chatInput.trim() || chatLoading}
+                    onClick={() => {
+                      if (onVoiceChatOpen) {
+                        onOpenChange(false);
+                        onVoiceChatOpen();
+                      }
+                    }}
+                    disabled={!onVoiceChatOpen}
                     className="bg-teal-700 hover:bg-teal-800 text-white shrink-0 gap-2 px-4"
                   >
-                    {chatLoading ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <>
-                        <MessageSquare className="h-4 w-4" />
-                        Chat
-                      </>
-                    )}
+                    <MessageSquare className="h-4 w-4" />
+                    Chat
                   </Button>
                 </div>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">

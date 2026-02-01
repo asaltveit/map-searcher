@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-export type WaveformState = "idle" | "listening" | "speaking" | "thinking";
+export type WaveformState = "idle" | "listening" | "speaking" | "thinking" | "preparing";
 
 interface AudioWaveformProps {
   state: WaveformState;
@@ -18,8 +18,6 @@ export function AudioWaveform({
   const bars = Array.from({ length: barCount }, (_, i) => i);
 
   const getBarClasses = (index: number) => {
-    const baseDelay = index * 0.1;
-
     switch (state) {
       case "listening":
         return cn(
@@ -35,6 +33,11 @@ export function AudioWaveform({
         return cn(
           "bg-amber-500 dark:bg-amber-400",
           "animate-[pulse_1s_ease-in-out_infinite]"
+        );
+      case "preparing":
+        return cn(
+          "bg-cyan-500 dark:bg-cyan-400",
+          "animate-[voicePrep_1.2s_ease-in-out_infinite]"
         );
       default:
         return "bg-zinc-300 dark:bg-zinc-600";
@@ -55,7 +58,9 @@ export function AudioWaveform({
             ? "Speaking response"
             : state === "thinking"
               ? "Processing"
-              : "Idle"
+              : state === "preparing"
+                ? "Preparing voice"
+                : "Idle"
       }
     >
       {bars.map((i) => (
@@ -81,6 +86,16 @@ export function AudioWaveform({
             transform: scaleY(1);
           }
         }
+        @keyframes voicePrep {
+          0%, 100% {
+            transform: scaleY(0.25);
+            opacity: 0.6;
+          }
+          50% {
+            transform: scaleY(0.6);
+            opacity: 1;
+          }
+        }
       `}</style>
     </div>
   );
@@ -100,10 +115,11 @@ export function WaveformIndicator({
     listening: "Listening...",
     speaking: "Speaking...",
     thinking: "Thinking...",
+    preparing: "Starting voice...",
   };
 
   return (
-    <div className={cn("flex items-center gap-3", className)}>
+    <div className={cn("flex items-end gap-3", className)}>
       <AudioWaveform state={state} />
       <span
         className={cn(
@@ -111,6 +127,7 @@ export function WaveformIndicator({
           state === "listening" && "text-red-600 dark:text-red-400",
           state === "speaking" && "text-emerald-600 dark:text-emerald-400",
           state === "thinking" && "text-amber-600 dark:text-amber-400",
+          state === "preparing" && "text-cyan-600 dark:text-cyan-400",
           state === "idle" && "text-zinc-500 dark:text-zinc-400"
         )}
       >

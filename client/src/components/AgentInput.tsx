@@ -39,7 +39,7 @@ export function AgentInput({
   const [lastResponse, setLastResponse] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { speak: speakText, isLoading: ttsLoading, isPlaying: ttsSpeaking, error: ttsError } = useTTS({ voice: "nova" });
+  const { speak: speakText, isLoading: ttsLoading, isPreparing: ttsPreparing, isPlaying: ttsSpeaking, error: ttsError } = useTTS({ voice: "nova" });
   const {
     isSupported: sttSupported,
     isListening,
@@ -254,11 +254,11 @@ export function AgentInput({
               size="sm"
               className="h-8 gap-1.5 text-muted-foreground hover:text-foreground"
               onClick={() => speakText(lastResponse)}
-              disabled={ttsLoading || ttsSpeaking}
+              disabled={ttsLoading || ttsPreparing || ttsSpeaking}
               aria-label="Speak findings aloud"
             >
               <Volume2 className="size-4" aria-hidden />
-              {ttsLoading ? "Loading..." : ttsSpeaking ? "Speaking..." : "Speak"}
+              {ttsLoading ? "Loading..." : ttsPreparing ? "Starting..." : ttsSpeaking ? "Speaking..." : "Speak"}
             </Button>
           </div>
           {ttsError && (

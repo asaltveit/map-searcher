@@ -55,6 +55,7 @@ export function VoiceChatPanel({
     speak,
     stop: stopSpeaking,
     isLoading: ttsLoading,
+    isPreparing: ttsPreparing,
     isPlaying: isSpeaking,
   } = useTTS({ voice: "nova" });
 
@@ -62,6 +63,7 @@ export function VoiceChatPanel({
   const getWaveformState = (): WaveformState => {
     if (isListening) return "listening";
     if (isSpeaking) return "speaking";
+    if (ttsPreparing) return "preparing";
     if (isProcessing || ttsLoading) return "thinking";
     return "idle";
   };
@@ -246,7 +248,7 @@ export function VoiceChatPanel({
         <div className="p-4 border-t flex justify-center">
           <Button
             onClick={handleMicToggle}
-            disabled={!sttSupported || isProcessing || ttsLoading}
+            disabled={!sttSupported || isProcessing || ttsLoading || ttsPreparing}
             variant={isListening ? "destructive" : "default"}
             size="lg"
             className={cn(
@@ -271,9 +273,11 @@ export function VoiceChatPanel({
                 ? "Tap to stop and send"
                 : isProcessing
                   ? "Getting response..."
-                  : isSpeaking
-                    ? "Playing response..."
-                    : "Tap to speak"}
+                  : ttsPreparing
+                    ? "Starting voice..."
+                    : isSpeaking
+                      ? "Playing response..."
+                      : "Tap to speak"}
           </p>
         </div>
       </SheetContent>

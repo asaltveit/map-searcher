@@ -94,12 +94,34 @@ export function MapPinsLayer({
         >
           <div className="min-w-[180px] max-w-[280px] text-left">
             <p className="font-semibold text-foreground">
-              {(selectedFeature.feature.properties as { title?: string })?.title ?? 'Location'}
+              {(selectedFeature.feature.properties as { articleTitle?: string; title?: string })?.articleTitle ??
+               (selectedFeature.feature.properties as { title?: string })?.title ??
+               'Unknown Location'}
             </p>
+            {(selectedFeature.feature.properties as { mention?: string; snippet?: string })?.mention && (
+              <p className="mt-1 text-sm text-muted-foreground">
+                {(selectedFeature.feature.properties as { mention?: string }).mention}
+              </p>
+            )}
             {(selectedFeature.feature.properties as { snippet?: string })?.snippet && (
               <p className="mt-1 text-sm text-muted-foreground">
                 {(selectedFeature.feature.properties as { snippet?: string }).snippet}
               </p>
+            )}
+            {(selectedFeature.feature.properties as { articleUrl?: string })?.articleUrl && (
+              <a
+                href={(selectedFeature.feature.properties as { articleUrl: string }).articleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Read article
+              </a>
             )}
           </div>
         </Popup>

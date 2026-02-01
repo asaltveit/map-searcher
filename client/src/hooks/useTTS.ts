@@ -67,6 +67,7 @@ function speakWithBrowserTTS(
 
 export function useTTS(options?: UseTTSOptions) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreparing, setIsPreparing] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [usingFallback, setUsingFallback] = useState(false);
@@ -102,6 +103,7 @@ export function useTTS(options?: UseTTSOptions) {
       console.log(`[useTTS] Starting TTS for text: "${text.substring(0, 50)}..."`);
       cleanup();
       setIsLoading(true);
+      setIsPreparing(false);
       setError(null);
       setUsingFallback(false);
 
@@ -119,6 +121,7 @@ export function useTTS(options?: UseTTSOptions) {
 
         audio.onplay = () => {
           console.log("[useTTS] Audio playing");
+          setIsPreparing(false);
           setIsPlaying(true);
           options?.onStart?.();
         };
@@ -137,6 +140,7 @@ export function useTTS(options?: UseTTSOptions) {
           console.error("[useTTS] Audio error:", e);
           const err = new Error("Failed to play audio");
           setError(err.message);
+          setIsPreparing(false);
           setIsPlaying(false);
           options?.onError?.(err);
           cleanup();
@@ -144,11 +148,13 @@ export function useTTS(options?: UseTTSOptions) {
 
         console.log("[useTTS] Attempting to play audio...");
         setIsLoading(false);
+        setIsPreparing(true);
         await audio.play();
         console.log("[useTTS] audio.play() succeeded");
       } catch (err) {
         console.error("[useTTS] Error:", err);
         setIsLoading(false);
+        setIsPreparing(false);
 
         // Check if rate limited and fallback is enabled
         if (err instanceof TTSRateLimitError && useFallback) {
@@ -185,6 +191,7 @@ export function useTTS(options?: UseTTSOptions) {
 
   const stop = useCallback(() => {
     cleanup();
+    setIsPreparing(false);
     setIsPlaying(false);
   }, [cleanup]);
 
@@ -192,6 +199,8 @@ export function useTTS(options?: UseTTSOptions) {
     speak,
     stop,
     isLoading,
+    /** True when audio blob is received but playback hasn't started yet (buffering) */
+    isPreparing,
     isPlaying,
     error,
     /** True if currently using browser TTS instead of OpenAI */
