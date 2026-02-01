@@ -82,11 +82,12 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
       <CardContent className="space-y-4">
         {/* STT: Mic + transcript */}
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
             <Button
               type="button"
               variant={isListening ? "destructive" : "default"}
               size="icon"
+              className="min-h-[44px] min-w-[44px] touch-manipulation sm:min-h-0 sm:min-w-0"
               onClick={handleToggleMic}
               aria-label={isListening ? "Stop listening" : "Start listening"}
               aria-pressed={isListening}
@@ -94,7 +95,7 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
               {isListening ? <MicOffIcon /> : <MicIcon />}
             </Button>
             <span className="text-sm text-muted-foreground">
-              {isListening ? "Listening… (click mic to stop and send)" : "Click mic to speak"}
+              {isListening ? "Listening… (tap mic to stop and send)" : "Tap mic to speak"}
             </span>
           </div>
           <div
@@ -118,7 +119,7 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
           <label htmlFor="voice-speak-input" className="text-sm font-medium">
             Text to speak
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 sm:flex-nowrap">
             <Input
               id="voice-speak-input"
               type="text"
@@ -126,12 +127,13 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
               value={speakInput}
               onChange={(e) => setSpeakInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSpeakInput()}
-              className="flex-1"
+              className="min-h-[44px] flex-1 touch-manipulation"
             />
             <Button
               type="button"
               variant="outline"
               size="icon"
+              className="min-h-[44px] min-w-[44px] shrink-0 touch-manipulation sm:min-h-0 sm:min-w-0"
               onClick={handleSpeakInput}
               aria-label="Speak the text"
               disabled={!speakInput.trim() && !textToSpeak}
@@ -145,7 +147,7 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
               variant="secondary"
               size="sm"
               onClick={() => speakText(textToSpeak)}
-              className="w-full"
+              className="min-h-[44px] w-full touch-manipulation"
             >
               Speak last response
             </Button>
