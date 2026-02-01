@@ -46,6 +46,9 @@ describe("Agents API (e2e)", () => {
     updated_at: new Date().toISOString(),
   };
 
+  // Helper to get typed mock function
+  const mockFn = <T>(fn: T): jest.Mock => fn as jest.Mock;
+
   beforeEach(async () => {
     // Create mock services
     mockPrismaService = {
@@ -114,11 +117,15 @@ describe("Agents API (e2e)", () => {
   describe("POST /api/agents", () => {
     it("should create a new agent", async () => {
       mockLettaService.createAgent.mockResolvedValue(mockLettaAgent as never);
-      mockPrismaService.agent.create.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.create).mockResolvedValue(mockAgent);
 
       const response = await supertest(app.getHttpServer())
         .post("/api/agents")
-        .send({ name: "Test Agent" })
+        .send({
+          name: "Test Agent",
+          model: "openai/gpt-4o-mini",
+          embedding: "openai/text-embedding-3-small",
+        })
         .expect(201);
 
       expect(response.body).toHaveProperty("id");
@@ -128,21 +135,26 @@ describe("Agents API (e2e)", () => {
     it("should reject missing name", async () => {
       await supertest(app.getHttpServer())
         .post("/api/agents")
-        .send({})
+        .send({ model: "openai/gpt-4o-mini", embedding: "openai/text-embedding-3-small" })
         .expect(400);
     });
 
     it("should reject unknown properties", async () => {
       await supertest(app.getHttpServer())
         .post("/api/agents")
-        .send({ name: "Test", unknownField: "value" })
+        .send({
+          name: "Test",
+          model: "openai/gpt-4o-mini",
+          embedding: "openai/text-embedding-3-small",
+          unknownField: "value",
+        })
         .expect(400);
     });
   });
 
   describe("GET /api/agents", () => {
     it("should list agents for authenticated user", async () => {
-      mockPrismaService.agent.findMany.mockResolvedValue([mockAgent]);
+      mockFn(mockPrismaService.agent.findMany).mockResolvedValue([mockAgent]);
       mockLettaService.retrieveAgent.mockResolvedValue(mockLettaAgent as never);
 
       const response = await supertest(app.getHttpServer())
@@ -155,7 +167,7 @@ describe("Agents API (e2e)", () => {
     });
 
     it("should return empty array if no agents", async () => {
-      mockPrismaService.agent.findMany.mockResolvedValue([]);
+      mockFn(mockPrismaService.agent.findMany).mockResolvedValue([]);
 
       const response = await supertest(app.getHttpServer())
         .get("/api/agents")
@@ -167,7 +179,7 @@ describe("Agents API (e2e)", () => {
 
   describe("GET /api/agents/:id", () => {
     it("should get agent by id", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       mockLettaService.retrieveAgent.mockResolvedValue(mockLettaAgent as never);
 
       const response = await supertest(app.getHttpServer())
@@ -178,7 +190,7 @@ describe("Agents API (e2e)", () => {
     });
 
     it("should return 404 for non-existent agent", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(null);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(null);
 
       await supertest(app.getHttpServer())
         .get("/api/agents/non-existent")
@@ -188,12 +200,12 @@ describe("Agents API (e2e)", () => {
 
   describe("PATCH /api/agents/:id", () => {
     it("should update agent", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       mockLettaService.updateAgent.mockResolvedValue({
         ...mockLettaAgent,
         name: "Updated Name",
       } as never);
-      mockPrismaService.agent.update.mockResolvedValue({
+      mockFn(mockPrismaService.agent.update).mockResolvedValue({
         ...mockAgent,
         name: "Updated Name",
       });
@@ -209,9 +221,9 @@ describe("Agents API (e2e)", () => {
 
   describe("DELETE /api/agents/:id", () => {
     it("should delete agent", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       mockLettaService.deleteAgent.mockResolvedValue(undefined as never);
-      mockPrismaService.agent.delete.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.delete).mockResolvedValue(mockAgent);
 
       await supertest(app.getHttpServer())
         .delete(`/api/agents/${mockAgentId}`)
@@ -221,7 +233,7 @@ describe("Agents API (e2e)", () => {
 
   describe("POST /api/agents/:id/messages", () => {
     it("should send message to agent", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       const mockResponse = {
         messages: [{ content: "Hello back!" }],
         usage: { total_tokens: 100 },
@@ -247,7 +259,7 @@ describe("Agents API (e2e)", () => {
 
   describe("GET /api/agents/:id/messages", () => {
     it("should list messages with pagination", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       const mockMessages = [{ id: "msg-1", content: "Hello" }];
       mockLettaService.listMessages.mockResolvedValue(mockMessages as never);
 
@@ -261,7 +273,7 @@ describe("Agents API (e2e)", () => {
 
   describe("GET /api/agents/:id/blocks", () => {
     it("should list memory blocks", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       const mockBlocks = [
         { label: "persona", value: "I am helpful" },
         { label: "human", value: "Name: User" },
@@ -278,7 +290,7 @@ describe("Agents API (e2e)", () => {
 
   describe("PATCH /api/agents/:id/blocks/:label", () => {
     it("should update memory block", async () => {
-      mockPrismaService.agent.findFirst.mockResolvedValue(mockAgent);
+      mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
       const updatedBlock = { label: "persona", value: "I am very helpful" };
       mockLettaService.updateBlock.mockResolvedValue(updatedBlock as never);
 

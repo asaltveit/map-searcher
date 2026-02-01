@@ -50,7 +50,9 @@ describe("ToolsService", () => {
 
       await service.listTools({ name: "web_search" });
 
-      expect(lettaService.listTools).toHaveBeenCalledWith({ name: "web_search" });
+      expect(lettaService.listTools).toHaveBeenCalledWith({
+        name: "web_search",
+      });
     });
   });
 

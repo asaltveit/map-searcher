@@ -66,9 +66,13 @@ describe("AgentTracingService", () => {
       };
       lettaService.sendMessage.mockResolvedValue(mockResponse as never);
 
-      const result = await service.sendMessageWithTrace(mockUserId, mockAgentId, {
-        content: "Hello!",
-      });
+      const result = await service.sendMessageWithTrace(
+        mockUserId,
+        mockAgentId,
+        {
+          content: "Hello!",
+        },
+      );
 
       expect(result).toEqual(mockResponse);
       expect(prismaService.agent.findFirst).toHaveBeenCalledWith({

@@ -16,6 +16,7 @@ import { ResearchModule } from "./research/research.module";
 import { ToolsModule } from "./tools/tools.module";
 import { ModelsModule } from "./models/models.module";
 import { WorkflowModule } from "./workflow/workflow.module";
+import { NewsWorkflowModule } from "./news-workflow/news-workflow.module";
 import { UserResolverMiddleware } from "./common/middleware/user-resolver.middleware";
 import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
 
@@ -85,6 +86,7 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
     ToolsModule,
     ModelsModule,
     WorkflowModule,
+    NewsWorkflowModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

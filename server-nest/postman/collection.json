@@ -1,10 +1,10 @@
 {
 	"_": {
-		"postman_id": "66d60e8b-9e61-4ee5-ad6a-c93041126acb"
+		"postman_id": "89a309ef-e20e-4166-a56b-3449679556db"
 	},
 	"item": [
 		{
-			"id": "11ed6192-b76a-498d-aadc-1526d6618130",
+			"id": "27431912-2ec7-4844-b4f8-0bb6548a289f",
 			"name": "/",
 			"description": {
 				"content": "",
@@ -12,7 +12,7 @@
 			},
 			"item": [
 				{
-					"id": "4faa0bc8-37f2-4f14-bd1b-b1a521768570",
+					"id": "73eedec6-66c4-48c4-9a92-f9ca6e1edffd",
 					"name": "Get welcome message",
 					"request": {
 						"name": "Get welcome message",
@@ -44,7 +44,7 @@
 							"_": {
 								"postman_previewlanguage": "json"
 							},
-							"id": "1172996a-b36e-499e-aef6-33bfacd70c8d",
+							"id": "faba0ab6-0ed0-4c0d-ab8a-10dc6f42a573",
 							"name": "Welcome message",
 							"originalRequest": {
 								"url": {
@@ -87,7 +87,7 @@
 			"event": []
 		},
 		{
-			"id": "22f2dc0c-74af-4205-a9f3-e6066a5fac28",
+			"id": "70d5de6a-98c3-47e0-a15e-88ebdf11e260",
 			"name": "api",
 			"description": {
 				"content": "",
@@ -95,7 +95,7 @@
 			},
 			"item": [
 				{
-					"id": "3904b5d3-76dd-4344-9bc0-30eee3fe170c",
+					"id": "03bb309b-b9f7-43d0-83c9-eb67590f1133",
 					"name": "health",
 					"description": {
 						"content": "",
@@ -103,7 +103,7 @@
 					},
 					"item": [
 						{
-							"id": "4af07b8b-972f-4378-b337-b87415e1fd09",
+							"id": "c9d305f1-530a-46d2-8c74-92f3d8cdc9d9",
 							"name": "Health check",
 							"request": {
 								"name": "Health check",
@@ -129,7 +129,7 @@
 									"_": {
 										"postman_previewlanguage": "text"
 									},
-									"id": "33636835-92fd-419e-bd87-a2ad5c8d92e5",
+									"id": "11edc860-62cd-45e8-b2ed-fee6ee10ce07",
 									"originalRequest": {
 										"url": {
 											"path": [
@@ -160,7 +160,7 @@
 					"event": []
 				},
 				{
-					"id": "97cbe823-bd03-4600-9e1b-d87c2073a7c7",
+					"id": "0357b111-4d32-4a10-883d-3a6fa26c14b1",
 					"name": "monitoring",
 					"description": {
 						"content": "",
@@ -168,7 +168,7 @@
 					},
 					"item": [
 						{
-							"id": "74e187c8-7811-443a-9aba-9cba817bb758",
+							"id": "c276dd3f-c1ac-42e8-b35a-2172e91abe53",
 							"name": "health",
 							"description": {
 								"content": "",
@@ -176,7 +176,7 @@
 							},
 							"item": [
 								{
-									"id": "a3039bc2-e30b-4260-8b68-00235a108399",
+									"id": "70e8cbf1-3ad3-4748-952f-d977a3826b76",
 									"name": "Get system health status",
 									"request": {
 										"name": "Get system health status",
@@ -214,7 +214,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "92228ca7-3686-4720-8253-72fbb40943db",
+											"id": "64bfc760-1a7e-4a65-9855-ab26b0222d6b",
 											"name": "System health status",
 											"originalRequest": {
 												"url": {
@@ -260,7 +260,7 @@
 					"event": []
 				},
 				{
-					"id": "5785d79f-2553-4f17-a6cb-1decf0ade9ff",
+					"id": "92a62b9e-5d4a-4dea-9bc3-ca4aa95e13a7",
 					"name": "research",
 					"description": {
 						"content": "",
@@ -268,7 +268,7 @@
 					},
 					"item": [
 						{
-							"id": "fc06b03f-6d9e-4a89-953e-72d87c9267ea",
+							"id": "f72c5a3c-3ec6-411d-8a1f-f070ed526e46",
 							"name": "Search research",
 							"request": {
 								"name": "Search research",
@@ -294,7 +294,7 @@
 									"_": {
 										"postman_previewlanguage": "text"
 									},
-									"id": "79f85c75-a8f6-4e3f-abd3-f0f4990e1283",
+									"id": "9c9ae967-76db-45cb-9ed9-3e60df704582",
 									"originalRequest": {
 										"url": {
 											"path": [
@@ -322,7 +322,7 @@
 							}
 						},
 						{
-							"id": "3053e041-4806-49c2-8bb1-17692ceffd0c",
+							"id": "e7cc519b-760f-4db0-9c78-ec4818275b32",
 							"name": "Save research",
 							"request": {
 								"name": "Save research",
@@ -363,7 +363,7 @@
 									"_": {
 										"postman_previewlanguage": "text"
 									},
-									"id": "48a4490a-0b67-41c4-8a80-4a0d7bc8d293",
+									"id": "88707d9c-482e-4e4b-908e-6dd11e049294",
 									"originalRequest": {
 										"url": {
 											"path": [
@@ -409,7 +409,7 @@
 					"event": []
 				},
 				{
-					"id": "bf930a3a-8834-4d97-9196-f182c79a03e1",
+					"id": "5f7fea38-7427-4232-ae0f-226c52caec96",
 					"name": "agents",
 					"description": {
 						"content": "",
@@ -417,7 +417,7 @@
 					},
 					"item": [
 						{
-							"id": "b91b4c48-9c2a-46e4-8175-7646b67208cb",
+							"id": "cbb0b3a3-39d3-4840-b1d6-7ddc00eba0db",
 							"name": "List all agents for the authenticated user",
 							"request": {
 								"name": "List all agents for the authenticated user",
@@ -459,7 +459,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "924eed4f-170c-4ad9-b133-65be133d8c22",
+									"id": "7f7f3a93-3779-4de5-a8f7-8a6f366fd891",
 									"name": "List of agents",
 									"originalRequest": {
 										"url": {
@@ -508,7 +508,7 @@
 							}
 						},
 						{
-							"id": "95008e23-1c73-492c-a42d-22b0da0536ed",
+							"id": "29d4c781-6a63-456e-ace6-4a94af28b6e0",
 							"name": "Create a new agent",
 							"request": {
 								"name": "Create a new agent",
@@ -563,7 +563,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "ed82f6d8-6f05-4665-991f-da0e3399876c",
+									"id": "dea5f4a6-a377-43d8-a752-6f77980721e2",
 									"name": "Agent created",
 									"originalRequest": {
 										"url": {
@@ -625,7 +625,7 @@
 							}
 						},
 						{
-							"id": "73e119b7-8100-4469-ab60-2456f8901ce3",
+							"id": "5f1ae6b7-23c3-4257-a9bb-00886eeb3e94",
 							"name": "{id}",
 							"description": {
 								"content": "",
@@ -633,7 +633,7 @@
 							},
 							"item": [
 								{
-									"id": "c9ed95b2-d3a4-482c-8550-0e0e40424477",
+									"id": "0ddd3785-a12b-466a-b5e7-9ac70f86584c",
 									"name": "Get a single agent by ID",
 									"request": {
 										"name": "Get a single agent by ID",
@@ -687,7 +687,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "670bae7b-4a14-4d7d-b66e-6419e609b987",
+											"id": "20dd5a17-571c-4df6-9208-b3149e9f811c",
 											"name": "Agent details",
 											"originalRequest": {
 												"url": {
@@ -734,7 +734,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "ef8ad04e-6953-45d8-a6ab-2fdf6298a36f",
+											"id": "926efd0b-c2a6-4b0b-aff3-fc74879f099b",
 											"name": "Agent not found",
 											"originalRequest": {
 												"url": {
@@ -774,7 +774,7 @@
 									}
 								},
 								{
-									"id": "37cf7106-b811-4eca-b044-d9e3e34e6567",
+									"id": "43e1658e-2815-460e-8610-438500189b37",
 									"name": "Update an agent",
 									"request": {
 										"name": "Update an agent",
@@ -841,7 +841,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "8db254ad-143e-42e2-8a87-fe22202f09aa",
+											"id": "31cdda56-180f-40c9-ad8c-a73def477236",
 											"name": "Agent updated",
 											"originalRequest": {
 												"url": {
@@ -904,7 +904,7 @@
 									}
 								},
 								{
-									"id": "b9f07b00-ae50-4739-9207-cc4bee68b210",
+									"id": "b50b897f-d765-4fe3-ab65-735dc40556d9",
 									"name": "Delete an agent",
 									"request": {
 										"name": "Delete an agent",
@@ -952,7 +952,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "3564c36b-0992-442d-931f-f92967dc2cc2",
+											"id": "361daf82-03dc-4efc-96a5-c223bba6a6e8",
 											"name": "Agent deleted",
 											"originalRequest": {
 												"url": {
@@ -989,7 +989,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "c848fc66-7f73-4e8d-a643-64f636b263f8",
+											"id": "d4004f3e-2c37-4a9c-b08a-1a6da6b5b796",
 											"name": "Agent not found",
 											"originalRequest": {
 												"url": {
@@ -1029,7 +1029,7 @@
 									}
 								},
 								{
-									"id": "563e8213-c7f4-4658-9a2c-1d9363aed7f6",
+									"id": "4ad206ad-a761-4916-ab8e-a25f62568b4f",
 									"name": "messages",
 									"description": {
 										"content": "",
@@ -1037,7 +1037,7 @@
 									},
 									"item": [
 										{
-											"id": "1c0eebc7-d0e4-4c73-98e1-d18ca3fb3638",
+											"id": "c866ffe9-2997-4d92-b520-3cc0d625bc37",
 											"name": "Get conversation history for an agent",
 											"request": {
 												"name": "Get conversation history for an agent",
@@ -1129,7 +1129,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "9e52f7bd-0864-4ffd-8a15-d626ed7c84d7",
+													"id": "47a160af-f913-4c30-9e03-8a94fbf0eed4",
 													"name": "Message history",
 													"originalRequest": {
 														"url": {
@@ -1217,7 +1217,7 @@
 											}
 										},
 										{
-											"id": "5eb95abf-a67a-4f99-9afc-b0f69d1ba3ad",
+											"id": "f70220a7-ccf5-4b22-b9a0-ea522a3fc8e9",
 											"name": "Send a message to an agent",
 											"request": {
 												"name": "Send a message to an agent",
@@ -1285,7 +1285,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "e7cf1d17-5f17-427f-adaf-9f958924f299",
+													"id": "7e15cc8e-118c-4d8c-abe6-818147abb932",
 													"name": "Message response",
 													"originalRequest": {
 														"url": {
@@ -1349,7 +1349,7 @@
 											}
 										},
 										{
-											"id": "5bf455ec-1dff-443f-ba2f-ee953747a8f0",
+											"id": "fc7dfc04-8409-4c24-b2d5-2cad59cb2c91",
 											"name": "reset",
 											"description": {
 												"content": "",
@@ -1357,7 +1357,7 @@
 											},
 											"item": [
 												{
-													"id": "59757512-cdb6-4341-9ee3-fb3b0c2e483b",
+													"id": "088dde5a-fddc-4fa1-9174-790c43f1fade",
 													"name": "Reset conversation history for an agent",
 													"request": {
 														"name": "Reset conversation history for an agent",
@@ -1426,7 +1426,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "e2e52d16-cacf-4562-8776-52e7f540eb9f",
+															"id": "c4bb2231-de74-45ce-8c29-948f7ef2d0c6",
 															"name": "Messages reset",
 															"originalRequest": {
 																"url": {
@@ -1497,7 +1497,7 @@
 									"event": []
 								},
 								{
-									"id": "f64c8d46-9366-40d1-ba78-af6ec707a81b",
+									"id": "1082ebb8-1847-47ce-b3e2-bbc8660ed378",
 									"name": "blocks",
 									"description": {
 										"content": "",
@@ -1505,7 +1505,7 @@
 									},
 									"item": [
 										{
-											"id": "87d53e81-c028-4ee9-8b27-bb19ca72bb61",
+											"id": "4e1d1287-1e55-45b6-bad3-39512fcbf23c",
 											"name": "List memory blocks for an agent",
 											"request": {
 												"name": "List memory blocks for an agent",
@@ -1560,7 +1560,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "85b5b87a-3286-4c27-8828-9a84d3d9852d",
+													"id": "728e4163-9fde-452e-8f15-33fd01b447b2",
 													"name": "List of memory blocks",
 													"originalRequest": {
 														"url": {
@@ -1611,7 +1611,7 @@
 											}
 										},
 										{
-											"id": "e0dac421-f0e9-4377-b311-ae383b01b0e6",
+											"id": "9e8b803d-5437-42fd-a4a1-2ec798d1f6bc",
 											"name": "{label}",
 											"description": {
 												"content": "",
@@ -1619,7 +1619,7 @@
 											},
 											"item": [
 												{
-													"id": "4961c7c3-bc8e-454c-8eef-fefd9cc73a66",
+													"id": "8dbf8ee3-ac43-4197-b82b-b0475ba5421b",
 													"name": "Get a specific memory block by label",
 													"request": {
 														"name": "Get a specific memory block by label",
@@ -1685,7 +1685,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "e49dcc2c-f4a1-4446-8b02-d373e839fae9",
+															"id": "37a1fb94-60eb-4dc0-90af-cb4509658690",
 															"name": "Memory block",
 															"originalRequest": {
 																"url": {
@@ -1737,7 +1737,7 @@
 													}
 												},
 												{
-													"id": "5db2f38c-75bd-4fe1-a9eb-565f5f623220",
+													"id": "13881e3b-7a77-4b7a-a20c-6a6a4f04a040",
 													"name": "Update a memory block",
 													"request": {
 														"name": "Update a memory block",
@@ -1816,7 +1816,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "fd1dcf97-430c-4858-bf89-7cc12a3ae10e",
+															"id": "99c6d59e-a5da-4de3-9f61-1d36c182f4c1",
 															"name": "Memory block updated",
 															"originalRequest": {
 																"url": {
@@ -1887,7 +1887,7 @@
 									"event": []
 								},
 								{
-									"id": "8923bd69-d435-4706-b6e8-82dfbd1f9d20",
+									"id": "a9c11421-d644-4c0b-bfc1-afdaa016712a",
 									"name": "tools",
 									"description": {
 										"content": "",
@@ -1895,7 +1895,7 @@
 									},
 									"item": [
 										{
-											"id": "9a32c492-d7a2-4943-b5fe-8abfc4a1a92d",
+											"id": "eae634c8-409c-4510-9e02-59808783a2ff",
 											"name": "List tools attached to an agent",
 											"request": {
 												"name": "List tools attached to an agent",
@@ -1950,7 +1950,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "a1daeb7d-84b7-4a54-a7d4-7f7f4b095f98",
+													"id": "263b959e-8b07-4df8-8a5c-20bc14beb6e1",
 													"name": "List of tools",
 													"originalRequest": {
 														"url": {
@@ -2001,7 +2001,7 @@
 											}
 										},
 										{
-											"id": "1a109b6d-301b-4ebd-a37f-3d7cc07ed6a3",
+											"id": "c3c9cfae-ef57-4de5-a899-570089222d19",
 											"name": "{toolId}",
 											"description": {
 												"content": "",
@@ -2009,7 +2009,7 @@
 											},
 											"item": [
 												{
-													"id": "a7b85a84-48e2-481f-bc1c-dde01e9de7d1",
+													"id": "6de6684a-310b-4b77-86a5-91149ef9c4cb",
 													"name": "attach",
 													"description": {
 														"content": "",
@@ -2017,7 +2017,7 @@
 													},
 													"item": [
 														{
-															"id": "c02263b5-3e04-43fe-aacf-2ad2c3677d11",
+															"id": "adf27df1-db8f-4797-a56a-38cd05807a13",
 															"name": "Attach a tool to an agent",
 															"request": {
 																"name": "Attach a tool to an agent",
@@ -2084,7 +2084,7 @@
 																	"_": {
 																		"postman_previewlanguage": "json"
 																	},
-																	"id": "22d33d0e-9570-4f5d-98d1-6dd8eae3c0c0",
+																	"id": "01f501b3-189d-4095-b29a-62b7b4a31782",
 																	"name": "Tool attached",
 																	"originalRequest": {
 																		"url": {
@@ -2140,7 +2140,7 @@
 													"event": []
 												},
 												{
-													"id": "8258dd57-07f9-4d2b-81e4-fd0592317275",
+													"id": "10102912-9374-4ceb-be0f-6ef44cbe9ab7",
 													"name": "Detach a tool from an agent",
 													"request": {
 														"name": "Detach a tool from an agent",
@@ -2206,7 +2206,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "a8f24163-2e66-4dd1-bbbe-f27c927b9a18",
+															"id": "7144626e-3199-4bdb-95f8-c379d126a0ba",
 															"name": "Tool detached",
 															"originalRequest": {
 																"url": {
@@ -2270,7 +2270,7 @@
 					"event": []
 				},
 				{
-					"id": "8bbee2ce-a9e9-40b2-8f77-a1f71c094735",
+					"id": "7795a57b-c686-4d1b-bcdc-f7a29503a116",
 					"name": "tools",
 					"description": {
 						"content": "",
@@ -2278,7 +2278,7 @@
 					},
 					"item": [
 						{
-							"id": "38d21ca4-0cc0-40e1-b464-f7fa37bf6b29",
+							"id": "ab34f67f-8869-41c5-9279-3ee453c1f1ad",
 							"name": "List all available tools",
 							"request": {
 								"name": "List all available tools",
@@ -2339,7 +2339,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "be86a8fd-0825-49ac-bbc8-06b6b9f011f2",
+									"id": "ce5af0af-3955-4547-b1b9-6c6c90490273",
 									"name": "List of tools",
 									"originalRequest": {
 										"url": {
@@ -2407,7 +2407,7 @@
 							}
 						},
 						{
-							"id": "067b7836-641b-4b6f-9a0d-718c9078df82",
+							"id": "1e751484-82b2-4fa1-b103-c00352ff5205",
 							"name": "Create a custom tool",
 							"request": {
 								"name": "Create a custom tool",
@@ -2462,7 +2462,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "09046a5d-3717-43ac-8b09-10a7cceedd06",
+									"id": "b3202ac1-6f1b-45b7-967f-91f2048d2ce7",
 									"name": "Tool created",
 									"originalRequest": {
 										"url": {
@@ -2524,7 +2524,7 @@
 							}
 						},
 						{
-							"id": "376430fc-4fdb-46ab-aa19-15bda5977a2e",
+							"id": "ecce0d35-3692-4b1b-a3a4-52d10453aa7d",
 							"name": "{id}",
 							"description": {
 								"content": "",
@@ -2532,7 +2532,7 @@
 							},
 							"item": [
 								{
-									"id": "0b425fa6-4337-4867-8526-458d8797107b",
+									"id": "706f121a-f413-4ac4-afd0-70194278b0aa",
 									"name": "Get a tool by ID",
 									"request": {
 										"name": "Get a tool by ID",
@@ -2586,7 +2586,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "f03942ec-ba1e-4354-9d29-bde45c83ec4b",
+											"id": "850e8870-af62-4492-8b8d-883b60f9a98b",
 											"name": "Tool details",
 											"originalRequest": {
 												"url": {
@@ -2636,7 +2636,7 @@
 									}
 								},
 								{
-									"id": "70610cc0-3733-4433-a1fc-3d8cd79d0b63",
+									"id": "b7ff27b0-e24a-4be9-9fd6-4f53e0548be1",
 									"name": "Delete a custom tool",
 									"request": {
 										"name": "Delete a custom tool",
@@ -2684,7 +2684,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "14304672-85bd-4f9b-a81b-bdd7694b6ab8",
+											"id": "405a4f8d-e936-4db8-a367-b86a2d2b4429",
 											"name": "Tool deleted",
 											"originalRequest": {
 												"url": {
@@ -2730,7 +2730,7 @@
 					"event": []
 				},
 				{
-					"id": "4aabcfa0-9798-46f1-9aa1-44864f15a319",
+					"id": "51350231-abf8-43e6-853d-92474e7babd0",
 					"name": "models",
 					"description": {
 						"content": "",
@@ -2738,7 +2738,7 @@
 					},
 					"item": [
 						{
-							"id": "4a591c77-82e6-4994-b39c-bb5e4c0d9d7e",
+							"id": "27503d9e-42bb-4616-990e-a84c3ab05557",
 							"name": "List available LLM models",
 							"request": {
 								"name": "List available LLM models",
@@ -2780,7 +2780,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "fb062991-790d-4eb2-ba4d-6ad623ce9fcc",
+									"id": "9e4c4d33-f61e-4de1-b176-98e90fe394e3",
 									"name": "List of models",
 									"originalRequest": {
 										"url": {
@@ -2829,7 +2829,7 @@
 							}
 						},
 						{
-							"id": "bdb1d81e-06e1-4c18-a05a-2727ed9ab40b",
+							"id": "b12a1c13-f57e-4c5c-b9e5-2de3ec43817e",
 							"name": "embeddings",
 							"description": {
 								"content": "",
@@ -2837,7 +2837,7 @@
 							},
 							"item": [
 								{
-									"id": "6e7b619f-ea3f-4468-a888-69d5ff163050",
+									"id": "f86079e0-99e2-426c-80cb-20d1acd6c471",
 									"name": "List available embedding models",
 									"request": {
 										"name": "List available embedding models",
@@ -2880,7 +2880,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "4a8caa35-3f1f-4f4b-a06a-c4ad94bc18f0",
+											"id": "72f9ee7a-6fe1-41db-b3d1-beefe3736698",
 											"name": "List of embedding models",
 											"originalRequest": {
 												"url": {
@@ -2936,7 +2936,7 @@
 					"event": []
 				},
 				{
-					"id": "f00a552d-079f-4f92-a11d-f839e58964a7",
+					"id": "db6d2a8a-fc3e-4bc1-839b-ae3af021e159",
 					"name": "auth",
 					"description": {
 						"content": "",
@@ -2944,7 +2944,7 @@
 					},
 					"item": [
 						{
-							"id": "a0b8da99-c2a0-4128-a80c-f54510144d6a",
+							"id": "5f73358e-fabf-4435-87ba-9c690676a17f",
 							"name": "register",
 							"description": {
 								"content": "",
@@ -2952,7 +2952,7 @@
 							},
 							"item": [
 								{
-									"id": "4d444b1d-6d15-4e86-bdd2-22f9f5874700",
+									"id": "0d6a02ea-f9a5-4fe9-9b0e-88e990d052c7",
 									"name": "Register a new user",
 									"request": {
 										"name": "Register a new user",
@@ -2998,7 +2998,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "d3f95084-dd42-4167-b46b-1fa8675e06c9",
+											"id": "c8179be3-c30a-4b58-852a-e4d924dc09a9",
 											"name": "User registered successfully",
 											"originalRequest": {
 												"url": {
@@ -3056,7 +3056,7 @@
 							"event": []
 						},
 						{
-							"id": "fb552315-fad9-4389-8827-60c3aaeab1ac",
+							"id": "99663d2c-f2f8-45f9-8689-c513947a90ec",
 							"name": "login",
 							"description": {
 								"content": "",
@@ -3064,7 +3064,7 @@
 							},
 							"item": [
 								{
-									"id": "3887b081-b033-4532-a5ca-28312ef155e1",
+									"id": "b2e29e24-c745-4014-8dfe-248326354618",
 									"name": "Login user",
 									"request": {
 										"name": "Login user",
@@ -3110,7 +3110,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "11fd9a44-8eca-4690-9b8d-7731185a80cb",
+											"id": "3ef488de-086e-4008-95f2-77a77927729c",
 											"name": "Login successful",
 											"originalRequest": {
 												"url": {
@@ -3163,7 +3163,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2e87352f-ba8d-4dbf-a863-70a047d03778",
+												"id": "e4af8480-a831-481e-a065-d99752e21591",
 												"type": "text/javascript",
 												"exec": [
 													"// Post-login script: Extract JWT from Set-Cookie header and save to environment\n// This runs after the login request completes successfully\n\n// Only process if login was successful\nif (pm.response.code === 200 || pm.response.code === 201) {\n  // Get the Set-Cookie header(s)\n  const setCookieHeader = pm.response.headers.get(\"Set-Cookie\");\n\n  if (setCookieHeader) {\n    // Parse the access_token from the cookie\n    // Cookie format: access_token=<jwt>; Path=/; HttpOnly; ...\n    const cookies = setCookieHeader.split(\",\").map((c) => c.trim());\n\n    for (const cookie of cookies) {\n      const tokenMatch = cookie.match(/access_token=([^;]+)/);\n      if (tokenMatch && tokenMatch[1]) {\n        const token = tokenMatch[1];\n\n        // Save token to environment variable\n        pm.environment.set(\"bearerToken\", token);\n        console.log(\"Token saved to bearerToken environment variable\");\n\n        // Optionally decode and save expiry\n        try {\n          const parts = token.split(\".\");\n          if (parts.length === 3) {\n            const payload = JSON.parse(atob(parts[1]));\n            if (payload.exp) {\n              pm.environment.set(\"token_expiry\", payload.exp.toString());\n              console.log(\n                \"Token expiry saved:\",\n                new Date(payload.exp * 1000).toISOString(),\n              );\n            }\n          }\n        } catch (e) {\n          console.log(\"Could not decode token expiry:\", e.message);\n        }\n\n        break;\n      }\n    }\n  } else {\n    console.log(\"No Set-Cookie header found in response\");\n  }\n}\n"
@@ -3179,7 +3179,7 @@
 							"event": []
 						},
 						{
-							"id": "ff2b2960-7d70-4678-a9f6-b621c6f42434",
+							"id": "e7000f9b-e16d-451c-aab1-f2b1547b3de6",
 							"name": "logout",
 							"description": {
 								"content": "",
@@ -3187,7 +3187,7 @@
 							},
 							"item": [
 								{
-									"id": "12c5c475-1b52-443d-9235-1239e6c9eab6",
+									"id": "f072f780-aed8-4636-b384-15f3df72ab94",
 									"name": "Logout user",
 									"request": {
 										"name": "Logout user",
@@ -3220,7 +3220,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "d6821667-3ecd-4ba0-8c6b-ab7983fece83",
+											"id": "8f6a8dbd-ca48-4a5e-9f43-4ff264a49a48",
 											"name": "Logout successful",
 											"originalRequest": {
 												"url": {
@@ -3265,7 +3265,7 @@
 							"event": []
 						},
 						{
-							"id": "4033184a-36af-49c4-a8e3-6a475d5ddd6d",
+							"id": "1508fb58-a0fb-484e-b8e2-3f66ff827f59",
 							"name": "me",
 							"description": {
 								"content": "",
@@ -3273,7 +3273,7 @@
 							},
 							"item": [
 								{
-									"id": "f859cc49-f452-46b8-bbc2-4205bc63fc5a",
+									"id": "a6590843-892c-4666-97ec-a97184ceaac3",
 									"name": "Get current user",
 									"request": {
 										"name": "Get current user",
@@ -3316,7 +3316,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "0d3bdbcf-944c-42e6-8414-4a472008b777",
+											"id": "a0114594-5b22-4b3f-af14-c2dadef86428",
 											"name": "Current user info",
 											"originalRequest": {
 												"url": {
@@ -3389,7 +3389,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "21b3e65f-281c-4264-a075-231e85ace102",
+				"id": "151b90c9-2e34-41cf-b799-034c61ec1c36",
 				"type": "text/javascript",
 				"exec": [
 					"// Pre-request script: Check JWT validity before making authenticated requests\n// Runs before EVERY request in the collection\n\n// Public endpoints that don't need authentication\nconst publicEndpoints = [\n  \"/api/auth/login\",\n  \"/api/auth/register\",\n  \"/api/auth/logout\",\n  \"/api/health\",\n];\n\n// Get the current request path\nconst requestPath = pm.request.url.getPath();\n\n// Check if this is a public endpoint\nconst isPublic = publicEndpoints.some(\n  (endpoint) => requestPath === endpoint || requestPath.startsWith(endpoint),\n);\n\nif (!isPublic) {\n  // Check if we have a token\n  const token = pm.environment.get(\"bearerToken\");\n  const expiry = pm.environment.get(\"token_expiry\");\n\n  if (!token) {\n    console.warn(\n      \"No bearerToken found. Run login request first to authenticate.\",\n    );\n  } else if (expiry) {\n    // Check if token is expired\n    const now = Math.floor(Date.now() / 1000);\n    const expiryTime = parseInt(expiry, 10);\n\n    if (now >= expiryTime) {\n      console.warn(\"Token has expired. Please login again.\");\n      // Optionally clear the expired token\n      // pm.environment.set('bearerToken', '');\n      // pm.environment.set('token_expiry', '');\n    } else {\n      const remainingMinutes = Math.floor((expiryTime - now) / 60);\n      if (remainingMinutes < 5) {\n        console.log(\n          `Token expires in ${remainingMinutes} minutes. Consider refreshing.`,\n        );\n      }\n    }\n  }\n}\n",
@@ -3426,7 +3426,7 @@
 		}
 	],
 	"info": {
-		"_postman_id": "66d60e8b-9e61-4ee5-ad6a-c93041126acb",
+		"_postman_id": "89a309ef-e20e-4166-a56b-3449679556db",
 		"name": "Map-Searcher API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"description": {

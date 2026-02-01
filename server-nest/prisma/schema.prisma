@@ -15,7 +15,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  agents Agent[]
+  agents    Agent[]
+  workflows NewsWorkflow[]
 }
 
 model Agent {
@@ -32,4 +33,112 @@ model Agent {
 
   @@index([userId])
   @@map("agents")
+}
+
+// ==================== News Workflow Models ====================
+
+model NewsWorkflow {
+  id                String         @id @default(uuid())
+  userId            String         @map("user_id")
+  query             String         // e.g., "crime in San Francisco"
+  region            String         // e.g., "San Francisco, CA, USA" for geocoding context
+  fromDate          DateTime       @map("from_date")
+  toDate            DateTime       @map("to_date")
+  maxArticles       Int            @default(20) @map("max_articles")
+  status            WorkflowStatus @default(PENDING)
+  articlesFound     Int            @default(0) @map("articles_found")
+  articlesProcessed Int            @default(0) @map("articles_processed")
+  errorCount        Int            @default(0) @map("error_count")
+  errorMessage      String?        @map("error_message") @db.Text
+  traceId           String?        @map("trace_id")
+  lettaAgentId      String?        @map("letta_agent_id")
+  startedAt         DateTime?      @map("started_at")
+  completedAt       DateTime?      @map("completed_at")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articles NewsArticle[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("news_workflows")
+}
+
+enum WorkflowStatus {
+  PENDING
+  SEARCHING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model NewsArticle {
+  id          String   @id @default(uuid())
+  workflowId  String   @map("workflow_id")
+  url         String
+  title       String
+  author      String?
+  source      String
+  publishedAt DateTime @map("published_at")
+  content     String?  @db.Text
+  imageUrl    String?  @map("image_url")
+
+  // AI-generated
+  summary   String? @db.Text
+  keyPoints Json?   @map("key_points")
+  sentiment String?
+
+  // Processing
+  status ProcessingStatus @default(PENDING)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  workflow  NewsWorkflow      @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  locations ArticleLocation[]
+
+  @@unique([workflowId, url])
+  @@index([workflowId])
+  @@map("news_articles")
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model ArticleLocation {
+  id              String       @id @default(uuid())
+  articleId       String       @map("article_id")
+  mention         String       // Original text: "corner of 5th and Main"
+  mentionType     LocationType @map("mention_type")
+  context         String?      @db.Text
+
+  // Geocoded
+  lat              Float?
+  lng              Float?
+  formattedAddress String? @map("formatted_address")
+  confidence       Float?
+  geocodeError     String? @map("geocode_error")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  article NewsArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
+  @@index([lat, lng])
+  @@map("article_locations")
+}
+
+enum LocationType {
+  ADDRESS
+  CROSS_STREET
+  BUSINESS
+  PARK
+  LANDMARK
+  CITY
+  OTHER
 }

@@ -204,9 +204,9 @@ describe("AgentsService", () => {
     it("should throw NotFoundException if not owned", async () => {
       (prismaService.agent.findFirst as jest.Mock).mockResolvedValue(null);
 
-      await expect(
-        service.getAgent("other-user", mockAgentId),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.getAgent("other-user", mockAgentId)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

@@ -216,7 +216,11 @@ describe("AgentsController", () => {
       const mockMessages = [{ id: "msg-1", content: "Hello" }];
       agentsService.listMessages.mockResolvedValue(mockMessages as never);
 
-      const result = await controller.listMessages(mockRequest, mockAgentId, {});
+      const result = await controller.listMessages(
+        mockRequest,
+        mockAgentId,
+        {},
+      );
 
       expect(result).toEqual(mockMessages);
     });
