@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsString, IsNotEmpty } from "class-validator";
-import { AlertFrequency } from "@prisma/client";
+import { AlertFrequency, AlertProcessingStatus } from "@prisma/client";
 
 export class AlertResponseDto {
   @ApiProperty({ description: "Alert ID" })
@@ -20,6 +20,9 @@ export class AlertResponseDto {
 
   @ApiProperty({ description: "Whether alert is active" })
   isActive: boolean;
+
+  @ApiProperty({ enum: AlertProcessingStatus, description: "Processing status" })
+  processingStatus: AlertProcessingStatus;
 
   @ApiPropertyOptional({ description: "Last run timestamp" })
   lastRunAt?: Date;
@@ -52,6 +55,9 @@ export class AlertListItemDto {
 
   @ApiProperty({ description: "Whether alert is active" })
   isActive: boolean;
+
+  @ApiProperty({ enum: AlertProcessingStatus, description: "Processing status" })
+  processingStatus: AlertProcessingStatus;
 
   @ApiPropertyOptional({ description: "Last run timestamp" })
   lastRunAt?: Date;
