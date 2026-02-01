@@ -45,6 +45,21 @@
         ]
       }
     },
+    "/api/health/tracing": {
+      "get": {
+        "operationId": "HealthController_tracing",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Check if Weave tracing is enabled (WANDB_API_KEY set)",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
     "/api/monitoring/health": {
       "get": {
         "description": "Returns health status including Redis availability",
@@ -1117,6 +1132,506 @@
           }
         }
       }
+    },
+    "/api/news-workflow/start": {
+      "post": {
+        "operationId": "NewsWorkflowController_startWorkflow",
+        "summary": "Start a new news workflow",
+        "description": "Creates a new news search workflow and queues it for background processing. The workflow will search for news articles matching the query within the specified date range, extract location mentions, geocode them, and generate summaries.",
+        "tags": [
+          "News Workflow"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartWorkflowDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workflow created and queued for processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartWorkflowResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input - fromDate must be before toDate"
+          },
+          "401": {
+            "description": "Unauthorized - JWT token required"
+          }
+        }
+      }
+    },
+    "/api/news-workflow": {
+      "get": {
+        "operationId": "NewsWorkflowController_listWorkflows",
+        "summary": "List user's workflows",
+        "description": "Returns all news workflows created by the authenticated user, ordered by creation date descending.",
+        "tags": [
+          "News Workflow"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of workflows",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkflowListItemDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - JWT token required"
+          }
+        }
+      }
+    },
+    "/api/news-workflow/{id}/status": {
+      "get": {
+        "operationId": "NewsWorkflowController_getWorkflowStatus",
+        "summary": "Get workflow status",
+        "description": "Returns the current status and progress of a workflow, including article counts and any errors.",
+        "tags": [
+          "News Workflow"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Workflow ID (UUID format)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workflow status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowStatusDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid workflow ID format"
+          },
+          "401": {
+            "description": "Unauthorized - JWT token required"
+          },
+          "404": {
+            "description": "Workflow not found or not owned by user"
+          }
+        }
+      }
+    },
+    "/api/news-workflow/{id}/report": {
+      "get": {
+        "operationId": "NewsWorkflowController_getWorkflowReport",
+        "summary": "Get full workflow report",
+        "description": "Returns the complete workflow with all processed articles, extracted locations, AI-generated summaries, key points, and sentiment analysis.",
+        "tags": [
+          "News Workflow"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Workflow ID (UUID format)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workflow report with articles and locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowReportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid workflow ID format"
+          },
+          "401": {
+            "description": "Unauthorized - JWT token required"
+          },
+          "404": {
+            "description": "Workflow not found or not owned by user"
+          }
+        }
+      }
+    },
+    "/api/news-workflow/{id}/locations": {
+      "get": {
+        "operationId": "NewsWorkflowController_getWorkflowLocations",
+        "summary": "Get workflow locations as GeoJSON",
+        "description": "Returns all geocoded locations as a GeoJSON FeatureCollection for map display. Each feature includes the location coordinates, article metadata, and geocoding confidence.",
+        "tags": [
+          "News Workflow"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Workflow ID (UUID format)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GeoJSON FeatureCollection of locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeoJsonResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid workflow ID format"
+          },
+          "401": {
+            "description": "Unauthorized - JWT token required"
+          },
+          "404": {
+            "description": "Workflow not found or not owned by user"
+          }
+        }
+      }
+    },
+    "/api/alerts": {
+      "post": {
+        "operationId": "AlertsController_createAlert",
+        "summary": "Create a new alert",
+        "description": "Creates a new news alert for recurring or manual searches",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAlertDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "operationId": "AlertsController_listAlerts",
+        "summary": "List user's alerts",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of alerts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertListItemDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/alerts/locations": {
+      "get": {
+        "operationId": "AlertsController_getAlertsLocations",
+        "summary": "Get all alert locations as GeoJSON",
+        "description": "Returns all geocoded locations from active alerts as a GeoJSON FeatureCollection",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "alertIds",
+            "in": "query",
+            "required": false,
+            "description": "Comma-separated alert IDs to filter by",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GeoJSON FeatureCollection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertGeoJsonResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/alerts/{id}": {
+      "get": {
+        "operationId": "AlertsController_getAlert",
+        "summary": "Get alert details",
+        "description": "Returns alert details with recent articles",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Alert ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "AlertsController_updateAlert",
+        "summary": "Update an alert",
+        "description": "Update alert configuration (query, frequency, etc.)",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Alert ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAlertDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AlertsController_deleteAlert",
+        "summary": "Delete an alert",
+        "description": "Delete an alert and all its articles",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Alert ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found"
+          }
+        }
+      }
+    },
+    "/api/alerts/{id}/run": {
+      "post": {
+        "operationId": "AlertsController_runAlert",
+        "summary": "Manually trigger an alert",
+        "description": "Queue the alert for immediate processing",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Alert ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert queued for processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunAlertResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found"
+          }
+        }
+      }
     }
   },
   "info": {
@@ -1149,6 +1664,14 @@
     {
       "name": "Models",
       "description": "Model discovery endpoints"
+    },
+    {
+      "name": "News Workflow",
+      "description": "News article search and location extraction workflows"
+    },
+    {
+      "name": "Alerts",
+      "description": "News alerts endpoints"
     }
   ],
   "servers": [
@@ -1597,6 +2120,831 @@
           },
           "embedding_dim": {
             "type": "integer"
+          }
+        }
+      },
+      "StartWorkflowDto": {
+        "type": "object",
+        "required": [
+          "query",
+          "region",
+          "fromDate",
+          "toDate"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200,
+            "description": "Search query for news articles",
+            "example": "crime"
+          },
+          "region": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200,
+            "description": "Region for geocoding context (city, state, country)",
+            "example": "San Francisco, CA, USA"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date for article search (ISO 8601)",
+            "example": "2025-01-01"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date",
+            "description": "End date for article search (ISO 8601)",
+            "example": "2025-01-31"
+          },
+          "maxArticles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20,
+            "description": "Maximum number of articles to process",
+            "example": 20
+          }
+        }
+      },
+      "StartWorkflowResponseDto": {
+        "type": "object",
+        "properties": {
+          "workflowId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Workflow ID"
+          },
+          "jobId": {
+            "type": "string",
+            "description": "BullMQ job ID for tracking"
+          },
+          "status": {
+            "type": "string",
+            "example": "PENDING",
+            "description": "Current workflow status"
+          },
+          "statusUrl": {
+            "type": "string",
+            "description": "URL to check workflow status",
+            "example": "/api/news-workflow/123e4567-e89b-12d3-a456-426614174000/status"
+          }
+        }
+      },
+      "WorkflowStatusDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Workflow ID"
+          },
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region for geocoding context"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start date for search"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End date for search"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "SEARCHING",
+              "PROCESSING",
+              "COMPLETED",
+              "FAILED"
+            ],
+            "description": "Current workflow status"
+          },
+          "articlesFound": {
+            "type": "integer",
+            "description": "Number of articles found"
+          },
+          "articlesProcessed": {
+            "type": "integer",
+            "description": "Number of articles processed"
+          },
+          "errorCount": {
+            "type": "integer",
+            "description": "Number of errors encountered"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error message if failed"
+          },
+          "traceId": {
+            "type": "string",
+            "description": "Weave trace ID for observability"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When processing started"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When processing completed"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When workflow was created"
+          }
+        }
+      },
+      "WorkflowListItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Workflow ID"
+          },
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "SEARCHING",
+              "PROCESSING",
+              "COMPLETED",
+              "FAILED"
+            ],
+            "description": "Current status"
+          },
+          "articlesFound": {
+            "type": "integer",
+            "description": "Number of articles found"
+          },
+          "articlesProcessed": {
+            "type": "integer",
+            "description": "Number of articles processed"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When created"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When completed"
+          }
+        }
+      },
+      "LocationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Location ID"
+          },
+          "mention": {
+            "type": "string",
+            "description": "Original mention text from article"
+          },
+          "mentionType": {
+            "type": "string",
+            "enum": [
+              "ADDRESS",
+              "CROSS_STREET",
+              "BUSINESS",
+              "PARK",
+              "LANDMARK",
+              "CITY",
+              "OTHER"
+            ],
+            "description": "Type of location mention"
+          },
+          "context": {
+            "type": "string",
+            "description": "Context around the mention"
+          },
+          "lat": {
+            "type": "number",
+            "format": "double",
+            "description": "Latitude coordinate"
+          },
+          "lng": {
+            "type": "number",
+            "format": "double",
+            "description": "Longitude coordinate"
+          },
+          "formattedAddress": {
+            "type": "string",
+            "description": "Formatted address from geocoder"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score (0-1)"
+          },
+          "geocodeError": {
+            "type": "string",
+            "description": "Geocoding error if any"
+          }
+        }
+      },
+      "ArticleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Article ID"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Article URL"
+          },
+          "title": {
+            "type": "string",
+            "description": "Article title"
+          },
+          "author": {
+            "type": "string",
+            "description": "Article author"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source/publisher name"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Publication date"
+          },
+          "content": {
+            "type": "string",
+            "description": "Article content"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Featured image URL"
+          },
+          "summary": {
+            "type": "string",
+            "description": "AI-generated summary"
+          },
+          "keyPoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Key points extracted from article"
+          },
+          "sentiment": {
+            "type": "string",
+            "enum": [
+              "positive",
+              "negative",
+              "neutral"
+            ],
+            "description": "Sentiment analysis result"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "COMPLETED",
+              "FAILED"
+            ],
+            "description": "Processing status"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocationDto"
+            },
+            "description": "Locations mentioned in article"
+          }
+        }
+      },
+      "WorkflowReportDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Workflow ID"
+          },
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date range start"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date range end"
+          },
+          "status": {
+            "type": "string",
+            "description": "Workflow status"
+          },
+          "articlesFound": {
+            "type": "integer",
+            "description": "Total articles found"
+          },
+          "articlesProcessed": {
+            "type": "integer",
+            "description": "Total articles processed"
+          },
+          "totalLocations": {
+            "type": "integer",
+            "description": "Total unique locations"
+          },
+          "geocodedLocations": {
+            "type": "integer",
+            "description": "Total geocoded locations"
+          },
+          "articles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleDto"
+            },
+            "description": "Processed articles with locations"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When created"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When completed"
+          }
+        }
+      },
+      "GeoJsonPointGeometry": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Point"
+            ],
+            "example": "Point"
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Coordinates [longitude, latitude]",
+            "example": [
+              -122.4194,
+              37.7749
+            ]
+          }
+        }
+      },
+      "GeoJsonFeatureProperties": {
+        "type": "object",
+        "properties": {
+          "locationId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Location ID"
+          },
+          "articleId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Article ID"
+          },
+          "articleTitle": {
+            "type": "string",
+            "description": "Article title"
+          },
+          "mention": {
+            "type": "string",
+            "description": "Location mention text"
+          },
+          "mentionType": {
+            "type": "string",
+            "description": "Type of location mention"
+          },
+          "formattedAddress": {
+            "type": "string",
+            "description": "Formatted address from geocoder"
+          },
+          "confidence": {
+            "type": "number",
+            "description": "Geocoding confidence score"
+          },
+          "articleUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Article URL"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Article publication date"
+          }
+        }
+      },
+      "GeoJsonFeatureDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Feature"
+            ],
+            "example": "Feature"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeoJsonPointGeometry"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/GeoJsonFeatureProperties"
+          }
+        }
+      },
+      "GeoJsonResponseDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "FeatureCollection"
+            ],
+            "example": "FeatureCollection"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GeoJsonFeatureDto"
+            },
+            "description": "GeoJSON features"
+          }
+        }
+      },
+      "CreateAlertDto": {
+        "type": "object",
+        "required": [
+          "query",
+          "region"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200,
+            "description": "Search query for news articles",
+            "example": "robberies"
+          },
+          "region": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200,
+            "description": "Region for geocoding context",
+            "example": "Savannah, GA"
+          },
+          "maxArticles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20,
+            "description": "Maximum articles per run"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "DAILY",
+              "WEEKLY",
+              "BIWEEKLY",
+              "MONTHLY",
+              "MANUAL"
+            ],
+            "default": "MANUAL",
+            "description": "How often to run"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether alert is active"
+          }
+        }
+      },
+      "UpdateAlertDto": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "region": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "maxArticles": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "DAILY",
+              "WEEKLY",
+              "BIWEEKLY",
+              "MONTHLY",
+              "MANUAL"
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AlertResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "maxArticles": {
+            "type": "integer"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "DAILY",
+              "WEEKLY",
+              "BIWEEKLY",
+              "MONTHLY",
+              "MANUAL"
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "lastRunAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "nextRunAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "articleCount": {
+            "type": "integer"
+          }
+        }
+      },
+      "AlertListItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "DAILY",
+              "WEEKLY",
+              "BIWEEKLY",
+              "MONTHLY",
+              "MANUAL"
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "lastRunAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "nextRunAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "articleCount": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AlertArticleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "sentiment": {
+            "type": "string",
+            "nullable": true
+          },
+          "locationCount": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AlertDetailDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertResponseDto"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "articles": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AlertArticleDto"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RunAlertResponseDto": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AlertGeoJsonFeatureDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Feature"
+            ]
+          },
+          "geometry": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "Point"
+                ]
+              },
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "example": [
+                  -81.0998,
+                  32.0809
+                ]
+              }
+            }
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "locationId": {
+                "type": "string"
+              },
+              "articleId": {
+                "type": "string"
+              },
+              "alertId": {
+                "type": "string"
+              },
+              "articleTitle": {
+                "type": "string"
+              },
+              "mention": {
+                "type": "string"
+              },
+              "mentionType": {
+                "type": "string"
+              },
+              "formattedAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "confidence": {
+                "type": "number",
+                "nullable": true
+              },
+              "articleUrl": {
+                "type": "string"
+              },
+              "publishedAt": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AlertGeoJsonResponseDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "FeatureCollection"
+            ]
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertGeoJsonFeatureDto"
+            }
           }
         }
       }

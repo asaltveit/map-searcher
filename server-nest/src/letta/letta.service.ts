@@ -12,6 +12,7 @@ export interface CreateAgentParams {
   tools?: string[];
   temperature?: number;
   tags?: string[];
+  messageBufferAutoclear?: boolean; // Clear message history between requests (for workflows)
 }
 
 export interface UpdateAgentParams {
@@ -59,8 +60,11 @@ export class LettaService implements OnModuleInit {
       this.logger.warn("LETTA_API_KEY not set; Letta features disabled.");
       return;
     }
-    this.client = new Letta({ apiKey });
-    this.logger.log("Letta client initialized");
+    this.client = new Letta({
+      apiKey,
+      timeout: 15 * 60 * 1000, // 15 minutes (in milliseconds) for complex operations
+    });
+    this.logger.log("Letta client initialized with 15 minute timeout");
   }
 
   private ensureClient(): Letta {
@@ -97,8 +101,10 @@ export class LettaService implements OnModuleInit {
       ...(params.blockIds?.length && { block_ids: params.blockIds }),
       tools: params.tools,
       tags: params.tags,
+      // For workflow agents: clear message buffer after each request
+      message_buffer_autoclear: params.messageBufferAutoclear ?? false,
     });
-    this.logger.log(`Created agent: ${agent.id} (${params.name})`);
+    this.logger.log(`Created agent: ${agent.id} (${params.name})${params.messageBufferAutoclear ? ' [autoclear enabled]' : ''}`);
     return agent;
   }
 
@@ -141,6 +147,7 @@ export class LettaService implements OnModuleInit {
   async sendMessage(agentId: string, params: SendMessageParams) {
     const client = this.ensureClient();
     try {
+      // Client-level timeout is already set to 15 minutes
       const response = await client.agents.messages.create(agentId, {
         messages: [
           {

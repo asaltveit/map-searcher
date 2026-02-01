@@ -20,6 +20,8 @@ import { ModelsModule } from "./models/models.module";
 import { WorkflowModule } from "./workflow/workflow.module";
 import { NewsWorkflowModule } from "./news-workflow/news-workflow.module";
 import { ImprovementsModule } from "./improvements/improvements.module";
+import { AlertsModule } from "./alerts/alerts.module";
+import { UserPreferencesModule } from "./user-preferences/user-preferences.module";
 import { UserResolverMiddleware } from "./common/middleware/user-resolver.middleware";
 import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
 
@@ -99,6 +101,8 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
     WorkflowModule,
     NewsWorkflowModule,
     ImprovementsModule,
+    AlertsModule,
+    UserPreferencesModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

@@ -109,6 +109,8 @@ export class WorkflowProcessor extends WorkerHost {
     },
   ): Promise<{ articlesProcessed: number }> {
     // Create or get the orchestrator agent
+    // Note: Agent is configured with messageBufferAutoclear=true, so context is
+    // automatically cleared between requests (no manual resetMessages needed)
     const agent = await this.getOrCreateOrchestratorAgent();
 
     // Update workflow with agent ID
@@ -124,6 +126,9 @@ export class WorkflowProcessor extends WorkerHost {
 
     // Construct the search prompt
     const searchPrompt = `
+IMPORTANT: When using web_search, your query MUST include the location.
+Search query should be: "${workflow.query} ${workflow.region}"
+
 Search for news articles about "${workflow.query}" in ${workflow.region} from ${fromDateStr} to ${toDateStr}.
 
 Find up to ${workflow.maxArticles} relevant articles. For each article:
@@ -142,7 +147,7 @@ Return the results as a JSON array of articles. Each article should have:
 Focus on articles that mention specific locations within ${workflow.region}.
 `;
 
-    // Send the message to the agent
+    // Send the message to the agent (15 min timeout configured at client level)
     const response = await this.lettaService.sendMessage(agent.id, {
       content: searchPrompt,
     });
@@ -190,7 +195,7 @@ Focus on articles that mention specific locations within ${workflow.region}.
       return orchestrator;
     }
 
-    // Create new orchestrator agent
+    // Create new orchestrator agent with autoclear enabled
     return this.lettaService.createAgent({
       name: NEWS_ORCHESTRATOR_CONFIG.name,
       description: NEWS_ORCHESTRATOR_CONFIG.description,
@@ -199,6 +204,7 @@ Focus on articles that mention specific locations within ${workflow.region}.
       system: NEWS_ORCHESTRATOR_CONFIG.system,
       memoryBlocks: NEWS_ORCHESTRATOR_CONFIG.memoryBlocks,
       tools: NEWS_ORCHESTRATOR_CONFIG.tools,
+      messageBufferAutoclear: NEWS_ORCHESTRATOR_CONFIG.messageBufferAutoclear,
     });
   }
 

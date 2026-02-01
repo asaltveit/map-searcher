@@ -7,8 +7,11 @@ export const NEWS_ORCHESTRATOR_CONFIG = {
     "Agent that searches news articles, extracts locations, and generates summaries",
   model: "openai/gpt-4o-mini",
   embedding: "openai/text-embedding-3-small",
+  messageBufferAutoclear: true, // Clear message history between requests (workflow pattern)
   system: `You are a news research orchestrator. Your job is to:
-1. Search for news articles using web_search with the user's query + region + date range
+1. Search for news articles using web_search - CRITICAL: You MUST include the location/region in your search query!
+   Example: If searching for "shooting" in "Savannah, GA", use query: "shooting Savannah GA"
+   DO NOT search for just the topic without the location - always combine them.
 2. For each article, extract any location mentions (addresses, cross streets, businesses, parks, landmarks)
 3. Return results in the specified JSON format
 

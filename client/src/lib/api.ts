@@ -100,3 +100,211 @@ export async function getMapState(): Promise<MapStateResponse | null> {
   if (!data?.geoJson?.type || data.geoJson.type !== "FeatureCollection") return null;
   return data as MapStateResponse;
 }
+
+// ==================== Alerts API ====================
+
+export type AlertFrequency = "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "MANUAL";
+
+export interface Alert {
+  id: string;
+  query: string;
+  region: string;
+  maxArticles: number;
+  frequency: AlertFrequency;
+  isActive: boolean;
+  lastRunAt?: string;
+  nextRunAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  articleCount?: number;
+}
+
+export interface AlertListItem {
+  id: string;
+  query: string;
+  region: string;
+  frequency: AlertFrequency;
+  isActive: boolean;
+  lastRunAt?: string;
+  nextRunAt?: string;
+  articleCount: number;
+  createdAt: string;
+}
+
+export interface AlertArticle {
+  id: string;
+  url: string;
+  title: string;
+  author?: string;
+  source: string;
+  publishedAt: string;
+  summary?: string;
+  sentiment?: string;
+  locationCount: number;
+  createdAt: string;
+}
+
+export interface AlertDetail extends Alert {
+  articles: AlertArticle[];
+}
+
+export interface CreateAlertInput {
+  query: string;
+  region: string;
+  maxArticles?: number;
+  frequency?: AlertFrequency;
+  isActive?: boolean;
+}
+
+export interface UpdateAlertInput {
+  query?: string;
+  region?: string;
+  maxArticles?: number;
+  frequency?: AlertFrequency;
+  isActive?: boolean;
+}
+
+export interface GeoJsonFeature {
+  type: "Feature";
+  geometry: {
+    type: "Point";
+    coordinates: [number, number];
+  };
+  properties: {
+    locationId: string;
+    articleId: string;
+    alertId: string;
+    articleTitle: string;
+    mention: string;
+    mentionType: string;
+    formattedAddress?: string;
+    confidence?: number;
+    articleUrl: string;
+    publishedAt: string;
+  };
+}
+
+export interface GeoJsonFeatureCollection {
+  type: "FeatureCollection";
+  features: GeoJsonFeature[];
+}
+
+/** List all alerts for the current user */
+export async function listAlerts(): Promise<AlertListItem[]> {
+  const res = await fetch(`${getBase()}/api/alerts`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Get a single alert with its articles */
+export async function getAlert(alertId: string): Promise<AlertDetail> {
+  const res = await fetch(`${getBase()}/api/alerts/${alertId}`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Create a new alert */
+export async function createAlert(input: CreateAlertInput): Promise<Alert> {
+  const res = await fetch(`${getBase()}/api/alerts`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Update an existing alert */
+export async function updateAlert(alertId: string, input: UpdateAlertInput): Promise<Alert> {
+  const res = await fetch(`${getBase()}/api/alerts/${alertId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Delete an alert */
+export async function deleteAlert(alertId: string): Promise<{ success: boolean }> {
+  const res = await fetch(`${getBase()}/api/alerts/${alertId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Manually trigger an alert to run */
+export async function runAlert(alertId: string): Promise<{ jobId: string; message: string }> {
+  const res = await fetch(`${getBase()}/api/alerts/${alertId}/run`, {
+    method: "POST",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Get GeoJSON locations for alerts */
+export async function getAlertsLocations(alertIds?: string[]): Promise<GeoJsonFeatureCollection> {
+  const params = alertIds?.length ? `?alertIds=${alertIds.join(",")}` : "";
+  const res = await fetch(`${getBase()}/api/alerts/locations${params}`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+// ==================== User Preferences API ====================
+
+export interface UserPreferences {
+  id: string;
+  defaultLat?: number;
+  defaultLng?: number;
+  defaultZoom?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdatePreferencesInput {
+  defaultLat?: number;
+  defaultLng?: number;
+  defaultZoom?: number;
+}
+
+/** Get user preferences */
+export async function getPreferences(): Promise<UserPreferences> {
+  const res = await fetch(`${getBase()}/api/preferences`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Update user preferences */
+export async function updatePreferences(input: UpdatePreferencesInput): Promise<UserPreferences> {
+  const res = await fetch(`${getBase()}/api/preferences`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}
+
+/** Reset user preferences to defaults */
+export async function resetPreferences(): Promise<{ success: boolean }> {
+  const res = await fetch(`${getBase()}/api/preferences`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
+  return res.json();
+}

@@ -62,13 +62,6 @@ export class NewsWorkflowController {
       throw new BadRequestException("fromDate must be before toDate");
     }
 
-    // Limit date range to 90 days
-    const daysDiff =
-      (toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24);
-    if (daysDiff > 90) {
-      throw new BadRequestException("Date range cannot exceed 90 days");
-    }
-
     return this.newsWorkflowService.startWorkflow(req.user.userId, dto);
   }
 
