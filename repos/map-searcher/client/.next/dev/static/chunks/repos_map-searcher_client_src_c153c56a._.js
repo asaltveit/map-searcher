@@ -439,6 +439,29 @@ const layerHoverStyle = {
         ''
     ]
 };
+const labelLayerStyle = {
+    id: 'alert-locations-labels',
+    type: 'symbol',
+    layout: {
+        'text-field': [
+            'get',
+            'articleTitle'
+        ],
+        'text-size': 12,
+        'text-offset': [
+            0,
+            1.5
+        ],
+        'text-anchor': 'top',
+        'text-max-width': 15,
+        'text-allow-overlap': false
+    },
+    paint: {
+        'text-color': '#1f2937',
+        'text-halo-color': '#ffffff',
+        'text-halo-width': 1.5
+    }
+};
 function formatDate(dateStr) {
     return new Date(dateStr).toLocaleDateString('en-US', {
         month: 'short',
@@ -524,7 +547,7 @@ function LocationPins({ data, onFeatureClick }) {
                         beforeId: undefined
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                        lineNumber: 100,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Layer"], {
@@ -532,13 +555,20 @@ function LocationPins({ data, onFeatureClick }) {
                         filter: hoverFilter
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                        lineNumber: 104,
+                        lineNumber: 122,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Layer"], {
+                        ...labelLayerStyle
+                    }, void 0, false, {
+                        fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
+                        lineNumber: 126,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                lineNumber: 99,
+                lineNumber: 117,
                 columnNumber: 7
             }, this),
             popupInfo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f40$vis$2e$gl$2f$react$2d$maplibre$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Popup"], {
@@ -556,7 +586,7 @@ function LocationPins({ data, onFeatureClick }) {
                             children: popupInfo.properties.articleTitle
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                            lineNumber: 120,
+                            lineNumber: 139,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -564,7 +594,7 @@ function LocationPins({ data, onFeatureClick }) {
                             children: popupInfo.properties.mention
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                            lineNumber: 123,
+                            lineNumber: 142,
                             columnNumber: 13
                         }, this),
                         popupInfo.properties.formattedAddress && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -572,7 +602,7 @@ function LocationPins({ data, onFeatureClick }) {
                             children: popupInfo.properties.formattedAddress
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                            lineNumber: 127,
+                            lineNumber: 146,
                             columnNumber: 15
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -583,7 +613,7 @@ function LocationPins({ data, onFeatureClick }) {
                                     children: formatDate(popupInfo.properties.publishedAt)
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                                    lineNumber: 132,
+                                    lineNumber: 151,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -594,24 +624,24 @@ function LocationPins({ data, onFeatureClick }) {
                                     children: "Read article"
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                                    lineNumber: 135,
+                                    lineNumber: 154,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                            lineNumber: 131,
+                            lineNumber: 150,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                    lineNumber: 119,
+                    lineNumber: 138,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/map/LocationPins.tsx",
-                lineNumber: 111,
+                lineNumber: 130,
                 columnNumber: 9
             }, this)
         ]
@@ -620,7 +650,8 @@ function LocationPins({ data, onFeatureClick }) {
 _s(LocationPins, "GKvv7/qxIXLBHiKQsgbtGXjakMw=");
 _c = LocationPins;
 const LOCATION_PINS_LAYER_IDS = [
-    'alert-locations'
+    'alert-locations',
+    'alert-locations-labels'
 ];
 var _c;
 __turbopack_context__.k.register(_c, "LocationPins");
@@ -5682,6 +5713,626 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
 }),
+"[project]/repos/map-searcher/client/src/hooks/useTTS.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useTTS",
+    ()=>useTTS
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/api.ts [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+function useTTS(options) {
+    _s();
+    const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isPlaying, setIsPlaying] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const audioRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const audioUrlRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const cleanup = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useTTS.useCallback[cleanup]": ()=>{
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.src = "";
+                audioRef.current = null;
+            }
+            if (audioUrlRef.current) {
+                URL.revokeObjectURL(audioUrlRef.current);
+                audioUrlRef.current = null;
+            }
+        }
+    }["useTTS.useCallback[cleanup]"], []);
+    const speak = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useTTS.useCallback[speak]": async (text)=>{
+            if (!text.trim()) return;
+            cleanup();
+            setIsLoading(true);
+            setError(null);
+            try {
+                const audioBlob = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["textToSpeech"])(text, options?.voice ?? "nova");
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioUrlRef.current = audioUrl;
+                const audio = new Audio(audioUrl);
+                audioRef.current = audio;
+                audio.onplay = ({
+                    "useTTS.useCallback[speak]": ()=>{
+                        setIsPlaying(true);
+                        options?.onStart?.();
+                    }
+                })["useTTS.useCallback[speak]"];
+                audio.onended = ({
+                    "useTTS.useCallback[speak]": ()=>{
+                        setIsPlaying(false);
+                        options?.onEnd?.();
+                        cleanup();
+                    }
+                })["useTTS.useCallback[speak]"];
+                audio.onerror = ({
+                    "useTTS.useCallback[speak]": ()=>{
+                        const err = new Error("Failed to play audio");
+                        setError(err.message);
+                        setIsPlaying(false);
+                        options?.onError?.(err);
+                        cleanup();
+                    }
+                })["useTTS.useCallback[speak]"];
+                await audio.play();
+            } catch (err) {
+                const error = err instanceof Error ? err : new Error(String(err));
+                setError(error.message);
+                options?.onError?.(error);
+            } finally{
+                setIsLoading(false);
+            }
+        }
+    }["useTTS.useCallback[speak]"], [
+        cleanup,
+        options
+    ]);
+    const stop = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useTTS.useCallback[stop]": ()=>{
+            cleanup();
+            setIsPlaying(false);
+        }
+    }["useTTS.useCallback[stop]"], [
+        cleanup
+    ]);
+    return {
+        speak,
+        stop,
+        isLoading,
+        isPlaying,
+        error
+    };
+}
+_s(useTTS, "dNO4fG5U/10prYM3ySE0+V5DSJ4=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "AudioWaveform",
+    ()=>AudioWaveform,
+    "WaveformIndicator",
+    ()=>WaveformIndicator
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/styled-jsx/style.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/utils.ts [app-client] (ecmascript)");
+"use client";
+;
+;
+;
+function AudioWaveform({ state, className, barCount = 5 }) {
+    const bars = Array.from({
+        length: barCount
+    }, (_, i)=>i);
+    const getBarClasses = (index)=>{
+        const baseDelay = index * 0.1;
+        switch(state){
+            case "listening":
+                return (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("bg-red-500 dark:bg-red-400", "animate-[waveform_0.5s_ease-in-out_infinite]");
+            case "speaking":
+                return (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("bg-emerald-500 dark:bg-emerald-400", "animate-[waveform_0.4s_ease-in-out_infinite]");
+            case "thinking":
+                return (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("bg-amber-500 dark:bg-amber-400", "animate-[pulse_1s_ease-in-out_infinite]");
+            default:
+                return "bg-zinc-300 dark:bg-zinc-600";
+        }
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        role: "status",
+        "aria-label": state === "listening" ? "Listening for speech" : state === "speaking" ? "Speaking response" : state === "thinking" ? "Processing" : "Idle",
+        className: "jsx-57a60a3ba3456ce" + " " + ((0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center justify-center gap-1", className) || ""),
+        children: [
+            bars.map((i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        animationDelay: `${i * 0.1}s`,
+                        height: state === "idle" ? "8px" : undefined
+                    },
+                    className: "jsx-57a60a3ba3456ce" + " " + ((0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("w-1 rounded-full transition-all duration-150", state === "idle" ? "h-2" : "h-4", getBarClasses(i)) || "")
+                }, i, false, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx",
+                    lineNumber: 62,
+                    columnNumber: 9
+                }, this)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                id: "57a60a3ba3456ce",
+                children: "@keyframes waveform{0%,to{height:8px}50%{height:24px}}"
+            }, void 0, false, void 0, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx",
+        lineNumber: 45,
+        columnNumber: 5
+    }, this);
+}
+_c = AudioWaveform;
+function WaveformIndicator({ state, label, className }) {
+    const defaultLabels = {
+        idle: "Ready",
+        listening: "Listening...",
+        speaking: "Speaking...",
+        thinking: "Thinking..."
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex items-center gap-3", className),
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AudioWaveform, {
+                state: state
+            }, void 0, false, {
+                fileName: "[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx",
+                lineNumber: 108,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("text-sm font-medium", state === "listening" && "text-red-600 dark:text-red-400", state === "speaking" && "text-emerald-600 dark:text-emerald-400", state === "thinking" && "text-amber-600 dark:text-amber-400", state === "idle" && "text-zinc-500 dark:text-zinc-400"),
+                children: label ?? defaultLabels[state]
+            }, void 0, false, {
+                fileName: "[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx",
+                lineNumber: 109,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx",
+        lineNumber: 107,
+        columnNumber: 5
+    }, this);
+}
+_c1 = WaveformIndicator;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "AudioWaveform");
+__turbopack_context__.k.register(_c1, "WaveformIndicator");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "VoiceChatPanel",
+    ()=>VoiceChatPanel
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/hooks/useSpeechRecognition.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useTTS$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/hooks/useTTS.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/api.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/button.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/sheet.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$AudioWaveform$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/AudioWaveform.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/utils.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/mic.js [app-client] (ecmascript) <export default as Mic>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MicOff$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/mic-off.js [app-client] (ecmascript) <export default as MicOff>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/volume-2.js [app-client] (ecmascript) <export default as Volume2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__VolumeX$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/volume-x.js [app-client] (ecmascript) <export default as VolumeX>");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function VoiceChatPanel({ open, onOpenChange, alertId, alertQuery }) {
+    _s();
+    const [messages, setMessages] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [isProcessing, setIsProcessing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [autoSpeak, setAutoSpeak] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const { isSupported: sttSupported, isListening, transcript, interimTranscript, error: sttError, start: startListening, stop: stopListening, reset: resetTranscript } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechRecognition"])({
+        continuous: true
+    });
+    const { speak, stop: stopSpeaking, isLoading: ttsLoading, isPlaying: isSpeaking } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useTTS$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTTS"])({
+        voice: "nova"
+    });
+    // Determine waveform state
+    const getWaveformState = ()=>{
+        if (isListening) return "listening";
+        if (isSpeaking) return "speaking";
+        if (isProcessing || ttsLoading) return "thinking";
+        return "idle";
+    };
+    const waveformState = getWaveformState();
+    // Send message to chat API
+    const sendMessage = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "VoiceChatPanel.useCallback[sendMessage]": async (text)=>{
+            if (!alertId || !text.trim()) return;
+            const userMessage = {
+                role: "user",
+                content: text.trim(),
+                timestamp: new Date()
+            };
+            setMessages({
+                "VoiceChatPanel.useCallback[sendMessage]": (prev)=>[
+                        ...prev,
+                        userMessage
+                    ]
+            }["VoiceChatPanel.useCallback[sendMessage]"]);
+            setIsProcessing(true);
+            setError(null);
+            try {
+                const response = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["chatWithArticles"])(alertId, text.trim());
+                const assistantMessage = {
+                    role: "assistant",
+                    content: response.response,
+                    timestamp: new Date()
+                };
+                setMessages({
+                    "VoiceChatPanel.useCallback[sendMessage]": (prev)=>[
+                            ...prev,
+                            assistantMessage
+                        ]
+                }["VoiceChatPanel.useCallback[sendMessage]"]);
+                // Auto-speak response if enabled
+                if (autoSpeak && response.response) {
+                    speak(response.response);
+                }
+            } catch (err) {
+                const errorMsg = err instanceof Error ? err.message : String(err);
+                setError(errorMsg);
+            } finally{
+                setIsProcessing(false);
+            }
+        }
+    }["VoiceChatPanel.useCallback[sendMessage]"], [
+        alertId,
+        autoSpeak,
+        speak
+    ]);
+    // Handle mic toggle
+    const handleMicToggle = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "VoiceChatPanel.useCallback[handleMicToggle]": ()=>{
+            if (isListening) {
+                stopListening();
+                const fullTranscript = (transcript + " " + interimTranscript).trim();
+                if (fullTranscript) {
+                    sendMessage(fullTranscript);
+                }
+                resetTranscript();
+            } else {
+                // Stop any playing audio before listening
+                stopSpeaking();
+                resetTranscript();
+                startListening();
+            }
+        }
+    }["VoiceChatPanel.useCallback[handleMicToggle]"], [
+        isListening,
+        stopListening,
+        transcript,
+        interimTranscript,
+        sendMessage,
+        resetTranscript,
+        stopSpeaking,
+        startListening
+    ]);
+    // Clear chat when alert changes
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "VoiceChatPanel.useEffect": ()=>{
+            setMessages([]);
+            setError(null);
+        }
+    }["VoiceChatPanel.useEffect"], [
+        alertId
+    ]);
+    // Live transcript
+    const liveTranscript = (transcript + " " + interimTranscript).trim();
+    if (!alertId) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sheet"], {
+            open: open,
+            onOpenChange: onOpenChange,
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetContent"], {
+                side: "right",
+                className: "w-[320px] sm:w-[380px] flex flex-col",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetHeader"], {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetTitle"], {
+                            children: "Voice Chat"
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 152,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetDescription"], {
+                            children: "Select an alert to start voice chat with its articles."
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 153,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 151,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                lineNumber: 147,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+            lineNumber: 146,
+            columnNumber: 7
+        }, this);
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sheet"], {
+        open: open,
+        onOpenChange: onOpenChange,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetContent"], {
+            side: "right",
+            className: "w-[320px] sm:w-[380px] flex flex-col p-0",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex items-center justify-between px-4 py-3 border-b",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                    className: "text-sm font-semibold",
+                                    children: "Voice Chat"
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                    lineNumber: 171,
+                                    columnNumber: 13
+                                }, this),
+                                alertQuery && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-xs text-muted-foreground truncate max-w-[200px]",
+                                    children: alertQuery
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                    lineNumber: 173,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 170,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                            variant: "ghost",
+                            size: "icon",
+                            onClick: ()=>setAutoSpeak(!autoSpeak),
+                            className: "h-8 w-8",
+                            title: autoSpeak ? "Disable auto-speak" : "Enable auto-speak",
+                            children: autoSpeak ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__["Volume2"], {
+                                className: "h-4 w-4"
+                            }, void 0, false, {
+                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                lineNumber: 186,
+                                columnNumber: 15
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__VolumeX$3e$__["VolumeX"], {
+                                className: "h-4 w-4"
+                            }, void 0, false, {
+                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                lineNumber: 188,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 178,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 169,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex items-center justify-center py-4 px-4 border-b bg-zinc-50 dark:bg-zinc-900",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$AudioWaveform$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["WaveformIndicator"], {
+                        state: waveformState
+                    }, void 0, false, {
+                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                        lineNumber: 195,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 194,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex-1 overflow-y-auto px-4 py-3 space-y-3",
+                    children: [
+                        messages.length === 0 && !isListening && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "text-center text-sm text-muted-foreground py-8",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    children: "Click the microphone to ask a question"
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                    lineNumber: 202,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "mt-1 text-xs",
+                                    children: "about your alert's articles"
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                    lineNumber: 203,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 201,
+                            columnNumber: 13
+                        }, this),
+                        messages.map((message, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("rounded-lg px-3 py-2 text-sm", message.role === "user" ? "bg-zinc-100 dark:bg-zinc-800 ml-8" : "bg-emerald-50 dark:bg-emerald-950 mr-8 border border-emerald-200 dark:border-emerald-800"),
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "whitespace-pre-wrap",
+                                    children: message.content
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                    lineNumber: 217,
+                                    columnNumber: 15
+                                }, this)
+                            }, i, false, {
+                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                lineNumber: 208,
+                                columnNumber: 13
+                            }, this)),
+                        isListening && liveTranscript && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "rounded-lg px-3 py-2 text-sm bg-red-50 dark:bg-red-950 ml-8 border border-red-200 dark:border-red-800 opacity-70",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "whitespace-pre-wrap",
+                                children: liveTranscript
+                            }, void 0, false, {
+                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                lineNumber: 224,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 223,
+                            columnNumber: 13
+                        }, this),
+                        isProcessing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "rounded-lg px-3 py-2 text-sm bg-amber-50 dark:bg-amber-950 mr-8 border border-amber-200 dark:border-amber-800",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-amber-700 dark:text-amber-300",
+                                children: "Thinking..."
+                            }, void 0, false, {
+                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                                lineNumber: 231,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 230,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 199,
+                    columnNumber: 9
+                }, this),
+                (error || sttError) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "px-4 py-2 bg-red-50 dark:bg-red-950 border-t border-red-200 dark:border-red-800",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-xs text-red-600 dark:text-red-400",
+                        children: error || sttError
+                    }, void 0, false, {
+                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                        lineNumber: 239,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 238,
+                    columnNumber: 11
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "p-4 border-t flex justify-center",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                        onClick: handleMicToggle,
+                        disabled: !sttSupported || isProcessing || ttsLoading,
+                        variant: isListening ? "destructive" : "default",
+                        size: "lg",
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("rounded-full h-16 w-16 shadow-lg", isListening && "animate-pulse"),
+                        children: isListening ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MicOff$3e$__["MicOff"], {
+                            className: "h-6 w-6"
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 258,
+                            columnNumber: 15
+                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"], {
+                            className: "h-6 w-6"
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                            lineNumber: 260,
+                            columnNumber: 15
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                        lineNumber: 247,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 246,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "px-4 pb-4 text-center",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-xs text-muted-foreground",
+                        children: !sttSupported ? "Speech recognition not supported" : isListening ? "Tap to stop and send" : isProcessing ? "Getting response..." : isSpeaking ? "Playing response..." : "Tap to speak"
+                    }, void 0, false, {
+                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                        lineNumber: 267,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+                    lineNumber: 266,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+            lineNumber: 164,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx",
+        lineNumber: 163,
+        columnNumber: 5
+    }, this);
+}
+_s(VoiceChatPanel, "ARWUJopKoXDSqz8GLpjguc81++M=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useSpeechRecognition$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSpeechRecognition"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useTTS$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTTS"]
+    ];
+});
+_c = VoiceChatPanel;
+var _c;
+__turbopack_context__.k.register(_c, "VoiceChatPanel");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
 "[project]/repos/map-searcher/client/src/components/alerts/index.ts [app-client] (ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
 
@@ -5692,6 +6343,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$AlertDetail$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/AlertDetail.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$AlertSelector$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/AlertSelector.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$ArticlePanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$VoiceChatPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx [app-client] (ecmascript)");
+;
 ;
 ;
 ;
@@ -5990,6 +6643,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$CreateAlertDialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/CreateAlertDialog.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$AlertSelector$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/AlertSelector.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$ArticlePanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$VoiceChatPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/alerts/VoiceChatPanel.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useAlerts$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/hooks/useAlerts.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$map$2d$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/map-utils.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/button.tsx [app-client] (ecmascript)");
@@ -6012,6 +6666,7 @@ function Home() {
     const mapRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const [createDialogOpen, setCreateDialogOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [articlePanelOpen, setArticlePanelOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [voiceChatOpen, setVoiceChatOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const { alerts, selectedAlertId, selectedAlert, locations, loading, locationsLoading, hasProcessingAlerts, selectAlert, refreshAll } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useAlerts$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAlerts"])();
     // Fit map to bounds when locations change
     const fitMapToBounds = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
@@ -6065,7 +6720,7 @@ function Home() {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$auth$2f$UserHeader$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UserHeader"], {}, void 0, false, {
                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                    lineNumber: 81,
+                    lineNumber: 83,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -6081,20 +6736,20 @@ function Home() {
                                     children: "Weave Hacks – Voice"
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 90,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$CreateAlertDialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CreateAlertDialogTrigger"], {
                                     onOpenChange: setCreateDialogOpen
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 91,
+                                    lineNumber: 93,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 87,
+                            lineNumber: 89,
                             columnNumber: 11
                         }, this),
                         hasAlerts && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6110,7 +6765,7 @@ function Home() {
                                             disabled: loading
                                         }, void 0, false, {
                                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                            lineNumber: 98,
+                                            lineNumber: 100,
                                             columnNumber: 17
                                         }, this),
                                         selectedAlertId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -6122,20 +6777,20 @@ function Home() {
                                                     className: "h-4 w-4 mr-1"
                                                 }, void 0, false, {
                                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                                    lineNumber: 110,
+                                                    lineNumber: 112,
                                                     columnNumber: 21
                                                 }, this),
                                                 "Articles"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                            lineNumber: 105,
+                                            lineNumber: 107,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 97,
+                                    lineNumber: 99,
                                     columnNumber: 15
                                 }, this),
                                 hasProcessingAlerts && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6145,26 +6800,26 @@ function Home() {
                                             className: "h-4 w-4 animate-spin"
                                         }, void 0, false, {
                                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 119,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: "Processing alerts... Results will appear when ready."
                                         }, void 0, false, {
                                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 120,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 116,
+                                    lineNumber: 118,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 96,
+                            lineNumber: 98,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$map$2f$map$2d$container$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MapContainer"], {
@@ -6175,58 +6830,63 @@ function Home() {
                                 data: locations
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                lineNumber: 130,
+                                lineNumber: 132,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 124,
+                            lineNumber: 126,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "flex items-center justify-between mt-2 mb-4",
+                        selectedAlertId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-sm text-zinc-600 sm:text-base dark:text-zinc-400",
-                                    children: selectedAlertId ? "Chat with your alert's articles below." : "Ask research and map below (type or use the mic)."
-                                }, void 0, false, {
-                                    fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 135,
-                                    columnNumber: 13
-                                }, this),
-                                hasLocations && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-xs text-zinc-500 dark:text-zinc-400",
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex items-center justify-between mt-2 mb-4",
                                     children: [
-                                        locations.features.length,
-                                        " location",
-                                        locations.features.length !== 1 ? "s" : "",
-                                        " on map"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-sm text-zinc-600 sm:text-base dark:text-zinc-400",
+                                            children: "Chat with your alert's articles below."
+                                        }, void 0, false, {
+                                            fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
+                                            lineNumber: 140,
+                                            columnNumber: 17
+                                        }, this),
+                                        hasLocations && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            className: "text-xs text-zinc-500 dark:text-zinc-400",
+                                            children: [
+                                                locations.features.length,
+                                                " location",
+                                                locations.features.length !== 1 ? "s" : "",
+                                                " on map"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
+                                            lineNumber: 144,
+                                            columnNumber: 19
+                                        }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 141,
+                                    lineNumber: 139,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$AgentInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AgentInput"], {
+                                    selectedAlertId: selectedAlertId,
+                                    onVoiceClick: ()=>setVoiceChatOpen(true)
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
+                                    lineNumber: 150,
                                     columnNumber: 15
                                 }, this)
                             ]
-                        }, void 0, true, {
-                            fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 134,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$AgentInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AgentInput"], {
-                            selectedAlertId: selectedAlertId
-                        }, void 0, false, {
-                            fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 147,
-                            columnNumber: 11
-                        }, this),
+                        }, void 0, true),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$CreateAlertDialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CreateAlertDialog"], {
                             open: createDialogOpen,
                             onOpenChange: setCreateDialogOpen,
                             onCreated: handleAlertCreated
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 150,
+                            lineNumber: 158,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$ArticlePanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ArticlePanel"], {
@@ -6236,28 +6896,38 @@ function Home() {
                             loading: locationsLoading && selectedAlertId !== null
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 157,
+                            lineNumber: 165,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$VoiceChatPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["VoiceChatPanel"], {
+                            open: voiceChatOpen,
+                            onOpenChange: setVoiceChatOpen,
+                            alertId: selectedAlertId,
+                            alertQuery: selectedAlert?.query
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
+                            lineNumber: 173,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                    lineNumber: 82,
+                    lineNumber: 84,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-            lineNumber: 80,
+            lineNumber: 82,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-        lineNumber: 79,
+        lineNumber: 81,
         columnNumber: 5
     }, this);
 }
-_s(Home, "dj4OfWxK520H0R1sZI4MtNy3EMk=", false, function() {
+_s(Home, "0jn7ytl7OfcnpaaFavXhQJfhEY0=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$hooks$2f$useAlerts$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAlerts"]
     ];
@@ -6271,4 +6941,4 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }),
 ]);
 
-//# sourceMappingURL=repos_map-searcher_client_src_b498d457._.js.map
+//# sourceMappingURL=repos_map-searcher_client_src_c153c56a._.js.map

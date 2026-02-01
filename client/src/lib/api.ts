@@ -402,3 +402,30 @@ export async function resetPreferences(): Promise<{ success: boolean }> {
   if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
   return res.json();
 }
+
+// ==================== TTS API ====================
+
+export type TTSVoice = "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer";
+
+/** Convert text to speech using backend TTS endpoint. Returns audio blob. */
+export async function textToSpeech(text: string, voice: TTSVoice = "nova"): Promise<Blob> {
+  const url = `${getBase()}/api/alerts/tts`;
+  console.log(`[API] textToSpeech START - textLength=${text.length}, voice=${voice}`);
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ text, voice }),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] textToSpeech FAILED - status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+
+  const blob = await res.blob();
+  console.log(`[API] textToSpeech SUCCESS - blobSize=${blob.size} bytes, type=${blob.type}`);
+  return blob;
+}

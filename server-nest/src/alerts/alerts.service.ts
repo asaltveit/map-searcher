@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException, BadRequestException } from "@nestjs/common";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
 import { PrismaService } from "../prisma.service";
@@ -805,6 +805,57 @@ export class AlertsService {
       return normalized as LocationType;
     }
     return LocationType.OTHER;
+  }
+
+  /**
+   * Text to speech using OpenAI TTS API
+   */
+  async textToSpeech(
+    text: string,
+    voice: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer" = "nova",
+  ): Promise<Buffer> {
+    this.logger.log(`[SVC] textToSpeech START - textLength=${text.length}, voice=${voice}`);
+
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      this.logger.error("[SVC] textToSpeech - OPENAI_API_KEY not configured");
+      throw new BadRequestException("TTS service not configured. Please set OPENAI_API_KEY.");
+    }
+
+    // Limit text length to avoid excessive API costs
+    const maxLength = 4096;
+    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+    try {
+      const response = await fetch("https://api.openai.com/v1/audio/speech", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "tts-1",
+          input: truncatedText,
+          voice: voice,
+          response_format: "mp3",
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => response.statusText);
+        this.logger.error(`[SVC] textToSpeech FAILED - status=${response.status}, error=${errorText}`);
+        throw new BadRequestException(`TTS API error: ${response.status}`);
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      this.logger.log(`[SVC] textToSpeech SUCCESS - audioSize=${buffer.length} bytes`);
+      return buffer;
+    } catch (error) {
+      if (error instanceof BadRequestException) throw error;
+      this.logger.error(`[SVC] textToSpeech ERROR - ${error instanceof Error ? error.message : String(error)}`);
+      throw new BadRequestException("Failed to generate speech");
+    }
   }
 
   /**

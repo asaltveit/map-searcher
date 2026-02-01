@@ -10,16 +10,18 @@ import {
   CreateAlertDialogTrigger,
   AlertSelector,
   ArticlePanel,
+  VoiceChatPanel,
 } from "@/components/alerts";
 import { useAlerts } from "@/hooks/useAlerts";
 import { calculateBounds, DEFAULT_FIT_BOUNDS_OPTIONS } from "@/lib/map-utils";
 import { Button } from "@/components/ui/button";
-import { FileText, Loader2 } from "lucide-react";
+import { FileText, Loader2, Mic } from "lucide-react";
 
 export default function Home() {
   const mapRef = useRef<MapRef>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [articlePanelOpen, setArticlePanelOpen] = useState(false);
+  const [voiceChatOpen, setVoiceChatOpen] = useState(false);
 
   const {
     alerts,
@@ -131,20 +133,26 @@ export default function Home() {
             )}
           </MapContainer>
 
-          <div className="flex items-center justify-between mt-2 mb-4">
-            <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
-              {selectedAlertId
-                ? "Chat with your alert's articles below."
-                : "Ask research and map below (type or use the mic)."}
-            </p>
-            {hasLocations && (
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                {locations.features.length} location{locations.features.length !== 1 ? "s" : ""} on map
-              </span>
-            )}
-          </div>
+          {/* Only show research/chat section when a specific alert is selected */}
+          {selectedAlertId && (
+            <>
+              <div className="flex items-center justify-between mt-2 mb-4">
+                <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
+                  Chat with your alert's articles below.
+                </p>
+                {hasLocations && (
+                  <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                    {locations.features.length} location{locations.features.length !== 1 ? "s" : ""} on map
+                  </span>
+                )}
+              </div>
 
-          <AgentInput selectedAlertId={selectedAlertId} />
+              <AgentInput
+                selectedAlertId={selectedAlertId}
+                onVoiceClick={() => setVoiceChatOpen(true)}
+              />
+            </>
+          )}
 
           {/* Create Alert Dialog */}
           <CreateAlertDialog
@@ -159,6 +167,14 @@ export default function Home() {
             onOpenChange={setArticlePanelOpen}
             alert={selectedAlert}
             loading={locationsLoading && selectedAlertId !== null}
+          />
+
+          {/* Voice Chat Panel */}
+          <VoiceChatPanel
+            open={voiceChatOpen}
+            onOpenChange={setVoiceChatOpen}
+            alertId={selectedAlertId}
+            alertQuery={selectedAlert?.query}
           />
         </main>
       </div>

@@ -8,10 +8,13 @@ import {
   Param,
   Query,
   Req,
+  Res,
   UseGuards,
   BadRequestException,
   Logger,
+  Header,
 } from "@nestjs/common";
+import type { Response } from "express";
 import {
   ApiTags,
   ApiOperation,
@@ -130,6 +133,66 @@ export class AlertsController {
       return result;
     } catch (error) {
       this.logger.error(`[CTRL] getAlertsLocations FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
+  }
+
+  @Post("tts")
+  @ApiOperation({
+    summary: "Text to speech",
+    description: "Convert text to speech using OpenAI TTS API",
+  })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        text: { type: "string", description: "Text to convert to speech" },
+        voice: {
+          type: "string",
+          enum: ["alloy", "echo", "fable", "onyx", "nova", "shimmer"],
+          description: "Voice to use (default: nova)",
+        },
+      },
+      required: ["text"],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Audio stream (MP3)",
+    content: {
+      "audio/mpeg": {
+        schema: {
+          type: "string",
+          format: "binary",
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 400, description: "Invalid input or TTS not configured" })
+  @Header("Content-Type", "audio/mpeg")
+  async textToSpeech(
+    @Body() body: { text: string; voice?: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer" },
+    @Res() res: Response,
+  ): Promise<void> {
+    this.logger.log(`[CTRL] textToSpeech START - textLength=${body.text?.length || 0}, voice=${body.voice || 'nova'}`);
+
+    if (!body.text || body.text.trim().length === 0) {
+      throw new BadRequestException("Text is required");
+    }
+
+    try {
+      const audioBuffer = await this.alertsService.textToSpeech(
+        body.text,
+        body.voice,
+      );
+      this.logger.log(`[CTRL] textToSpeech SUCCESS - audioSize=${audioBuffer.length} bytes`);
+
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Content-Length", audioBuffer.length);
+      res.send(audioBuffer);
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`[CTRL] textToSpeech FAILED - error=${errorMsg}`);
       throw error;
     }
   }
