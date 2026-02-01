@@ -3,7 +3,7 @@
   "version": 2,
   "framework": "nextjs",
   "installCommand": "echo 'Using pnpm workspace dependencies'",
-  "buildCommand": "npx next build",
+  "buildCommand": "npx next build --no-turbo",
   "github": {
     "enabled": false
   }
