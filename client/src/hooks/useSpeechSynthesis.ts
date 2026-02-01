@@ -1,16 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 export function useSpeechSynthesis(options?: { lang?: string; rate?: number; pitch?: number }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isSupported, setIsSupported] = useState(false);
-
-  useEffect(() => {
-    setIsSupported(
-      typeof window !== "undefined" && "speechSynthesis" in window
-    );
-  }, []);
+  const [isSupported] = useState(() =>
+    typeof window !== "undefined" && "speechSynthesis" in window
+  );
 
   const speak = useCallback(
     (text: string) => {

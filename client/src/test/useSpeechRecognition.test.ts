@@ -87,7 +87,7 @@ describe("useSpeechRecognition", () => {
       length: 1,
       resultIndex: 0,
       0: mockResult,
-      item: (i: number) => mockResult,
+      item: () => mockResult,
     };
     act(() => {
       mockRecognition.onresult?.({

@@ -23,14 +23,13 @@ export function useSpeechRecognition(options?: {
   const [transcript, setTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported] = useState(() => !!getSpeechRecognition());
   const recognitionRef = useRef<{ stop: () => void } | null>(null);
   const onResultRef = useRef(options?.onResult);
-  onResultRef.current = options?.onResult;
 
   useEffect(() => {
-    setIsSupported(!!getSpeechRecognition());
-  }, []);
+    onResultRef.current = options?.onResult;
+  }, [options?.onResult]);
 
   const start = useCallback(() => {
     const SR = getSpeechRecognition();
