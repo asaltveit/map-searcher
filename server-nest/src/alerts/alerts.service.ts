@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
 import { PrismaService } from "../prisma.service";
+import { LettaService } from "../letta/letta.service";
 import { CreateAlertDto } from "./dto/create-alert.dto";
 import { UpdateAlertDto } from "./dto/update-alert.dto";
 import {
@@ -44,9 +45,13 @@ type AlertWithArticles = NewsAlert & {
 export class AlertsService {
   private readonly logger = new Logger(AlertsService.name);
 
+  // Store chat agents: alertId -> lettaAgentId
+  private chatAgents = new Map<string, string>();
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly geocodingService: GeocodingService,
+    private readonly lettaService: LettaService,
     @InjectQueue(ALERTS_QUEUE) private readonly alertsQueue: Queue,
   ) {}
 
@@ -549,6 +554,88 @@ export class AlertsService {
     return this.prisma.newsAlert.findUnique({
       where: { id: alertId },
     });
+  }
+
+  /**
+   * Chat with articles using a Letta agent
+   */
+  async chatWithArticles(userId: string, alertId: string, message: string) {
+    this.logger.log(`[SVC] chatWithArticles START - userId=${userId}, alertId=${alertId}, messageLength=${message.length}`);
+
+    // Get or create chat agent for this alert
+    let agentId = this.chatAgents.get(alertId);
+
+    if (!agentId) {
+      this.logger.log(`[SVC] chatWithArticles - No existing agent, creating new one for alertId=${alertId}`);
+
+      const alert = await this.getAlert(userId, alertId);
+
+      // Build article context from summaries
+      const articleContext = alert.articles
+        .map((a) => `- "${a.title}" (${a.source}): ${a.summary || "No summary"}`)
+        .join("\n");
+
+      this.logger.log(`[SVC] chatWithArticles - Built context with ${alert.articles.length} articles`);
+
+      // Create agent with articles in memory
+      const agent = await this.lettaService.createAgent({
+        name: `ArticleChat-${alertId.slice(0, 8)}`,
+        model: "openai/gpt-4o-mini",
+        memoryBlocks: [
+          {
+            label: "persona",
+            value: `You are an article research assistant. You help users understand and explore news articles they've collected. You have access to article summaries in your memory. When answering questions:
+- Reference specific articles by title when relevant
+- Provide balanced perspectives from multiple sources when possible
+- If asked about something not covered in the articles, you can use web_search to find additional information
+- Be concise but thorough in your responses`,
+          },
+          {
+            label: "articles",
+            value: `ARTICLES:\n${articleContext}`,
+          },
+        ],
+        tools: ["web_search"],
+      });
+
+      agentId = agent.id;
+      this.chatAgents.set(alertId, agentId);
+      this.logger.log(`[SVC] chatWithArticles - Created agent ${agentId} for alertId=${alertId}`);
+    }
+
+    // Send message and extract response
+    this.logger.log(`[SVC] chatWithArticles - Sending message to agent ${agentId}`);
+    const response = await this.lettaService.sendMessage(agentId, { content: message });
+    const assistantResponse = this.extractAssistantResponse(response);
+    this.logger.log(`[SVC] chatWithArticles - Got response, length=${assistantResponse.length}`);
+
+    return { response: assistantResponse, agentId };
+  }
+
+  /**
+   * Extract the assistant's text response from Letta message response
+   */
+  private extractAssistantResponse(response: unknown): string {
+    const r = response as { messages?: Array<{ message_type?: string; assistant_message?: string; content?: string }> };
+
+    if (Array.isArray(r?.messages)) {
+      // Look for assistant_message type first (Letta's format)
+      for (let i = r.messages.length - 1; i >= 0; i--) {
+        const msg = r.messages[i];
+        if (msg?.message_type === "assistant_message" && msg?.assistant_message) {
+          return msg.assistant_message;
+        }
+      }
+      // Fallback to content field
+      for (let i = r.messages.length - 1; i >= 0; i--) {
+        const msg = r.messages[i];
+        if (typeof msg?.content === "string" && msg.content) {
+          return msg.content;
+        }
+      }
+    }
+
+    return "I couldn't generate a response. Please try again.";
   }
 
   // Private helpers

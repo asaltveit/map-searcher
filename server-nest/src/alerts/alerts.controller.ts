@@ -31,6 +31,8 @@ import {
   AlertDetailDto,
   RunAlertResponseDto,
   AlertGeoJsonResponseDto,
+  ChatWithArticlesDto,
+  ChatResponseDto,
 } from "./dto/alert-response.dto";
 import type { JwtRequest } from "../common/types";
 
@@ -243,6 +245,40 @@ export class AlertsController {
       return result;
     } catch (error) {
       this.logger.error(`[CTRL] runAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
+  }
+
+  @Post(":id/chat")
+  @ApiOperation({
+    summary: "Chat with articles",
+    description: "Send a message to an AI agent that has context about the alert's articles",
+  })
+  @ApiParam({ name: "id", description: "Alert ID" })
+  @ApiBody({ type: ChatWithArticlesDto })
+  @ApiResponse({
+    status: 200,
+    description: "Chat response",
+    type: ChatResponseDto,
+  })
+  @ApiResponse({ status: 404, description: "Alert not found" })
+  async chatWithArticles(
+    @Req() req: JwtRequest,
+    @Param("id") alertId: string,
+    @Body() dto: ChatWithArticlesDto,
+  ): Promise<ChatResponseDto> {
+    this.logger.log(`[CTRL] chatWithArticles START - userId=${req.user.userId}, alertId=${alertId}`);
+    this.validateUuid(alertId);
+    try {
+      const result = await this.alertsService.chatWithArticles(
+        req.user.userId,
+        alertId,
+        dto.message,
+      );
+      this.logger.log(`[CTRL] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${result.agentId}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`[CTRL] chatWithArticles FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
       throw error;
     }
   }

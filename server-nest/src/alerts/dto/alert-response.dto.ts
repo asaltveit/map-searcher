@@ -174,3 +174,16 @@ export class AlertGeoJsonResponseDto {
   @ApiProperty({ type: () => [AlertGeoJsonFeatureDto], description: "GeoJSON features" })
   features: AlertGeoJsonFeatureDto[];
 }
+
+export class ChatWithArticlesDto {
+  @ApiProperty({ description: "User message to send to the chat agent" })
+  message: string;
+}
+
+export class ChatResponseDto {
+  @ApiProperty({ description: "Assistant response" })
+  response: string;
+
+  @ApiProperty({ description: "Agent ID for this chat session" })
+  agentId: string;
+}

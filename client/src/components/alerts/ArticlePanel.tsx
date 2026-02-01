@@ -1,7 +1,8 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
-import { ExternalLink, MapPin, Calendar, User } from 'lucide-react';
+import { ExternalLink, MapPin, Calendar, User, Send, Search, Loader2 } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -11,7 +12,13 @@ import {
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { chatWithArticles } from '@/lib/api';
 import type { AlertDetail, AlertArticle } from '@/lib/api';
+
+interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
 
 interface ArticlePanelProps {
   open: boolean;
@@ -21,14 +28,61 @@ interface ArticlePanelProps {
 }
 
 export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePanelProps) {
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
   console.log(`[PANEL] ArticlePanel RENDER - open=${open}, loading=${loading}, alertId=${alert?.id}, articleCount=${alert?.articles?.length || 0}`);
   if (!loading && alert?.articles && alert.articles.length === 0) {
     console.warn(`[PANEL] ArticlePanel NO ARTICLES - query="${alert.query}", region="${alert.region}"`);
   }
 
+  // Scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
+
+  // Reset chat when alert changes
+  useEffect(() => {
+    setChatMessages([]);
+    setChatInput('');
+  }, [alert?.id]);
+
+  const handleSendMessage = async () => {
+    if (!chatInput.trim() || !alert?.id || chatLoading) return;
+
+    const userMessage = chatInput.trim();
+    setChatInput('');
+    setChatMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
+    setChatLoading(true);
+
+    try {
+      const response = await chatWithArticles(alert.id, userMessage);
+      setChatMessages((prev) => [...prev, { role: 'assistant', content: response.response }]);
+    } catch (error) {
+      console.error('[PANEL] Chat error:', error);
+      setChatMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' },
+      ]);
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="w-full sm:max-w-md flex flex-col">
         <SheetHeader>
           <SheetTitle>
             {loading ? (
@@ -52,7 +106,9 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
           </SheetDescription>
         </SheetHeader>
 
-        <div className="mt-6 space-y-4">
+        {/* Scrollable content area */}
+        <div className="flex-1 overflow-y-auto mt-6 space-y-4" ref={chatContainerRef}>
+          {/* Articles list */}
           {loading ? (
             <>
               {console.log(`[PANEL] ArticlePanel LOADING state`)}
@@ -75,7 +131,74 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
               </p>
             </>
           )}
+
+          {/* Chat messages */}
+          {chatMessages.length > 0 && (
+            <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4 space-y-3">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Chat</p>
+              {chatMessages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`text-sm rounded-lg p-3 ${
+                    msg.role === 'user'
+                      ? 'bg-zinc-100 dark:bg-zinc-800 ml-4'
+                      : 'bg-teal-50 dark:bg-teal-900/20 mr-4'
+                  }`}
+                >
+                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
+                    {msg.role === 'user' ? 'You' : 'Assistant'}
+                  </p>
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                </div>
+              ))}
+              {chatLoading && (
+                <div className="bg-teal-50 dark:bg-teal-900/20 mr-4 rounded-lg p-3">
+                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">
+                    Assistant
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-zinc-500">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Thinking...
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
+
+        {/* Chat input - fixed at bottom */}
+        {alert && !loading && alert.articles && alert.articles.length > 0 && (
+          <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
+              Ask about these articles
+            </p>
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Ask a question..."
+                  disabled={chatLoading}
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
+                />
+              </div>
+              <Button
+                onClick={handleSendMessage}
+                disabled={!chatInput.trim() || chatLoading}
+                className="bg-teal-600 hover:bg-teal-700 text-white shrink-0"
+              >
+                {chatLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

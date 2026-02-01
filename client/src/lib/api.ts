@@ -317,6 +317,32 @@ export async function getAlertsLocations(alertIds?: string[]): Promise<GeoJsonFe
   return data;
 }
 
+export interface ChatResponse {
+  response: string;
+  agentId: string;
+}
+
+/** Chat with articles in an alert using an AI agent */
+export async function chatWithArticles(alertId: string, message: string): Promise<ChatResponse> {
+  const url = `${getBase()}/api/alerts/${alertId}/chat`;
+  console.log(`[API] chatWithArticles START - alertId=${alertId}`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ message }),
+  });
+  console.log(`[API] chatWithArticles response - status=${res.status}, ok=${res.ok}`);
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => res.statusText);
+    console.error(`[API] chatWithArticles FAILED - alertId=${alertId}, status=${res.status}, error=${errorText}`);
+    throw new Error(errorText);
+  }
+  const data = await res.json();
+  console.log(`[API] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${data.agentId}`);
+  return data;
+}
+
 // ==================== User Preferences API ====================
 
 export interface UserPreferences {
