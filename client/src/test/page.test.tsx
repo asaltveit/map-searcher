@@ -3,10 +3,8 @@
  */
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { axe, toHaveNoViolations } from "jest-axe";
-import Home from "@/app/page";
-
-expect.extend(toHaveNoViolations);
+import { axe } from "jest-axe";
+import Home from "../app/page";
 
 describe("Home page", () => {
   it("has no axe violations", async () => {

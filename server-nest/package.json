@@ -38,12 +38,12 @@
     "@letta-ai/letta-client": "^1.7.0",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.2",
+    "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.1",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/swagger": "^11.2.1",
+    "@nestjs/swagger": "^11.0.0",
     "@prisma/adapter-pg": "7.1.0",
     "@prisma/client": "^7.1.0",
     "@sentry/nestjs": "^10.29.0",
@@ -66,6 +66,7 @@
     "weave": "^0.6.3"
   },
   "devDependencies": {
+    "@apideck/portman": "^1.26.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -82,6 +83,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "jest": "^30.0.0",
+    "newman": "^2.1.2",
     "prettier": "^3.4.2",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
@@ -90,8 +92,6 @@
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.49.0",
-    "@apideck/portman": "^1.28.0",
-    "newman": "^6.2.1"
+    "typescript-eslint": "^8.49.0"
   }
 }

@@ -3,10 +3,8 @@
  */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { axe, toHaveNoViolations } from "jest-axe";
+import { axe } from "jest-axe";
 import { VoiceSection } from "@/components/voice/VoiceSection";
-
-expect.extend(toHaveNoViolations);
 
 // Mock speech hooks so we get the "supported" UI
 vi.mock("@/hooks/useSpeechRecognition", () => ({

@@ -1,7 +1,8 @@
 /**
  * Type declarations for jest-axe (used with Vitest in test runs).
- * jest-axe has no @types package. Test files are excluded from the main TS build.
+ * jest-axe has no @types package. Vitest expect.extend() expects an object of matchers.
  */
+/// <reference types="vitest" />
 declare module "jest-axe" {
   export interface AxeResults {
     violations: unknown[];
@@ -18,4 +19,13 @@ declare module "jest-axe" {
   export function toHaveNoViolations(
     results: AxeResults
   ): { message: () => string; pass: boolean };
+}
+
+declare module "vitest" {
+  interface Assertion<T = unknown> {
+    toHaveNoViolations(): void;
+  }
+  interface AsymmetricMatchersContaining {
+    toHaveNoViolations(): void;
+  }
 }
