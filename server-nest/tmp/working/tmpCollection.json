@@ -1,0 +1,1238 @@
+{
+    "item": [
+        {
+            "name": "/",
+            "description": "",
+            "item": [
+                {
+                    "id": "36c37497-c5ba-4379-9068-9880bc517f14",
+                    "name": "Get welcome message",
+                    "request": {
+                        "name": "Get welcome message",
+                        "description": {
+                            "content": "Returns a simple welcome message to verify the API is running",
+                            "type": "text/plain"
+                        },
+                        "url": {
+                            "path": [
+                                ""
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "GET",
+                        "body": {},
+                        "auth": null
+                    },
+                    "response": [
+                        {
+                            "id": "1303ec01-e2a1-4b15-a5af-30a5c2ebffff",
+                            "name": "Welcome message",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        ""
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"<string>\"\n}",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        }
+                    ],
+                    "event": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "api",
+            "description": "",
+            "item": [
+                {
+                    "name": "health",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "da11710a-5aeb-4f4f-85be-d472e7431e75",
+                            "name": "Health check",
+                            "request": {
+                                "name": "Health check",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "health"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "method": "GET",
+                                "body": {},
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "8905018b-91de-4584-99fd-441327bcb5a8",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "health"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "auth",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "register",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "09393d04-139d-474a-98f3-afd983e98656",
+                                    "name": "Register a new user",
+                                    "request": {
+                                        "name": "Register a new user",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "auth",
+                                                "register"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "31382b3a-3d15-4f06-a1fd-399e682ed787",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "auth",
+                                                        "register"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "status": "Created",
+                                            "code": 201,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "login",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "d4a71412-9f23-48af-8a42-d61c8d982dfd",
+                                    "name": "Login user",
+                                    "request": {
+                                        "name": "Login user",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "auth",
+                                                "login"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "2911b614-a6c1-4970-b345-d56026a8636f",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "auth",
+                                                        "login"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "status": "Created",
+                                            "code": 201,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "logout",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "e173750c-935b-4408-a4ce-403eaaf54ef5",
+                                    "name": "Logout user",
+                                    "request": {
+                                        "name": "Logout user",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "auth",
+                                                "logout"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "POST",
+                                        "body": {},
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "3c3fae54-3a51-4e3c-b9ee-8a7b20072e60",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "auth",
+                                                        "logout"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "method": "POST",
+                                                "body": {}
+                                            },
+                                            "status": "Created",
+                                            "code": 201,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "me",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "241cdb0d-6d66-4c41-9965-15b6457a505d",
+                                    "name": "Get current user",
+                                    "request": {
+                                        "name": "Get current user",
+                                        "description": {},
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "auth",
+                                                "me"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "3e7ceec3-5106-4d6d-a6de-95d2df9c05d3",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "auth",
+                                                        "me"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "users",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "c0b9cc1c-a371-4ee5-a355-c46340fd9867",
+                            "name": "List all users",
+                            "request": {
+                                "name": "List all users",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "users"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "method": "GET",
+                                "body": {},
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{bearerToken}}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "699485b6-e5a3-4700-ac9e-d6db804ad834",
+                                    "name": "List of users",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "users"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "description": {
+                                                    "content": "Added as a part of security scheme: bearer",
+                                                    "type": "text/plain"
+                                                },
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "name": "me",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "d976b5b8-fe2b-41d3-a8cd-7741a25cf37e",
+                                    "name": "Get current user profile from JWT payload",
+                                    "request": {
+                                        "name": "Get current user profile from JWT payload",
+                                        "description": {
+                                            "content": "Returns the authenticated user profile extracted from the JWT token.",
+                                            "type": "text/plain"
+                                        },
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "users",
+                                                "me"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "9d9cfa06-1f85-407c-9c79-fbffb03c1672",
+                                            "name": "User profile from JWT token",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "users",
+                                                        "me"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "profile",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "fe1a0479-dcc2-4a1c-9269-0dbc09f5eedf",
+                                    "name": "Get full user profile from database",
+                                    "request": {
+                                        "name": "Get full user profile from database",
+                                        "description": {
+                                            "content": "Fetches the complete user profile from the database.",
+                                            "type": "text/plain"
+                                        },
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "users",
+                                                "profile"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "55953f66-dc73-4b34-bbea-f21743b36f67",
+                                            "name": "Full user profile (no password)",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "users",
+                                                        "profile"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "monitoring",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "health",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "4e8fad82-fb71-48a9-b6d1-019f46afea55",
+                                    "name": "Get system health status",
+                                    "request": {
+                                        "name": "Get system health status",
+                                        "description": {
+                                            "content": "Returns health status including Redis availability",
+                                            "type": "text/plain"
+                                        },
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "monitoring",
+                                                "health"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "4c09acad-082a-4b9a-a592-8a7d51492d02",
+                                            "name": "System health status",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "monitoring",
+                                                        "health"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "description": {
+                                                            "content": "Added as a part of security scheme: bearer",
+                                                            "type": "text/plain"
+                                                        },
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [],
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "text"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "research",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "1f65fc97-2dd9-4435-b68f-4b9c8ff9efc3",
+                            "name": "Search research",
+                            "request": {
+                                "name": "Search research",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "research"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "method": "GET",
+                                "body": {},
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "9ff4974d-593e-4870-96a6-a802b36d2704",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "research"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "id": "748259c1-bb6b-4d41-bf8e-d1435e264651",
+                            "name": "Save research",
+                            "request": {
+                                "name": "Save research",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "research"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"content\": \"<string>\",\n  \"source_url\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "7ee2f714-5d33-4d07-8a11-4d98e652d51a",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "research"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"content\": \"<string>\",\n  \"source_url\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "agents",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "58bb2b3e-c85c-4f18-89c2-7f3398131d5a",
+                            "name": "List all agents",
+                            "request": {
+                                "name": "List all agents",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "agents"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {},
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "b09aa92f-692b-4a82-8ac6-b332d0a06497",
+                                    "name": "List of agents",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "agents"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "[\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"model\": \"<string>\",\n    \"agent_type\": \"<string>\"\n  },\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"model\": \"<string>\",\n    \"agent_type\": \"<string>\"\n  }\n]",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "id": "62d85e2f-952d-4760-9bb6-ef490bd1a7cf",
+                            "name": "Create a new agent",
+                            "request": {
+                                "name": "Create a new agent",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "api",
+                                        "agents"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"name\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "560920be-be0c-45bf-98c8-f63ca940d5a8",
+                                    "name": "Agent created",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "api",
+                                                "agents"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"name\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"agent_type\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "name": "{id}",
+                            "description": "",
+                            "item": [
+                                {
+                                    "name": "messages",
+                                    "description": "",
+                                    "item": [
+                                        {
+                                            "id": "31dd84cb-e4c1-4fb6-a4fa-6de77294bf1d",
+                                            "name": "Send a message to an agent",
+                                            "request": {
+                                                "name": "Send a message to an agent",
+                                                "description": {},
+                                                "url": {
+                                                    "path": [
+                                                        "api",
+                                                        "agents",
+                                                        ":id",
+                                                        "messages"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": [
+                                                        {
+                                                            "type": "any",
+                                                            "value": "<string>",
+                                                            "key": "id",
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "(Required) Agent ID",
+                                                                "type": "text/plain"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                    },
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "POST",
+                                                "body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"content\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                },
+                                                "auth": null
+                                            },
+                                            "response": [
+                                                {
+                                                    "id": "28fc0ae7-1d00-4013-a020-614e143ee53b",
+                                                    "name": "Message response",
+                                                    "originalRequest": {
+                                                        "url": {
+                                                            "path": [
+                                                                "api",
+                                                                "agents",
+                                                                ":id",
+                                                                "messages"
+                                                            ],
+                                                            "host": [
+                                                                "{{baseUrl}}"
+                                                            ],
+                                                            "query": [],
+                                                            "variable": []
+                                                        },
+                                                        "header": [
+                                                            {
+                                                                "key": "Content-Type",
+                                                                "value": "application/json"
+                                                            },
+                                                            {
+                                                                "key": "Accept",
+                                                                "value": "application/json"
+                                                            }
+                                                        ],
+                                                        "method": "POST",
+                                                        "body": {
+                                                            "mode": "raw",
+                                                            "raw": "{\n  \"content\": \"<string>\"\n}",
+                                                            "options": {
+                                                                "raw": {
+                                                                    "headerFamily": "json",
+                                                                    "language": "json"
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "status": "Created",
+                                                    "code": 201,
+                                                    "header": [
+                                                        {
+                                                            "key": "Content-Type",
+                                                            "value": "application/json"
+                                                        }
+                                                    ],
+                                                    "body": "{\n  \"stop_reason\": {},\n  \"usage\": {}\n}",
+                                                    "cookie": [],
+                                                    "_postman_previewlanguage": "json"
+                                                }
+                                            ],
+                                            "event": [],
+                                            "protocolProfileBehavior": {
+                                                "disableBodyPruning": true
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "event": [],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000"
+        }
+    ],
+    "info": {
+        "_postman_id": "62bec928-e91b-4e40-927d-78c6ab245e49",
+        "name": "Map-Searcher API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": {
+            "content": "Map-Searcher backend API",
+            "type": "text/plain"
+        }
+    }
+}

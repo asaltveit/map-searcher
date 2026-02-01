@@ -13,7 +13,6 @@ import { TracingModule } from "./tracing/tracing.module";
 import { LettaModule } from "./letta/letta.module";
 import { AgentsModule } from "./agents/agents.module";
 import { ResearchModule } from "./research/research.module";
-import { WorkflowModule } from "./workflow/workflow.module";
 import { UserResolverMiddleware } from "./common/middleware/user-resolver.middleware";
 import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
 
@@ -80,7 +79,6 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
     LettaModule,
     AgentsModule,
     ResearchModule,
-    WorkflowModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

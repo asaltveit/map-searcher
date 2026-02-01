@@ -1,0 +1,60 @@
+# Portman Configuration for Map-Searcher API
+# Generates Postman collection with auto-auth token handling
+
+version: 1.0
+
+globals:
+  # Collection-level variables (object format with key/value pairs)
+  collectionVariables:
+    bearerToken: ""
+    token_expiry: ""
+
+  # Pre-request script runs before EVERY request
+  collectionPreRequestScripts:
+    - file:portman/scripts/jwt-check.js
+
+  # Apply bearer token to all protected endpoints
+  securityOverwrites:
+    bearer:
+      token: "{{bearerToken}}"
+
+# Request body overwrites for auth endpoints
+overwrites:
+  # Login endpoint - use environment variables
+  - openApiOperationId: AuthController_login
+    overwriteRequestBody:
+      - key: email
+        value: "{{login_email}}"
+        overwrite: true
+      - key: password
+        value: "{{login_password}}"
+        overwrite: true
+
+  # Register endpoint - use same credentials
+  - openApiOperationId: AuthController_register
+    overwriteRequestBody:
+      - key: email
+        value: "{{login_email}}"
+        overwrite: true
+      - key: password
+        value: "{{login_password}}"
+        overwrite: true
+
+# Test assertions for generated requests
+tests:
+  # Contract tests for response validation
+  contractTests:
+    - openApiOperationId: "*"
+      statusSuccess:
+        enabled: true
+
+  # Custom tests for specific endpoints
+  extendTests:
+    # After login succeeds, extract and save the token from cookie
+    - openApiOperationId: AuthController_login
+      append: true
+      tests:
+        - file:portman/scripts/login-save-token.js
+
+# Assign variables from responses
+assignVariables: []

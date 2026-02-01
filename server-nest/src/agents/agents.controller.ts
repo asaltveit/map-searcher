@@ -4,52 +4,56 @@ import {
   Post,
   Body,
   Param,
-  Req,
   BadRequestException,
-  UnauthorizedException,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBody,
+  ApiParam,
+  ApiResponse,
+} from "@nestjs/swagger";
 import { AgentsService } from "./agents.service";
-import { Request } from "express";
-
-// Extend Request to include userId from middleware
-interface RequestWithUser extends Request {
-  userId: string;
-}
+import { CreateAgentDto } from "./dto/create-agent.dto";
+import { SendMessageDto } from "./dto/send-message.dto";
+import { AgentResponseDto, MessageResponseDto } from "./dto/agent-response.dto";
 
 @ApiTags("Agents")
 @Controller("api/agents")
 export class AgentsController {
   constructor(private readonly agentsService: AgentsService) {}
 
+  @Post()
+  @ApiOperation({ summary: "Create a new agent" })
+  @ApiBody({ type: CreateAgentDto })
+  @ApiResponse({ status: 201, description: "Agent created", type: AgentResponseDto })
+  async createAgent(@Body() dto: CreateAgentDto) {
+    return this.agentsService.createAgent(dto.name);
+  }
+
   @Get()
-  @ApiOperation({ summary: "Get or create agents for current user" })
-  async getAgents(@Req() req: RequestWithUser) {
-    const userId = req.userId || "default";
-    return this.agentsService.getOrCreateAgents(userId);
+  @ApiOperation({ summary: "List all agents" })
+  @ApiResponse({ status: 200, description: "List of agents", type: [AgentResponseDto] })
+  async listAgents() {
+    return this.agentsService.listAgents();
   }
 
   @Post(":id/messages")
   @ApiOperation({ summary: "Send a message to an agent" })
+  @ApiParam({ name: "id", description: "Agent ID" })
+  @ApiBody({ type: SendMessageDto })
+  @ApiResponse({ status: 201, description: "Message response", type: MessageResponseDto })
   async sendMessage(
     @Param("id") agentId: string,
-    @Body() body: any,
-    @Req() req: RequestWithUser,
+    @Body() dto: SendMessageDto,
   ) {
-    // Validate agentId
     if (!this.isValidId(agentId)) {
       throw new BadRequestException("Invalid agent ID");
     }
-
-    // Validate user is authenticated
-    if (!req.userId) {
-      throw new UnauthorizedException("User not authenticated");
-    }
-
-    return this.agentsService.sendMessage(agentId, body);
+    return this.agentsService.sendMessage(agentId, dto.content);
   }
 
   private isValidId(id: string): boolean {
-    return typeof id === "string" && /^[a-zA-Z0-9_-]{1,128}$/.test(id);
+    return typeof id === "string" && id.length > 0 && id.length <= 128;
   }
 }

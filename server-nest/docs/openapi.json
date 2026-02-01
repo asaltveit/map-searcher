@@ -1,0 +1,532 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Returns a simple welcome message to verify the API is running",
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Welcome message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Hello World!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get welcome message",
+        "tags": [
+          "General"
+        ]
+      }
+    },
+    "/api/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Health check",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com",
+                    "description": "User email address"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "SecureP@ss123",
+                    "description": "User password (minimum 8 characters)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Login user",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com",
+                    "description": "User email address"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "SecureP@ss123",
+                    "description": "User password (minimum 8 characters)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Logout user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "operationId": "AuthController_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Get current user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "operationId": "UsersController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of users"
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "List all users",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "description": "Returns the authenticated user profile extracted from the JWT token.",
+        "operationId": "UsersController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User profile from JWT token"
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Get current user profile from JWT payload",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/users/profile": {
+      "get": {
+        "description": "Fetches the complete user profile from the database.",
+        "operationId": "UsersController_getFullProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Full user profile (no password)"
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Get full user profile from database",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/monitoring/health": {
+      "get": {
+        "description": "Returns health status including Redis availability",
+        "operationId": "MonitoringController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "System health status"
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Get system health status",
+        "tags": [
+          "Monitoring"
+        ]
+      }
+    },
+    "/api/research": {
+      "get": {
+        "operationId": "ResearchController_searchResearch",
+        "parameters": [
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Search query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Search research",
+        "tags": [
+          "Research"
+        ]
+      },
+      "post": {
+        "operationId": "ResearchController_saveResearch",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Save research",
+        "tags": [
+          "Research"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "content"
+                ],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "Research content"
+                  },
+                  "source_url": {
+                    "type": "string",
+                    "description": "Source URL"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents": {
+      "get": {
+        "operationId": "AgentsController_listAgents",
+        "summary": "List all agents",
+        "tags": [
+          "Agents"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of agents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgentResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "AgentsController_createAgent",
+        "summary": "Create a new agent",
+        "tags": [
+          "Agents"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAgentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Agent created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/messages": {
+      "post": {
+        "operationId": "AgentsController_sendMessage",
+        "summary": "Send a message to an agent",
+        "tags": [
+          "Agents"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Map-Searcher API",
+    "description": "Map-Searcher backend API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
+    },
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "Research",
+      "description": "Research storage endpoints"
+    },
+    {
+      "name": "Agents",
+      "description": "Letta AI agent endpoints"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development"
+    },
+    {
+      "url": "{{baseUrl}}",
+      "description": "Dynamic (from environment)"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "access-token": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "CreateAgentDto": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name for the new agent",
+            "example": "my_assistant",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "SendMessageDto": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Message content to send to the agent",
+            "example": "Hello! What can you help me with?",
+            "minLength": 1,
+            "maxLength": 10000
+          }
+        }
+      },
+      "AgentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Agent ID",
+            "example": "agent-123..."
+          },
+          "name": {
+            "type": "string",
+            "description": "Agent name",
+            "example": "my_assistant"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model used",
+            "example": "openai/gpt-4o-mini"
+          },
+          "agent_type": {
+            "type": "string",
+            "description": "Agent type",
+            "example": "letta_v1_agent"
+          }
+        }
+      },
+      "MessageResponseDto": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "description": "Messages from the agent",
+            "items": {
+              "type": "object"
+            }
+          },
+          "stop_reason": {
+            "type": "object",
+            "description": "Stop reason"
+          },
+          "usage": {
+            "type": "object",
+            "description": "Usage statistics"
+          }
+        }
+      }
+    }
+  }
+}

@@ -24,7 +24,12 @@
     "studio": "npx prisma studio",
     "services:up": "docker compose up -d",
     "services:down": "docker compose down",
-    "services:logs": "docker compose logs -f"
+    "services:logs": "docker compose logs -f",
+    "openapi:gen": "tsx scripts/generate-openapi.ts",
+    "postman:gen": "portman -l docs/openapi.json -c portman/portman-config.yml -s portman/postman-config.json -o postman/collection.json",
+    "postman:push": "tsx scripts/push-to-postman.ts",
+    "postman:sync:envs": "tsx scripts/sync-environments.ts",
+    "postman:sync": "npm run openapi:gen && npm run postman:gen && npm run postman:push && npm run postman:sync:envs"
   },
   "dependencies": {
     "@bull-board/api": "^6.15.0",
@@ -85,6 +90,8 @@
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.49.0"
+    "typescript-eslint": "^8.49.0",
+    "@apideck/portman": "^1.28.0",
+    "newman": "^6.2.1"
   }
 }
