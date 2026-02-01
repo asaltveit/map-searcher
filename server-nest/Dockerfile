@@ -4,9 +4,9 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 
-# Copy package files
-COPY package.json ./
-COPY prisma ./prisma/
+# Copy package files from server-nest (context is repo root)
+COPY server-nest/package.json ./
+COPY server-nest/prisma ./prisma/
 
 # Install dependencies
 RUN npm install
@@ -23,8 +23,8 @@ WORKDIR /app
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 
-# Copy source
-COPY . .
+# Copy source from server-nest
+COPY server-nest/ .
 
 # Build application
 RUN npm run build
@@ -39,7 +39,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Copy package files
-COPY package.json ./
+COPY server-nest/package.json ./
 
 # Copy prisma schema and config
 COPY --from=builder /app/prisma ./prisma
