@@ -1,0 +1,11 @@
+{
+  "info": {
+    "name": "Map-Searcher API",
+    "description": "NestJS backend API for map-searcher application"
+  },
+  "settings": {
+    "outputFile": "postman/collection.json",
+    "separateFolders": true,
+    "folderByTag": true
+  }
+}

@@ -1,0 +1,116 @@
+name: Sync CLAUDE.md and .cursorrules
+
+on:
+  push:
+    paths:
+      - 'server-nest/CLAUDE.md'
+      - 'server-nest/.cursorrules'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'server-nest/CLAUDE.md'
+      - 'server-nest/.cursorrules'
+
+jobs:
+  sync-check:
+    name: Check Config Files Sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check if files are in sync
+        id: check-sync
+        run: |
+          cd server-nest
+          if diff CLAUDE.md .cursorrules > /dev/null 2>&1; then
+            echo "Files are in sync"
+            echo "in_sync=true" >> $GITHUB_OUTPUT
+          else
+            echo "Files are out of sync"
+            echo "in_sync=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fail if out of sync on PR
+        if: github.event_name == 'pull_request' && steps.check-sync.outputs.in_sync == 'false'
+        run: |
+          echo "::error::CLAUDE.md and .cursorrules are out of sync!"
+          echo "Please ensure both files have identical content."
+          diff server-nest/CLAUDE.md server-nest/.cursorrules || true
+          exit 1
+
+  auto-sync:
+    name: Auto-sync Config Files
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine which file changed and sync
+        id: sync
+        run: |
+          cd server-nest
+
+          # Get the list of changed files in the last commit
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+
+          CLAUDE_CHANGED=false
+          CURSOR_CHANGED=false
+
+          if echo "$CHANGED_FILES" | grep -q "server-nest/CLAUDE.md"; then
+            CLAUDE_CHANGED=true
+          fi
+
+          if echo "$CHANGED_FILES" | grep -q "server-nest/.cursorrules"; then
+            CURSOR_CHANGED=true
+          fi
+
+          # If both changed in the same commit, check if they're already in sync
+          if [ "$CLAUDE_CHANGED" = true ] && [ "$CURSOR_CHANGED" = true ]; then
+            if diff CLAUDE.md .cursorrules > /dev/null 2>&1; then
+              echo "Both files changed and are already in sync"
+              echo "needs_sync=false" >> $GITHUB_OUTPUT
+            else
+              # Prefer CLAUDE.md as source of truth
+              cp CLAUDE.md .cursorrules
+              echo "needs_sync=true" >> $GITHUB_OUTPUT
+              echo "source=CLAUDE.md" >> $GITHUB_OUTPUT
+            fi
+          elif [ "$CLAUDE_CHANGED" = true ]; then
+            cp CLAUDE.md .cursorrules
+            echo "needs_sync=true" >> $GITHUB_OUTPUT
+            echo "source=CLAUDE.md" >> $GITHUB_OUTPUT
+          elif [ "$CURSOR_CHANGED" = true ]; then
+            cp .cursorrules CLAUDE.md
+            echo "needs_sync=true" >> $GITHUB_OUTPUT
+            echo "source=.cursorrules" >> $GITHUB_OUTPUT
+          else
+            echo "No relevant files changed"
+            echo "needs_sync=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for changes
+        if: steps.sync.outputs.needs_sync == 'true'
+        id: git-check
+        run: |
+          cd server-nest
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push sync
+        if: steps.sync.outputs.needs_sync == 'true' && steps.git-check.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          cd server-nest
+          git add CLAUDE.md .cursorrules
+          git commit -m "chore: sync CLAUDE.md and .cursorrules from ${{ steps.sync.outputs.source }}"
+          git push

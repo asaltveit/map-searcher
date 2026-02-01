@@ -35,37 +35,39 @@ export async function getOrCreateAgents(userId) {
   const existing = store.get(userId);
   if (existing) return existing;
 
-  const block = await client.blocks.create({
-    label: 'research',
-    description: 'Research findings for the map agent',
-    value: '',
-  });
+  return trace('getOrCreateAgents', async () => {
+    const block = await client.blocks.create({
+      label: 'research',
+      description: 'Research findings for the map agent',
+      value: '',
+    });
 
-  const researchAgent = await client.agents.create({
-    model,
-    embedding,
-    memory_blocks: [
-      { label: 'persona', value: RESEARCH_PERSONA },
-      { label: 'human', value: 'User is researching and mapping. Help gather and save findings with sources.' },
-    ],
-    block_ids: [block.id],
-    tools: ['web_search', 'run_code'],
-  });
+    const researchAgent = await client.agents.create({
+      model,
+      embedding,
+      memory_blocks: [
+        { label: 'persona', value: RESEARCH_PERSONA },
+        { label: 'human', value: 'User is researching and mapping. Help gather and save findings with sources.' },
+      ],
+      block_ids: [block.id],
+      tools: ['web_search', 'run_code'],
+    });
 
-  const mapAgent = await client.agents.create({
-    model,
-    embedding,
-    memory_blocks: [{ label: 'persona', value: MAP_PERSONA }],
-    block_ids: [block.id],
-  });
+    const mapAgent = await client.agents.create({
+      model,
+      embedding,
+      memory_blocks: [{ label: 'persona', value: MAP_PERSONA }],
+      block_ids: [block.id],
+    });
 
-  const out = {
-    researchAgentId: researchAgent.id,
-    mapAgentId: mapAgent.id,
-    researchBlockId: block.id,
-  };
-  store.set(userId, out);
-  return out;
+    const out = {
+      researchAgentId: researchAgent.id,
+      mapAgentId: mapAgent.id,
+      researchBlockId: block.id,
+    };
+    store.set(userId, out);
+    return out;
+  });
 }
 
 export async function updateBlock(blockId, value) {
