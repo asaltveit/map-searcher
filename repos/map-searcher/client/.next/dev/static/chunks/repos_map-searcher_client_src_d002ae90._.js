@@ -937,6 +937,8 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "use strict";
 
 __turbopack_context__.s([
+    "chatWithArticles",
+    ()=>chatWithArticles,
     "createAlert",
     ()=>createAlert,
     "deleteAlert",
@@ -1176,6 +1178,36 @@ async function getAlertsLocations(alertIds) {
         console.warn(`[API] getAlertsLocations WARNING - NO FEATURES RETURNED! This means no map pins will show.`);
     }
     return data;
+}
+async function chatWithArticles(alertId, message) {
+    const url = `${getBase()}/api/alerts/${alertId}/chat`;
+    console.log(`[API] chatWithArticles START - alertId=${alertId}, messageLength=${message.length}, url=${url}`);
+    console.log(`[API] chatWithArticles body - message="${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"`);
+    try {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                message
+            })
+        });
+        console.log(`[API] chatWithArticles response received - status=${res.status}, ok=${res.ok}, contentType=${res.headers.get('content-type')}`);
+        if (!res.ok) {
+            const errorText = await res.text().catch(()=>res.statusText);
+            console.error(`[API] chatWithArticles FAILED - alertId=${alertId}, status=${res.status}, error="${errorText.substring(0, 200)}"`);
+            throw new Error(errorText);
+        }
+        const data = await res.json();
+        console.log(`[API] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${data.agentId}, responseLength=${data.response?.length || 0}`);
+        console.log(`[API] chatWithArticles response preview - "${data.response?.substring(0, 150)}${data.response?.length > 150 ? '...' : ''}"`);
+        return data;
+    } catch (error) {
+        console.error(`[API] chatWithArticles ERROR - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+        throw error;
+    }
 }
 async function getPreferences() {
     const res = await fetch(`${getBase()}/api/preferences`, {
@@ -4467,14 +4499,21 @@ __turbopack_context__.s([
     ()=>ArticlePanel
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/date-fns/format.js [app-client] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/external-link.js [app-client] (ecmascript) <export default as ExternalLink>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/map-pin.js [app-client] (ecmascript) <export default as MapPin>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/calendar.js [app-client] (ecmascript) <export default as Calendar>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/user.js [app-client] (ecmascript) <export default as User>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/send.js [app-client] (ecmascript) <export default as Send>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/search.js [app-client] (ecmascript) <export default as Search>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-client] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/sheet.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/components/ui/skeleton.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/src/lib/api.ts [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
@@ -4482,16 +4521,100 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$
 ;
 ;
 ;
+;
 function ArticlePanel({ open, onOpenChange, alert, loading }) {
+    _s();
+    const [chatMessages, setChatMessages] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [chatInput, setChatInput] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [chatLoading, setChatLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const chatContainerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     console.log(`[PANEL] ArticlePanel RENDER - open=${open}, loading=${loading}, alertId=${alert?.id}, articleCount=${alert?.articles?.length || 0}`);
     if (!loading && alert?.articles && alert.articles.length === 0) {
         console.warn(`[PANEL] ArticlePanel NO ARTICLES - query="${alert.query}", region="${alert.region}"`);
     }
+    // Scroll to bottom when new messages arrive
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ArticlePanel.useEffect": ()=>{
+            if (chatContainerRef.current) {
+                chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
+        }
+    }["ArticlePanel.useEffect"], [
+        chatMessages
+    ]);
+    // Reset chat when alert changes
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "ArticlePanel.useEffect": ()=>{
+            setChatMessages([]);
+            setChatInput('');
+        }
+    }["ArticlePanel.useEffect"], [
+        alert?.id
+    ]);
+    const handleSendMessage = async ()=>{
+        console.log(`[PANEL] handleSendMessage START - chatInput="${chatInput}", alertId=${alert?.id}, chatLoading=${chatLoading}`);
+        if (!chatInput.trim() || !alert?.id || chatLoading) {
+            console.log(`[PANEL] handleSendMessage EARLY RETURN - trim=${!!chatInput.trim()}, hasAlertId=${!!alert?.id}, chatLoading=${chatLoading}`);
+            return;
+        }
+        const userMessage = chatInput.trim();
+        console.log(`[PANEL] handleSendMessage - userMessage="${userMessage.substring(0, 50)}..."`);
+        setChatInput('');
+        setChatMessages((prev)=>{
+            console.log(`[PANEL] adding user message, new count=${prev.length + 1}`);
+            return [
+                ...prev,
+                {
+                    role: 'user',
+                    content: userMessage
+                }
+            ];
+        });
+        setChatLoading(true);
+        console.log(`[PANEL] calling API for alertId=${alert.id}`);
+        try {
+            const response = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["chatWithArticles"])(alert.id, userMessage);
+            console.log(`[PANEL] API returned agentId=${response.agentId}, responseLength=${response.response.length}`);
+            setChatMessages((prev)=>{
+                console.log(`[PANEL] adding assistant message, new count=${prev.length + 1}`);
+                return [
+                    ...prev,
+                    {
+                        role: 'assistant',
+                        content: response.response
+                    }
+                ];
+            });
+        } catch (error) {
+            console.error('[PANEL] Chat API error:', error instanceof Error ? error.message : String(error));
+            console.error('[PANEL] Full error:', error);
+            setChatMessages((prev)=>{
+                console.log(`[PANEL] adding error message`);
+                return [
+                    ...prev,
+                    {
+                        role: 'assistant',
+                        content: 'Sorry, I encountered an error. Please try again.'
+                    }
+                ];
+            });
+        } finally{
+            setChatLoading(false);
+            console.log(`[PANEL] handleSendMessage DONE`);
+        }
+    };
+    const handleKeyDown = (e)=>{
+        console.log(`[PANEL] handleKeyDown - key=${e.key}, shiftKey=${e.shiftKey}`);
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Sheet"], {
         open: open,
         onOpenChange: onOpenChange,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetContent"], {
-            className: "w-full sm:max-w-md overflow-y-auto",
+            className: "w-full sm:max-w-md flex flex-col",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetHeader"], {
                     children: [
@@ -4500,7 +4623,7 @@ function ArticlePanel({ open, onOpenChange, alert, loading }) {
                                 className: "h-6 w-48"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 35,
+                                lineNumber: 112,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                 children: [
@@ -4510,7 +4633,7 @@ function ArticlePanel({ open, onOpenChange, alert, loading }) {
                             }, void 0, true)
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                            lineNumber: 33,
+                            lineNumber: 110,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$sheet$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SheetDescription"], {
@@ -4518,7 +4641,7 @@ function ArticlePanel({ open, onOpenChange, alert, loading }) {
                                 className: "h-4 w-32"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 45,
+                                lineNumber: 122,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                 children: [
@@ -4528,69 +4651,226 @@ function ArticlePanel({ open, onOpenChange, alert, loading }) {
                             }, void 0, true)
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                            lineNumber: 43,
+                            lineNumber: 120,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                    lineNumber: 32,
+                    lineNumber: 109,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mt-6 space-y-4",
-                    children: loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                        children: [
-                            console.log(`[PANEL] ArticlePanel LOADING state`),
-                            Array.from({
-                                length: 3
-                            }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ArticleSkeleton, {}, i, false, {
+                    className: "flex-1 overflow-y-auto mt-6 space-y-4",
+                    ref: chatContainerRef,
+                    children: [
+                        loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                console.log(`[PANEL] ArticlePanel LOADING state`),
+                                Array.from({
+                                    length: 3
+                                }).map((_, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ArticleSkeleton, {}, i, false, {
+                                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                        lineNumber: 139,
+                                        columnNumber: 17
+                                    }, this))
+                            ]
+                        }, void 0, true) : alert?.articles && alert.articles.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                console.log(`[PANEL] ArticlePanel DISPLAYING ${alert.articles.length} articles`),
+                                alert.articles.map((article)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ArticleCard, {
+                                        article: article
+                                    }, article.id, false, {
+                                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                        lineNumber: 146,
+                                        columnNumber: 17
+                                    }, this))
+                            ]
+                        }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                console.log(`[PANEL] ArticlePanel EMPTY state - no articles found`),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-sm text-zinc-500 dark:text-zinc-400 text-center py-8",
+                                    children: "No articles found for this alert."
+                                }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                    lineNumber: 60,
-                                    columnNumber: 17
-                                }, this))
-                        ]
-                    }, void 0, true) : alert?.articles && alert.articles.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                        children: [
-                            console.log(`[PANEL] ArticlePanel DISPLAYING ${alert.articles.length} articles`),
-                            alert.articles.map((article)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ArticleCard, {
-                                    article: article
-                                }, article.id, false, {
+                                    lineNumber: 152,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true),
+                        chatMessages.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4 space-y-3",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-xs text-zinc-500 dark:text-zinc-400 font-medium",
+                                    children: "Chat"
+                                }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                    lineNumber: 67,
+                                    lineNumber: 161,
+                                    columnNumber: 15
+                                }, this),
+                                chatMessages.map((msg, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: `text-sm rounded-lg p-3 ${msg.role === 'user' ? 'bg-zinc-100 dark:bg-zinc-800 ml-4' : 'bg-teal-50 dark:bg-teal-900/20 mr-4'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1",
+                                                children: msg.role === 'user' ? 'You' : 'Assistant'
+                                            }, void 0, false, {
+                                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                                lineNumber: 171,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "whitespace-pre-wrap",
+                                                children: msg.content
+                                            }, void 0, false, {
+                                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                                lineNumber: 174,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, i, true, {
+                                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                        lineNumber: 163,
+                                        columnNumber: 17
+                                    }, this)),
+                                chatLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "bg-teal-50 dark:bg-teal-900/20 mr-4 rounded-lg p-3",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1",
+                                            children: "Assistant"
+                                        }, void 0, false, {
+                                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                            lineNumber: 179,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-2 text-sm text-zinc-500",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                    className: "h-4 w-4 animate-spin"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                                    lineNumber: 183,
+                                                    columnNumber: 21
+                                                }, this),
+                                                "Thinking..."
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                            lineNumber: 182,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                    lineNumber: 178,
                                     columnNumber: 17
-                                }, this))
-                        ]
-                    }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                        children: [
-                            console.log(`[PANEL] ArticlePanel EMPTY state - no articles found`),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-sm text-zinc-500 dark:text-zinc-400 text-center py-8",
-                                children: "No articles found for this alert."
-                            }, void 0, false, {
-                                fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 73,
-                                columnNumber: 15
-                            }, this)
-                        ]
-                    }, void 0, true)
-                }, void 0, false, {
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                            lineNumber: 160,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
                     fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                    lineNumber: 55,
+                    lineNumber: 133,
                     columnNumber: 9
+                }, this),
+                alert && !loading && alert.articles && alert.articles.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "border-t border-zinc-200 dark:border-zinc-800 pt-4 mt-4",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "text-sm text-zinc-600 dark:text-zinc-400 mb-2",
+                            children: "Ask about these articles"
+                        }, void 0, false, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                            lineNumber: 195,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex gap-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative flex-1",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__["Search"], {
+                                            className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400"
+                                        }, void 0, false, {
+                                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                            lineNumber: 200,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "text",
+                                            value: chatInput,
+                                            onChange: (e)=>setChatInput(e.target.value),
+                                            onKeyDown: handleKeyDown,
+                                            placeholder: "Ask a question...",
+                                            disabled: chatLoading,
+                                            className: "w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50"
+                                        }, void 0, false, {
+                                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                            lineNumber: 201,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                    lineNumber: 199,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                    onClick: handleSendMessage,
+                                    disabled: !chatInput.trim() || chatLoading,
+                                    className: "bg-teal-600 hover:bg-teal-700 text-white shrink-0",
+                                    children: chatLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                        className: "h-4 w-4 animate-spin"
+                                    }, void 0, false, {
+                                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                        lineNumber: 217,
+                                        columnNumber: 19
+                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__["Send"], {
+                                        className: "h-4 w-4"
+                                    }, void 0, false, {
+                                        fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                        lineNumber: 219,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                                    lineNumber: 211,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                            lineNumber: 198,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
+                    lineNumber: 194,
+                    columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-            lineNumber: 31,
+            lineNumber: 108,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-        lineNumber: 30,
+        lineNumber: 107,
         columnNumber: 5
     }, this);
 }
+_s(ArticlePanel, "7v0Am0SMEgSW+LL9RUfFsn1FN38=");
 _c = ArticlePanel;
 function ArticleCard({ article }) {
     const publishedDate = article.publishedAt ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(new Date(article.publishedAt), 'MMM d, yyyy') : null;
@@ -4605,7 +4885,7 @@ function ArticleCard({ article }) {
                         children: article.title
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 92,
+                        lineNumber: 238,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -4622,23 +4902,23 @@ function ArticleCard({ article }) {
                                 className: "h-3.5 w-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 107,
+                                lineNumber: 253,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                            lineNumber: 101,
+                            lineNumber: 247,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 95,
+                        lineNumber: 241,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 91,
+                lineNumber: 237,
                 columnNumber: 7
             }, this),
             article.summary && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4646,7 +4926,7 @@ function ArticleCard({ article }) {
                 children: article.summary
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 113,
+                lineNumber: 259,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4659,12 +4939,12 @@ function ArticleCard({ article }) {
                             children: article.source
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                            lineNumber: 120,
+                            lineNumber: 266,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 119,
+                        lineNumber: 265,
                         columnNumber: 9
                     }, this),
                     publishedDate && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4674,14 +4954,14 @@ function ArticleCard({ article }) {
                                 className: "h-3 w-3"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 124,
+                                lineNumber: 270,
                                 columnNumber: 13
                             }, this),
                             publishedDate
                         ]
                     }, void 0, true, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 123,
+                        lineNumber: 269,
                         columnNumber: 11
                     }, this),
                     article.author && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4691,14 +4971,14 @@ function ArticleCard({ article }) {
                                 className: "h-3 w-3"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 130,
+                                lineNumber: 276,
                                 columnNumber: 13
                             }, this),
                             article.author
                         ]
                     }, void 0, true, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 129,
+                        lineNumber: 275,
                         columnNumber: 11
                     }, this),
                     article.locationCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4708,7 +4988,7 @@ function ArticleCard({ article }) {
                                 className: "h-3 w-3"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                                lineNumber: 136,
+                                lineNumber: 282,
                                 columnNumber: 13
                             }, this),
                             article.locationCount,
@@ -4717,13 +4997,13 @@ function ArticleCard({ article }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 135,
+                        lineNumber: 281,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 118,
+                lineNumber: 264,
                 columnNumber: 7
             }, this),
             article.sentiment && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4731,13 +5011,13 @@ function ArticleCard({ article }) {
                 children: article.sentiment
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 143,
+                lineNumber: 289,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-        lineNumber: 90,
+        lineNumber: 236,
         columnNumber: 5
     }, this);
 }
@@ -4750,21 +5030,21 @@ function ArticleSkeleton() {
                 className: "h-4 w-full"
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 162,
+                lineNumber: 308,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                 className: "h-4 w-3/4"
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 163,
+                lineNumber: 309,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                 className: "h-12 w-full"
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 164,
+                lineNumber: 310,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4774,33 +5054,33 @@ function ArticleSkeleton() {
                         className: "h-3 w-16"
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 166,
+                        lineNumber: 312,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                         className: "h-3 w-20"
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 167,
+                        lineNumber: 313,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                         className: "h-3 w-14"
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                        lineNumber: 168,
+                        lineNumber: 314,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-                lineNumber: 165,
+                lineNumber: 311,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/repos/map-searcher/client/src/components/alerts/ArticlePanel.tsx",
-        lineNumber: 161,
+        lineNumber: 307,
         columnNumber: 5
     }, this);
 }

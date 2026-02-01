@@ -52,28 +52,51 @@ export function ArticlePanel({ open, onOpenChange, alert, loading }: ArticlePane
   }, [alert?.id]);
 
   const handleSendMessage = async () => {
-    if (!chatInput.trim() || !alert?.id || chatLoading) return;
+    console.log(`[PANEL] handleSendMessage START - chatInput="${chatInput}", alertId=${alert?.id}, chatLoading=${chatLoading}`);
+
+    if (!chatInput.trim() || !alert?.id || chatLoading) {
+      console.log(`[PANEL] handleSendMessage EARLY RETURN - trim=${!!chatInput.trim()}, hasAlertId=${!!alert?.id}, chatLoading=${chatLoading}`);
+      return;
+    }
 
     const userMessage = chatInput.trim();
+    console.log(`[PANEL] handleSendMessage - userMessage="${userMessage.substring(0, 50)}..."`);
+
     setChatInput('');
-    setChatMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
+    setChatMessages((prev) => {
+      console.log(`[PANEL] adding user message, new count=${prev.length + 1}`);
+      return [...prev, { role: 'user', content: userMessage }];
+    });
     setChatLoading(true);
+    console.log(`[PANEL] calling API for alertId=${alert.id}`);
 
     try {
       const response = await chatWithArticles(alert.id, userMessage);
-      setChatMessages((prev) => [...prev, { role: 'assistant', content: response.response }]);
+      console.log(`[PANEL] API returned agentId=${response.agentId}, responseLength=${response.response.length}`);
+
+      setChatMessages((prev) => {
+        console.log(`[PANEL] adding assistant message, new count=${prev.length + 1}`);
+        return [...prev, { role: 'assistant', content: response.response }];
+      });
     } catch (error) {
-      console.error('[PANEL] Chat error:', error);
-      setChatMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' },
-      ]);
+      console.error('[PANEL] Chat API error:', error instanceof Error ? error.message : String(error));
+      console.error('[PANEL] Full error:', error);
+
+      setChatMessages((prev) => {
+        console.log(`[PANEL] adding error message`);
+        return [
+          ...prev,
+          { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' },
+        ];
+      });
     } finally {
       setChatLoading(false);
+      console.log(`[PANEL] handleSendMessage DONE`);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    console.log(`[PANEL] handleKeyDown - key=${e.key}, shiftKey=${e.shiftKey}`);
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();

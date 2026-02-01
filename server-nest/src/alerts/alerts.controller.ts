@@ -267,18 +267,25 @@ export class AlertsController {
     @Param("id") alertId: string,
     @Body() dto: ChatWithArticlesDto,
   ): Promise<ChatResponseDto> {
-    this.logger.log(`[CTRL] chatWithArticles START - userId=${req.user.userId}, alertId=${alertId}`);
+    this.logger.log(`[CTRL] chatWithArticles START - userId=${req.user.userId}, alertId=${alertId}, messageLength=${dto.message?.length || 0}`);
+    this.logger.log(`[CTRL] chatWithArticles dto - message="${dto.message?.substring(0, 80)}${dto.message?.length > 80 ? '...' : ''}"`);
+
     this.validateUuid(alertId);
+
     try {
+      this.logger.log(`[CTRL] chatWithArticles - Calling service for userId=${req.user.userId}`);
       const result = await this.alertsService.chatWithArticles(
         req.user.userId,
         alertId,
         dto.message,
       );
-      this.logger.log(`[CTRL] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${result.agentId}`);
+      this.logger.log(`[CTRL] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${result.agentId}, responseLength=${result.response.length}`);
+      this.logger.log(`[CTRL] chatWithArticles response - "${result.response.substring(0, 150)}${result.response.length > 150 ? '...' : ''}"`);
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] chatWithArticles FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`[CTRL] chatWithArticles FAILED - alertId=${alertId}, error=${errorMsg}`);
+      this.logger.error(`[CTRL] chatWithArticles STACK - ${error instanceof Error ? error.stack : 'no stack'}`);
       throw error;
     }
   }

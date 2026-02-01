@@ -325,22 +325,34 @@ export interface ChatResponse {
 /** Chat with articles in an alert using an AI agent */
 export async function chatWithArticles(alertId: string, message: string): Promise<ChatResponse> {
   const url = `${getBase()}/api/alerts/${alertId}/chat`;
-  console.log(`[API] chatWithArticles START - alertId=${alertId}`);
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ message }),
-  });
-  console.log(`[API] chatWithArticles response - status=${res.status}, ok=${res.ok}`);
-  if (!res.ok) {
-    const errorText = await res.text().catch(() => res.statusText);
-    console.error(`[API] chatWithArticles FAILED - alertId=${alertId}, status=${res.status}, error=${errorText}`);
-    throw new Error(errorText);
+  console.log(`[API] chatWithArticles START - alertId=${alertId}, messageLength=${message.length}, url=${url}`);
+  console.log(`[API] chatWithArticles body - message="${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"`);
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ message }),
+    });
+
+    console.log(`[API] chatWithArticles response received - status=${res.status}, ok=${res.ok}, contentType=${res.headers.get('content-type')}`);
+
+    if (!res.ok) {
+      const errorText = await res.text().catch(() => res.statusText);
+      console.error(`[API] chatWithArticles FAILED - alertId=${alertId}, status=${res.status}, error="${errorText.substring(0, 200)}"`);
+      throw new Error(errorText);
+    }
+
+    const data = await res.json();
+    console.log(`[API] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${data.agentId}, responseLength=${data.response?.length || 0}`);
+    console.log(`[API] chatWithArticles response preview - "${data.response?.substring(0, 150)}${data.response?.length > 150 ? '...' : ''}"`);
+
+    return data;
+  } catch (error) {
+    console.error(`[API] chatWithArticles ERROR - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+    throw error;
   }
-  const data = await res.json();
-  console.log(`[API] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${data.agentId}`);
-  return data;
 }
 
 // ==================== User Preferences API ====================

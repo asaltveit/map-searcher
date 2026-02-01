@@ -605,36 +605,58 @@ export class AlertsService {
 
     // Send message and extract response
     this.logger.log(`[SVC] chatWithArticles - Sending message to agent ${agentId}`);
-    const response = await this.lettaService.sendMessage(agentId, { content: message });
-    const assistantResponse = this.extractAssistantResponse(response);
-    this.logger.log(`[SVC] chatWithArticles - Got response, length=${assistantResponse.length}`);
+    try {
+      const response = await this.lettaService.sendMessage(agentId, { content: message });
+      this.logger.log(`[SVC] chatWithArticles - sendMessage returned, responseType=${typeof response}`);
+      this.logger.log(`[SVC] chatWithArticles - Response structure: messages=${!!response?.messages}, stepcount=${response?.messages?.length || 0}`);
 
-    return { response: assistantResponse, agentId };
+      const assistantResponse = this.extractAssistantResponse(response);
+      this.logger.log(`[SVC] chatWithArticles - Extracted response, length=${assistantResponse.length}`);
+      this.logger.log(`[SVC] chatWithArticles - Response preview - "${assistantResponse.substring(0, 150)}${assistantResponse.length > 150 ? '...' : ''}"`);
+
+      return { response: assistantResponse, agentId };
+    } catch (error) {
+      this.logger.error(`[SVC] chatWithArticles - FAILED to send message - ${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
   }
 
   /**
    * Extract the assistant's text response from Letta message response
    */
   private extractAssistantResponse(response: unknown): string {
+    this.logger.log(`[SVC] extractAssistantResponse START - responseType=${typeof response}`);
+
     const r = response as { messages?: Array<{ message_type?: string; assistant_message?: string; content?: string }> };
 
     if (Array.isArray(r?.messages)) {
+      this.logger.log(`[SVC] extractAssistantResponse - Found ${r.messages.length} messages`);
+
       // Look for assistant_message type first (Letta's format)
       for (let i = r.messages.length - 1; i >= 0; i--) {
         const msg = r.messages[i];
+        this.logger.log(`[SVC] extractAssistantResponse - Message ${i}: type="${msg?.message_type}", hasAssistantMsg=${!!msg?.assistant_message}, hasContent=${!!msg?.content}`);
+
         if (msg?.message_type === "assistant_message" && msg?.assistant_message) {
+          this.logger.log(`[SVC] extractAssistantResponse - Found assistant_message at index ${i}`);
           return msg.assistant_message;
         }
       }
+
       // Fallback to content field
+      this.logger.log(`[SVC] extractAssistantResponse - Trying content fallback`);
       for (let i = r.messages.length - 1; i >= 0; i--) {
         const msg = r.messages[i];
         if (typeof msg?.content === "string" && msg.content) {
+          this.logger.log(`[SVC] extractAssistantResponse - Found content at index ${i}`);
           return msg.content;
         }
       }
+    } else {
+      this.logger.warn(`[SVC] extractAssistantResponse - No messages array found in response`);
     }
 
+    this.logger.error(`[SVC] extractAssistantResponse - Could not extract response from Letta response`);
     return "I couldn't generate a response. Please try again.";
   }
 
