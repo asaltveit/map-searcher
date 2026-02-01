@@ -45,189 +45,6 @@
         ]
       }
     },
-    "/api/auth/register": {
-      "post": {
-        "operationId": "AuthController_register",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "Register a new user",
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "example": "user@example.com",
-                    "description": "User email address"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "example": "SecureP@ss123",
-                    "description": "User password (minimum 8 characters)"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/auth/login": {
-      "post": {
-        "operationId": "AuthController_login",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "Login user",
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "example": "user@example.com",
-                    "description": "User email address"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "example": "SecureP@ss123",
-                    "description": "User password (minimum 8 characters)"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/auth/logout": {
-      "post": {
-        "operationId": "AuthController_logout",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "summary": "Logout user",
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
-    "/api/auth/me": {
-      "get": {
-        "operationId": "AuthController_me",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "access-token": []
-          }
-        ],
-        "summary": "Get current user",
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
-    "/api/users": {
-      "get": {
-        "operationId": "UsersController_list",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "List of users"
-          }
-        },
-        "security": [
-          {
-            "access-token": []
-          }
-        ],
-        "summary": "List all users",
-        "tags": [
-          "Users"
-        ]
-      }
-    },
-    "/api/users/me": {
-      "get": {
-        "description": "Returns the authenticated user profile extracted from the JWT token.",
-        "operationId": "UsersController_getProfile",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "User profile from JWT token"
-          }
-        },
-        "security": [
-          {
-            "access-token": []
-          }
-        ],
-        "summary": "Get current user profile from JWT payload",
-        "tags": [
-          "Users"
-        ]
-      }
-    },
-    "/api/users/profile": {
-      "get": {
-        "description": "Fetches the complete user profile from the database.",
-        "operationId": "UsersController_getFullProfile",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Full user profile (no password)"
-          }
-        },
-        "security": [
-          {
-            "access-token": []
-          }
-        ],
-        "summary": "Get full user profile from database",
-        "tags": [
-          "Users"
-        ]
-      }
-    },
     "/api/monitoring/health": {
       "get": {
         "description": "Returns health status including Redis availability",
@@ -315,9 +132,14 @@
     "/api/agents": {
       "get": {
         "operationId": "AgentsController_listAgents",
-        "summary": "List all agents",
+        "summary": "List all agents for the authenticated user",
         "tags": [
           "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
         ],
         "responses": {
           "200": {
@@ -327,7 +149,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AgentResponseDto"
+                    "$ref": "#/components/schemas/AgentListItemDto"
                   }
                 }
               }
@@ -340,6 +162,11 @@
         "summary": "Create a new agent",
         "tags": [
           "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
         ],
         "requestBody": {
           "required": true,
@@ -365,19 +192,206 @@
         }
       }
     },
-    "/api/agents/{id}/messages": {
-      "post": {
-        "operationId": "AgentsController_sendMessage",
-        "summary": "Send a message to an agent",
+    "/api/agents/{id}": {
+      "get": {
+        "operationId": "AgentsController_getAgent",
+        "summary": "Get a single agent by ID",
         "tags": [
           "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "AgentsController_updateAgent",
+        "summary": "Update an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAgentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AgentsController_deleteAgent",
+        "summary": "Delete an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Agent deleted"
+          },
+          "404": {
+            "description": "Agent not found"
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/messages": {
+      "get": {
+        "operationId": "AgentsController_listMessages",
+        "summary": "Get conversation history for an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageHistoryResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "AgentsController_sendMessage",
+        "summary": "Send a message to an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -406,11 +420,708 @@
           }
         }
       }
+    },
+    "/api/agents/{id}/messages/reset": {
+      "post": {
+        "operationId": "AgentsController_resetMessages",
+        "summary": "Reset conversation history for an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetMessagesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Messages reset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/blocks": {
+      "get": {
+        "operationId": "AgentsController_listBlocks",
+        "summary": "List memory blocks for an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of memory blocks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemoryBlockResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/blocks/{label}": {
+      "get": {
+        "operationId": "AgentsController_getBlock",
+        "summary": "Get a specific memory block by label",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Memory block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryBlockResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "AgentsController_updateBlock",
+        "summary": "Update a memory block",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "label",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBlockDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Memory block updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemoryBlockResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/tools": {
+      "get": {
+        "operationId": "AgentsController_listAgentTools",
+        "summary": "List tools attached to an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tools",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToolSummaryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/tools/{toolId}/attach": {
+      "post": {
+        "operationId": "AgentsController_attachTool",
+        "summary": "Attach a tool to an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool attached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{id}/tools/{toolId}": {
+      "delete": {
+        "operationId": "AgentsController_detachTool",
+        "summary": "Detach a tool from an agent",
+        "tags": [
+          "Agents"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool detached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tools": {
+      "get": {
+        "operationId": "ToolsController_listTools",
+        "summary": "List all available tools",
+        "tags": [
+          "Tools"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of tools",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToolListItemDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "ToolsController_createTool",
+        "summary": "Create a custom tool",
+        "tags": [
+          "Tools"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateToolDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tool created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tools/{id}": {
+      "get": {
+        "operationId": "ToolsController_getTool",
+        "summary": "Get a tool by ID",
+        "tags": [
+          "Tools"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "ToolsController_deleteTool",
+        "summary": "Delete a custom tool",
+        "tags": [
+          "Tools"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Tool deleted"
+          }
+        }
+      }
+    },
+    "/api/models": {
+      "get": {
+        "operationId": "ModelsController_listModels",
+        "summary": "List available LLM models",
+        "tags": [
+          "Models"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ModelDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/models/embeddings": {
+      "get": {
+        "operationId": "ModelsController_listEmbeddingModels",
+        "summary": "List available embedding models",
+        "tags": [
+          "Models"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of embedding models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmbeddingModelDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "summary": "Register a new user",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "SecureP@ss123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "Login user",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "SecureP@ss123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "summary": "Logout user",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "operationId": "AuthController_me",
+        "summary": "Get current user",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current user info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sub": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "info": {
     "title": "Map-Searcher API",
-    "description": "Map-Searcher backend API",
+    "description": "Map-Searcher backend API with Letta AI agent integration",
     "version": "1.0",
     "contact": {}
   },
@@ -430,6 +1141,14 @@
     {
       "name": "Agents",
       "description": "Letta AI agent endpoints"
+    },
+    {
+      "name": "Tools",
+      "description": "Global tool management"
+    },
+    {
+      "name": "Models",
+      "description": "Model discovery endpoints"
     }
   ],
   "servers": [
@@ -460,10 +1179,169 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name for the new agent",
-            "example": "my_assistant",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "my_assistant"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "model": {
+            "type": "string",
+            "example": "openai/gpt-4o-mini"
+          },
+          "embedding": {
+            "type": "string",
+            "example": "openai/text-embedding-3-small"
+          },
+          "system": {
+            "type": "string",
+            "maxLength": 50000
+          },
+          "memoryBlocks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "limit": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateAgentDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
             "minLength": 1,
             "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "model": {
+            "type": "string"
+          },
+          "system": {
+            "type": "string",
+            "maxLength": 50000
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AgentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "agent-123..."
+          },
+          "name": {
+            "type": "string",
+            "example": "my_assistant"
+          },
+          "description": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string",
+            "example": "openai/gpt-4o-mini"
+          },
+          "embedding": {
+            "type": "string",
+            "example": "openai/text-embedding-3-small"
+          },
+          "agent_type": {
+            "type": "string",
+            "example": "letta_v1_agent"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemoryBlockResponseDto"
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolSummaryDto"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AgentListItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "agent_type": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -475,35 +1353,23 @@
         "properties": {
           "content": {
             "type": "string",
-            "description": "Message content to send to the agent",
-            "example": "Hello! What can you help me with?",
             "minLength": 1,
-            "maxLength": 10000
+            "maxLength": 10000,
+            "example": "Hello! What can you help me with?"
+          },
+          "maxSteps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
           }
         }
       },
-      "AgentResponseDto": {
+      "ResetMessagesDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Agent ID",
-            "example": "agent-123..."
-          },
-          "name": {
-            "type": "string",
-            "description": "Agent name",
-            "example": "my_assistant"
-          },
-          "model": {
-            "type": "string",
-            "description": "Model used",
-            "example": "openai/gpt-4o-mini"
-          },
-          "agent_type": {
-            "type": "string",
-            "description": "Agent type",
-            "example": "letta_v1_agent"
+          "addDefaultInitialMessages": {
+            "type": "boolean",
+            "default": true
           }
         }
       },
@@ -512,18 +1378,225 @@
         "properties": {
           "messages": {
             "type": "array",
-            "description": "Messages from the agent",
             "items": {
               "type": "object"
             }
           },
           "stop_reason": {
-            "type": "object",
-            "description": "Stop reason"
+            "type": "object"
           },
           "usage": {
             "type": "object",
-            "description": "Usage statistics"
+            "properties": {
+              "prompt_tokens": {
+                "type": "integer"
+              },
+              "completion_tokens": {
+                "type": "integer"
+              },
+              "total_tokens": {
+                "type": "integer"
+              },
+              "step_count": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "MessageHistoryResponseDto": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "MemoryBlockResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string",
+            "example": "persona"
+          },
+          "value": {
+            "type": "string",
+            "example": "I am a helpful AI assistant."
+          },
+          "description": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateBlockDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "maxLength": 50000
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 50000
+          }
+        }
+      },
+      "ToolSummaryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tool_type": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateToolDto": {
+        "type": "object",
+        "required": [
+          "sourceCode"
+        ],
+        "properties": {
+          "sourceCode": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 50000
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ToolResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "toolType": {
+            "type": "string"
+          },
+          "sourceCode": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "jsonSchema": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ToolListItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "toolType": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ModelDto": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "example": "openai/gpt-4o"
+          },
+          "name": {
+            "type": "string",
+            "example": "GPT-4o"
+          },
+          "provider": {
+            "type": "string",
+            "example": "openai"
+          },
+          "context_window": {
+            "type": "integer"
+          }
+        }
+      },
+      "EmbeddingModelDto": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "example": "openai/text-embedding-3-small"
+          },
+          "name": {
+            "type": "string",
+            "example": "Text Embedding 3 Small"
+          },
+          "provider": {
+            "type": "string",
+            "example": "openai"
+          },
+          "embedding_dim": {
+            "type": "integer"
           }
         }
       }
