@@ -22,7 +22,7 @@ import {
   ApiBearerAuth,
 } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { JwtRequest } from "../common/types";
+import type { JwtRequest } from "../common/types";
 import { AgentsService } from "./agents.service";
 import { CreateAgentDto } from "./dto/create-agent.dto";
 import { UpdateAgentDto } from "./dto/update-agent.dto";
@@ -197,11 +197,7 @@ export class AgentsController {
     @Body() dto: ResetMessagesDto,
   ) {
     this.validateAgentId(agentId);
-    return this.agentsService.resetMessages(
-      req.user.userId,
-      agentId,
-      dto.addDefaultInitialMessages ?? true,
-    );
+    return this.agentsService.resetMessages(req.user.userId, agentId);
   }
 
   // ==================== Memory Blocks ====================

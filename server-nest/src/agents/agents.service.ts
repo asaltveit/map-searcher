@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, Logger } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
+import type { Agent } from "@prisma/client";
 import {
   LettaService,
   CreateAgentParams,
@@ -92,10 +93,10 @@ export class AgentsService {
 
     // Fetch full details from Letta for each agent
     const agents = await Promise.all(
-      userAgents.map(async (agent) => {
+      userAgents.map(async (agent: Agent) => {
         try {
           return await this.lettaService.retrieveAgent(agent.lettaAgentId);
-        } catch (error) {
+        } catch {
           this.logger.warn(
             `Failed to retrieve agent ${agent.lettaAgentId} from Letta`,
           );
@@ -104,7 +105,7 @@ export class AgentsService {
       }),
     );
 
-    return agents.filter((agent) => agent !== null);
+    return agents.filter((agent: unknown) => agent !== null);
   }
 
   async getAgent(userId: string, agentId: string) {
@@ -163,13 +164,9 @@ export class AgentsService {
     return this.lettaService.listMessages(agentId, params);
   }
 
-  async resetMessages(
-    userId: string,
-    agentId: string,
-    addDefaultInitialMessages = true,
-  ) {
+  async resetMessages(userId: string, agentId: string) {
     await this.verifyOwnership(userId, agentId);
-    return this.lettaService.resetMessages(agentId, addDefaultInitialMessages);
+    return this.lettaService.resetMessages(agentId);
   }
 
   // ==================== Memory Blocks ====================
