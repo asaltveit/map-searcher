@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "dev:server": "node server/index.js",
+    "dev:server": "node --env-file=.env server/index.js",
     "dev:client": "cd client && npm run dev",
     "build": "cd client && npm run build",
     "install:all": "npm install && cd client && npm install",
