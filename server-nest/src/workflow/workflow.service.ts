@@ -17,10 +17,67 @@ export interface WorkflowAgents {
   researchBlockId: string;
 }
 
+export interface MapState {
+  geoJson: FeatureCollection;
+  view?: { center: [number, number]; zoom: number };
+}
+
+interface FeatureCollection {
+  type: "FeatureCollection";
+  features: Array<{
+    type: "Feature";
+    geometry?: { type: string; coordinates: unknown };
+    properties?: Record<string, unknown>;
+  }>;
+}
+
+const MAP_STATE_JSON_MARKER = "MAP_STATE_JSON";
+const END_MAP_STATE_JSON_MARKER = "END_MAP_STATE_JSON";
+
+function getLastAssistantContent(response: unknown): string {
+  const r = response as Record<string, unknown>;
+  const messages = (r?.messages as Array<{ role?: string; content?: string }>) ?? (r?.steps as Array<{ role?: string; content?: string }>);
+  if (Array.isArray(messages)) {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const m = messages[i];
+      if (m?.role === "assistant" && typeof m?.content === "string") return m.content;
+    }
+  }
+  const content = r?.content ?? r?.output;
+  if (typeof content === "string") return content;
+  return "";
+}
+
+function extractMapStateFromResponse(response: unknown): MapState | null {
+  const text = getLastAssistantContent(response);
+  const start = text.indexOf(MAP_STATE_JSON_MARKER);
+  if (start === -1) return null;
+  const afterMarker = text.indexOf("\n", start) + 1;
+  const end = text.indexOf(END_MAP_STATE_JSON_MARKER, afterMarker);
+  if (end === -1) return null;
+  const jsonStr = text.slice(afterMarker, end).trim();
+  try {
+    const parsed = JSON.parse(jsonStr) as { type?: string; features?: unknown[]; view?: { center?: number[]; zoom?: number } };
+    if (parsed?.type !== "FeatureCollection" || !Array.isArray(parsed.features)) return null;
+    const geoJson: FeatureCollection = {
+      type: "FeatureCollection",
+      features: parsed.features as FeatureCollection["features"],
+    };
+    const view =
+      parsed.view?.center?.length === 2 && typeof parsed.view?.zoom === "number"
+        ? { center: parsed.view.center as [number, number], zoom: parsed.view.zoom }
+        : undefined;
+    return { geoJson, view };
+  } catch {
+    return null;
+  }
+}
+
 @Injectable()
 export class WorkflowService {
   private readonly logger = new Logger(WorkflowService.name);
   private readonly store = new Map<string, WorkflowAgents>();
+  private readonly mapStateStore = new Map<string, MapState>();
 
   constructor(
     private readonly lettaService: LettaService,
@@ -98,7 +155,24 @@ export class WorkflowService {
       throw new BadRequestException(`Agent ${agentId} is not a workflow agent`);
     }
     return this.tracingService.trace("workflow.sendMessage", async () => {
-      return this.lettaService.sendMessage(agentId, { content });
+      const response = await this.lettaService.sendMessage(agentId, { content });
+      const agents = this.store.get(userId);
+      if (agents && agentId === agents.mapAgentId) {
+        const mapState = extractMapStateFromResponse(response);
+        if (mapState) {
+          this.mapStateStore.set(userId, mapState);
+          this.logger.log(`Map state updated for user ${userId} (${mapState.geoJson.features.length} features)`);
+        }
+      }
+      return response;
     });
+  }
+
+  getMapState(userId: string): MapState | null {
+    return this.mapStateStore.get(userId) ?? null;
+  }
+
+  setMapState(userId: string, state: MapState): void {
+    this.mapStateStore.set(userId, state);
   }
 }

@@ -8,7 +8,7 @@ import {
 } from "@nestjs/common";
 import * as Express from "express";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { WorkflowService, WorkflowAgents } from "./workflow.service";
+import { WorkflowService, WorkflowAgents, MapState } from "./workflow.service";
 
 
 export class WorkflowAgentsDto implements WorkflowAgents {
@@ -80,5 +80,13 @@ export class WorkflowController {
       throw new BadRequestException("content must be non-empty");
     }
     return this.workflowService.sendMessage(userId, agentId, trimmed);
+  }
+
+  @Get("map-state")
+  @ApiOperation({ summary: "Get current map state (GeoJSON + optional view) from last map agent run" })
+  @ApiResponse({ status: 200, description: "Map state or empty when none" })
+  async getMapState(@Req() req: Express.Request): Promise<MapState | null> {
+    const userId = (req as Express.Request & { userId?: string }).userId ?? "default";
+    return this.workflowService.getMapState(userId);
   }
 }

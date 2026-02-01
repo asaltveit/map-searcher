@@ -23,9 +23,14 @@ export function useSpeechRecognition(options?: {
   const [transcript, setTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSupported] = useState(() => !!getSpeechRecognition());
+  // Defer support check to useEffect so server and first client render match (avoid hydration mismatch)
+  const [isSupported, setIsSupported] = useState<boolean | null>(null);
   const recognitionRef = useRef<{ stop: () => void } | null>(null);
   const onResultRef = useRef(options?.onResult);
+
+  useEffect(() => {
+    setIsSupported(!!getSpeechRecognition());
+  }, []);
 
   useEffect(() => {
     onResultRef.current = options?.onResult;

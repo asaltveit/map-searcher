@@ -29,7 +29,7 @@ vi.mock("react-map-gl/maplibre", () => ({
   },
 }));
 
-vi.mock("maplibre-gl/dist/maplibre-gl.css", () => ({}));
+vi.mock("../../../node_modules/maplibre-gl/dist/maplibre-gl.css", () => ({}));
 
 describe("MapContainer", () => {
   beforeEach(() => {

@@ -58,11 +58,45 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
 
   const displayTranscript = (transcript + " " + interimTranscript).trim() || "—";
 
+  // Unknown support (server + first client render): render same structure as supported so hydration matches
+  if (sttSupported === null) {
+    return (
+      <Card className={cn("rounded-xl border-border/80 shadow-sm", className)} role="region" aria-labelledby="voice-section-title">
+        <CardHeader className="pb-2">
+          <CardTitle id="voice-section-title" className="text-base font-medium text-foreground">Voice input</CardTitle>
+          <CardDescription className="text-sm">
+            Speak your query or hear findings read aloud.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+              <Button type="button" variant="default" size="icon" className="min-h-[44px] min-w-[44px] touch-manipulation sm:min-h-0 sm:min-w-0" disabled aria-label="Start listening">
+                <MicIcon />
+              </Button>
+              <span className="text-sm text-muted-foreground">Loading…</span>
+            </div>
+            <div className="min-h-10 rounded-lg border border-input bg-background/50 px-3 py-2 text-sm" role="status" aria-live="polite" aria-label="Live transcript">
+              —
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="voice-speak-input" className="text-sm font-medium">Text to speak</label>
+            <div className="flex flex-wrap gap-2 sm:flex-nowrap">
+              <Input id="voice-speak-input" type="text" placeholder="Enter text to hear it read aloud" disabled className="min-h-[44px] flex-1 touch-manipulation" />
+              <Button type="button" variant="outline" size="icon" className="min-h-[44px] min-w-[44px] shrink-0 touch-manipulation sm:min-h-0 sm:min-w-0" disabled aria-label="Speak"> <Volume2Icon /> </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (!sttSupported) {
     return (
-      <Card className={cn("border-muted", className)} role="region" aria-labelledby="voice-section-title">
-        <CardHeader>
-          <CardTitle id="voice-section-title" className="text-lg">Voice</CardTitle>
+      <Card className={cn("rounded-xl border-border/80 shadow-sm", className)} role="region" aria-labelledby="voice-section-title">
+        <CardHeader className="pb-2">
+          <CardTitle id="voice-section-title" className="text-base font-medium text-foreground">Voice input</CardTitle>
           <CardDescription>
             Speech recognition is not supported in this browser. Try Chrome or Edge.
           </CardDescription>
@@ -72,11 +106,11 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
   }
 
   return (
-    <Card className={cn("border-muted", className)} role="region" aria-labelledby="voice-section-title">
-      <CardHeader>
-        <CardTitle id="voice-section-title" className="text-lg">Voice</CardTitle>
-        <CardDescription>
-          Use the microphone to speak (speech-to-text), or enter text to hear it read aloud (text-to-speech).
+    <Card className={cn("rounded-xl border-border/80 shadow-sm", className)} role="region" aria-labelledby="voice-section-title">
+      <CardHeader className="pb-2">
+        <CardTitle id="voice-section-title" className="text-base font-medium text-foreground">Voice input</CardTitle>
+        <CardDescription className="text-sm">
+          Speak your query or hear findings read aloud.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -95,11 +129,11 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
               {isListening ? <MicOffIcon /> : <MicIcon />}
             </Button>
             <span className="text-sm text-muted-foreground">
-              {isListening ? "Listening… (tap mic to stop and send)" : "Tap mic to speak"}
+              {isListening ? "Listening… tap mic to stop and send" : "Tap mic to speak your question"}
             </span>
           </div>
           <div
-            className="min-h-10 rounded-md border border-input bg-muted/30 px-3 py-2 text-sm"
+            className="min-h-10 rounded-lg border border-input bg-background/50 px-3 py-2 text-sm text-muted-foreground"
             role="status"
             aria-live="polite"
             aria-atomic="false"
@@ -117,7 +151,7 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
         {/* TTS: input + speak */}
         <div className="space-y-2">
           <label htmlFor="voice-speak-input" className="text-sm font-medium">
-            Text to speak
+            Hear findings aloud
           </label>
           <div className="flex flex-wrap gap-2 sm:flex-nowrap">
             <Input
@@ -149,7 +183,7 @@ export function VoiceSection({ onTranscript, textToSpeak, className }: VoiceSect
               onClick={() => speakText(textToSpeak)}
               className="min-h-[44px] w-full touch-manipulation"
             >
-              Speak last response
+              Speak last findings
             </Button>
           )}
         </div>
