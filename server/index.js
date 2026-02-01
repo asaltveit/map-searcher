@@ -7,8 +7,14 @@ import rateLimit from 'express-rate-limit';
 import { resolveUser } from './auth.js';
 import { requestLogger, log } from './logger.js';
 import { isValidId } from './validation.js';
+import { trace } from './tracing.js';
 import * as researchStore from './research-store.js';
 import * as agentsStore from './agents-store.js';
+
+// Helper to wrap route handlers with Weave tracing
+const traceRoute = (name, handler) => async (req, res, next) => {
+  return trace(name, () => handler(req, res, next));
+};
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -32,7 +38,7 @@ app.use(resolveUser);
 app.use(requestLogger);
 
 // GET /api/agents — return current user's agent/block IDs (create-on-first-use)
-app.get('/api/agents', async (req, res) => {
+app.get('/api/agents', traceRoute('GET /api/agents', async (req, res) => {
   try {
     const userId = req.userId;
     const ids = await agentsStore.getOrCreateAgents(userId);
@@ -42,10 +48,10 @@ app.get('/api/agents', async (req, res) => {
     console.error('GET /api/agents', e);
     res.status(500).json({ error: 'Failed to get agents' });
   }
-});
+}));
 
 // GET /api/research?q=... — search my research + shared library
-app.get('/api/research', async (req, res) => {
+app.get('/api/research', traceRoute('GET /api/research', async (req, res) => {
   try {
     const q = typeof req.query.q === 'string' ? req.query.q : '';
     const userId = req.userId;
@@ -56,10 +62,10 @@ app.get('/api/research', async (req, res) => {
     console.error('GET /api/research', e);
     res.status(500).json({ error: 'Search failed' });
   }
-});
+}));
 
 // POST /api/research — save to my research only
-app.post('/api/research', async (req, res) => {
+app.post('/api/research', traceRoute('POST /api/research', async (req, res) => {
   try {
     const userId = req.userId;
     const { content, source_url, title } = req.body || {};
@@ -73,10 +79,10 @@ app.post('/api/research', async (req, res) => {
     console.error('POST /api/research', e);
     res.status(500).json({ error: 'Save failed' });
   }
-});
+}));
 
 // POST /api/agents/:id/messages — proxy to Letta (body: messages, client_tools, etc.)
-app.post('/api/agents/:id/messages', async (req, res) => {
+app.post('/api/agents/:id/messages', traceRoute('POST /api/agents/:id/messages', async (req, res) => {
   try {
     const { id } = req.params;
     if (!isValidId(id)) {
@@ -90,10 +96,10 @@ app.post('/api/agents/:id/messages', async (req, res) => {
     console.error('POST /api/agents/:id/messages', e);
     res.status(500).json({ error: 'Message failed' });
   }
-});
+}));
 
 // POST /api/workflow/update-block — update shared block with research summary (called after research step)
-app.post('/api/workflow/update-block', async (req, res) => {
+app.post('/api/workflow/update-block', traceRoute('POST /api/workflow/update-block', async (req, res) => {
   try {
     const { researchBlockId, value } = req.body || {};
     if (!researchBlockId || value == null) {
@@ -109,7 +115,7 @@ app.post('/api/workflow/update-block', async (req, res) => {
     console.error('POST /api/workflow/update-block', e);
     res.status(500).json({ error: 'Update block failed' });
   }
-});
+}));
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
