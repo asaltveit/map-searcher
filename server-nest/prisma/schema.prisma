@@ -15,8 +15,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  agents    Agent[]
-  workflows NewsWorkflow[]
+  agents      Agent[]
+  workflows   NewsWorkflow[]
+  alerts      NewsAlert[]
+  preferences UserPreference?
 }
 
 model Agent {
@@ -40,8 +42,8 @@ model Agent {
 model NewsWorkflow {
   id                String         @id @default(uuid())
   userId            String         @map("user_id")
-  query             String         // e.g., "crime in San Francisco"
-  region            String         // e.g., "San Francisco, CA, USA" for geocoding context
+  query             String // e.g., "crime in San Francisco"
+  region            String // e.g., "San Francisco, CA, USA" for geocoding context
   fromDate          DateTime       @map("from_date")
   toDate            DateTime       @map("to_date")
   maxArticles       Int            @default(20) @map("max_articles")
@@ -75,7 +77,8 @@ enum WorkflowStatus {
 
 model NewsArticle {
   id          String   @id @default(uuid())
-  workflowId  String   @map("workflow_id")
+  workflowId  String?  @map("workflow_id")
+  alertId     String?  @map("alert_id")
   url         String
   title       String
   author      String?
@@ -95,11 +98,14 @@ model NewsArticle {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  workflow  NewsWorkflow      @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  workflow  NewsWorkflow?     @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  alert     NewsAlert?        @relation(fields: [alertId], references: [id], onDelete: Cascade)
   locations ArticleLocation[]
 
   @@unique([workflowId, url])
+  @@unique([alertId, url])
   @@index([workflowId])
+  @@index([alertId])
   @@map("news_articles")
 }
 
@@ -111,11 +117,11 @@ enum ProcessingStatus {
 }
 
 model ArticleLocation {
-  id              String       @id @default(uuid())
-  articleId       String       @map("article_id")
-  mention         String       // Original text: "corner of 5th and Main"
-  mentionType     LocationType @map("mention_type")
-  context         String?      @db.Text
+  id          String       @id @default(uuid())
+  articleId   String       @map("article_id")
+  mention     String // Original text: "corner of 5th and Main"
+  mentionType LocationType @map("mention_type")
+  context     String?      @db.Text
 
   // Geocoded
   lat              Float?
@@ -154,4 +160,61 @@ model Improvement {
   @@index([userId])
   @@index([text])
   @@map("improvements")
+}
+
+// ==================== News Alerts Models ====================
+
+model NewsAlert {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+
+  // Search configuration
+  query       String // e.g., "robberies"
+  region      String // e.g., "Savannah, GA"
+  maxArticles Int    @default(20) @map("max_articles")
+
+  // Schedule
+  frequency AlertFrequency @default(MANUAL)
+  lastRunAt DateTime?      @map("last_run_at")
+  nextRunAt DateTime?      @map("next_run_at")
+
+  // Status
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articles NewsArticle[]
+
+  @@index([userId])
+  @@index([nextRunAt, isActive])
+  @@map("news_alerts")
+}
+
+enum AlertFrequency {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  MANUAL
+}
+
+// ==================== User Preferences ====================
+
+model UserPreference {
+  id     String @id @default(uuid())
+  userId String @unique @map("user_id")
+
+  // Default map settings
+  defaultLat  Float? @map("default_lat")
+  defaultLng  Float? @map("default_lng")
+  defaultZoom Int?   @default(10) @map("default_zoom")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
 }

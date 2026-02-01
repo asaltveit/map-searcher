@@ -1,18 +1,13 @@
 import { Processor, WorkerHost } from "@nestjs/bullmq";
 import { Logger } from "@nestjs/common";
 import { Job } from "bullmq";
-import { LettaService } from "../../letta/letta.service";
-import { TracingService } from "../../tracing/tracing.service";
-import {
-  NewsWorkflowService,
-  ProcessedArticle,
-  NEWS_WORKFLOW_QUEUE,
-} from "../news-workflow.service";
-import { NEWS_ORCHESTRATOR_CONFIG } from "../agents/news-orchestrator.config";
-import { WorkflowStatus } from "@prisma/client";
+import { LettaService } from "../letta/letta.service";
+import { TracingService } from "../tracing/tracing.service";
+import { AlertsService, ALERTS_QUEUE, ProcessedArticle } from "./alerts.service";
+import { NEWS_ORCHESTRATOR_CONFIG } from "../news-workflow/agents/news-orchestrator.config";
 
-interface WorkflowJobData {
-  workflowId: string;
+interface AlertJobData {
+  alertId: string;
   userId: string;
 }
 
@@ -27,12 +22,12 @@ interface LettaMessage {
   content?: string;
 }
 
-@Processor(NEWS_WORKFLOW_QUEUE)
-export class WorkflowProcessor extends WorkerHost {
-  private readonly logger = new Logger(WorkflowProcessor.name);
+@Processor(ALERTS_QUEUE)
+export class AlertProcessor extends WorkerHost {
+  private readonly logger = new Logger(AlertProcessor.name);
 
   constructor(
-    private readonly newsWorkflowService: NewsWorkflowService,
+    private readonly alertsService: AlertsService,
     private readonly lettaService: LettaService,
     private readonly tracingService: TracingService,
   ) {
@@ -40,98 +35,74 @@ export class WorkflowProcessor extends WorkerHost {
   }
 
   async process(
-    job: Job<WorkflowJobData>,
+    job: Job<AlertJobData>,
   ): Promise<{ success: boolean; articlesProcessed: number }> {
-    const { workflowId, userId } = job.data;
-    this.logger.log(`Processing workflow ${workflowId} for user ${userId}`);
+    const { alertId, userId } = job.data;
+    this.logger.log(`Processing alert ${alertId} for user ${userId}`);
 
     try {
-      // Update status to SEARCHING
-      await this.newsWorkflowService.updateWorkflowStatus(
-        workflowId,
-        WorkflowStatus.SEARCHING,
-        { startedAt: new Date() },
-      );
-
-      // Get workflow details
-      const workflow = await this.newsWorkflowService.getWorkflow(workflowId);
-      if (!workflow) {
-        throw new Error(`Workflow not found: ${workflowId}`);
+      // Get alert details
+      const alert = await this.alertsService.getAlertById(alertId);
+      if (!alert) {
+        throw new Error(`Alert not found: ${alertId}`);
       }
 
-      // Execute the workflow with tracing
+      if (!alert.isActive) {
+        this.logger.log(`Alert ${alertId} is inactive, skipping`);
+        return { success: true, articlesProcessed: 0 };
+      }
+
+      // Execute the alert with tracing
       const result = await this.tracingService.trace(
-        `NewsWorkflow:${workflowId}`,
-        async () => this.executeWorkflow(workflowId, workflow),
+        `Alert:${alertId}`,
+        async () => this.executeAlert(alertId, alert),
       );
 
-      // Update status to COMPLETED
-      await this.newsWorkflowService.updateWorkflowStatus(
-        workflowId,
-        WorkflowStatus.COMPLETED,
-        {
-          completedAt: new Date(),
-          traceId: `NewsWorkflow:${workflowId}`,
-        },
-      );
+      // Update alert after run
+      await this.alertsService.updateAlertAfterRun(alertId, result.articlesProcessed);
 
       this.logger.log(
-        `Completed workflow ${workflowId}: ${result.articlesProcessed} articles processed`,
+        `Completed alert ${alertId}: ${result.articlesProcessed} articles processed`,
       );
 
       return { success: true, articlesProcessed: result.articlesProcessed };
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
-      this.logger.error(`Workflow ${workflowId} failed: ${errorMessage}`);
-
-      await this.newsWorkflowService.updateWorkflowStatus(
-        workflowId,
-        WorkflowStatus.FAILED,
-        {
-          errorMessage,
-          completedAt: new Date(),
-        },
-      );
-
+      this.logger.error(`Alert ${alertId} failed: ${errorMessage}`);
       throw error;
     }
   }
 
-  private async executeWorkflow(
-    workflowId: string,
-    workflow: {
+  private async executeAlert(
+    alertId: string,
+    alert: {
       query: string;
       region: string;
-      fromDate: Date;
-      toDate: Date;
       maxArticles: number;
+      lastRunAt: Date | null;
     },
   ): Promise<{ articlesProcessed: number }> {
     // Create or get the orchestrator agent
-    // Note: Agent is configured with messageBufferAutoclear=true, so context is
-    // automatically cleared between requests (no manual resetMessages needed)
     const agent = await this.getOrCreateOrchestratorAgent();
 
-    // Update workflow with agent ID
-    await this.newsWorkflowService.updateWorkflowStatus(
-      workflowId,
-      WorkflowStatus.SEARCHING,
-      { lettaAgentId: agent.id },
-    );
+    // Calculate date range: lastRunAt → now (or last 7 days for new alerts)
+    const toDate = new Date();
+    const fromDate = alert.lastRunAt
+      ? new Date(alert.lastRunAt)
+      : new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-    // Format date range for the search
-    const fromDateStr = workflow.fromDate.toISOString().split("T")[0];
-    const toDateStr = workflow.toDate.toISOString().split("T")[0];
+    const fromDateStr = fromDate.toISOString().split("T")[0];
+    const toDateStr = toDate.toISOString().split("T")[0];
 
     // Construct the search prompt
     const searchPrompt = `
 IMPORTANT: When using web_search, your query MUST include the location.
-Search query should be: "${workflow.query} ${workflow.region}"
+Search query should be: "${alert.query} ${alert.region}"
 
-Search for news articles about "${workflow.query}" in ${workflow.region} from ${fromDateStr} to ${toDateStr}.
+Search for news articles about "${alert.query}" in ${alert.region} from ${fromDateStr} to ${toDateStr}.
 
-Find up to ${workflow.maxArticles} relevant articles. For each article:
+Find up to ${alert.maxArticles} relevant articles. For each article:
 1. Extract the title, URL, source, and publication date
 2. Get the full article content
 3. Extract all location mentions (addresses, intersections, businesses, parks, landmarks)
@@ -144,37 +115,23 @@ Return the results as a JSON array of articles. Each article should have:
 - summary, keyPoints (array), sentiment
 - locations (array with mention, mentionType, context)
 
-Focus on articles that mention specific locations within ${workflow.region}.
+Focus on articles that mention specific locations within ${alert.region}.
 `;
 
-    // Send the message to the agent (15 min timeout configured at client level)
+    // Send the message to the agent
     const response = await this.lettaService.sendMessage(agent.id, {
       content: searchPrompt,
     });
 
-    // Update status to PROCESSING
-    await this.newsWorkflowService.updateWorkflowStatus(
-      workflowId,
-      WorkflowStatus.PROCESSING,
-    );
-
     // Parse the agent response to extract articles
-    // Cast to our expected interface since Letta types can vary
     const articles = this.parseAgentResponse(
       response as { messages: LettaMessage[] },
     );
 
     if (articles.length > 0) {
-      // Update articles found count
-      await this.newsWorkflowService.updateWorkflowStatus(
-        workflowId,
-        WorkflowStatus.PROCESSING,
-        { articlesFound: articles.length },
-      );
-
       // Save the articles (this will also geocode locations)
-      const { savedCount } = await this.newsWorkflowService.saveArticleResults(
-        workflowId,
+      const { savedCount } = await this.alertsService.saveAlertArticles(
+        alertId,
         articles,
       );
 
@@ -213,11 +170,9 @@ Focus on articles that mention specific locations within ${workflow.region}.
   }): ProcessedArticle[] {
     const articles: ProcessedArticle[] = [];
 
-    // Look through the messages for JSON content
     for (const message of response.messages) {
       const messageType = message.message_type || "";
 
-      // Check assistant messages for JSON
       if (messageType === "assistant_message" && message.assistant_message) {
         const parsed = this.extractJsonFromText(message.assistant_message);
         if (parsed) {
@@ -225,7 +180,6 @@ Focus on articles that mention specific locations within ${workflow.region}.
         }
       }
 
-      // Check tool returns for JSON
       if (messageType === "tool_return_message" && message.tool_return) {
         const parsed = this.extractJsonFromText(message.tool_return);
         if (parsed) {
@@ -233,7 +187,6 @@ Focus on articles that mention specific locations within ${workflow.region}.
         }
       }
 
-      // Also check content field which some message types use
       if (message.content && typeof message.content === "string") {
         const parsed = this.extractJsonFromText(message.content);
         if (parsed) {
@@ -246,7 +199,6 @@ Focus on articles that mention specific locations within ${workflow.region}.
   }
 
   private extractJsonFromText(text: string): unknown {
-    // Try to find JSON array in the text
     const jsonMatches = text.match(/\[[\s\S]*\]/);
     if (jsonMatches) {
       try {
@@ -256,16 +208,13 @@ Focus on articles that mention specific locations within ${workflow.region}.
       }
     }
 
-    // Try to find JSON object in the text
     const objectMatches = text.match(/\{[\s\S]*\}/);
     if (objectMatches) {
       try {
         const parsed = JSON.parse(objectMatches[0]);
-        // If it's a single article, wrap in array
         if (parsed.url && parsed.title) {
           return [parsed];
         }
-        // If it has an articles property, use that
         if (parsed.articles && Array.isArray(parsed.articles)) {
           return parsed.articles;
         }

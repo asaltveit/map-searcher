@@ -67,6 +67,7 @@ export class NewsWorkflowService {
     this.logger.log(`Created workflow ${workflow.id} for user ${userId}`);
 
     // Queue the job for background processing
+    // Note: Job timeout is handled by the Letta client (15 min) and worker settings
     const job = await this.workflowQueue.add(
       "process-news",
       {
@@ -77,7 +78,7 @@ export class NewsWorkflowService {
         attempts: 3,
         backoff: {
           type: "exponential",
-          delay: 5000,
+          delay: 10000, // 10 second initial delay
         },
       },
     );

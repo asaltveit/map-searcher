@@ -1,0 +1,30 @@
+# Node modules - always rebuild in container
+**/node_modules
+server-nest/node_modules
+
+# Build outputs
+**/dist
+server-nest/dist
+
+# Environment files
+**/.env
+**/.env.*
+
+# Logs
+**/*.log
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Test and temp files
+**/coverage
+**/tmp
+**/.turbo
+
+# Client (not needed for API deployment)
+client/

@@ -1,10 +1,10 @@
 {
 	"_": {
-		"postman_id": "89a309ef-e20e-4166-a56b-3449679556db"
+		"postman_id": "63d626c7-6b0c-428f-bdf1-e5f26fc8b7b0"
 	},
 	"item": [
 		{
-			"id": "27431912-2ec7-4844-b4f8-0bb6548a289f",
+			"id": "5acd7e49-7858-4ee6-9c9e-b2d91968f0d6",
 			"name": "/",
 			"description": {
 				"content": "",
@@ -12,7 +12,7 @@
 			},
 			"item": [
 				{
-					"id": "73eedec6-66c4-48c4-9a92-f9ca6e1edffd",
+					"id": "f2b06756-5ea6-4396-aa80-27f2317c2f0d",
 					"name": "Get welcome message",
 					"request": {
 						"name": "Get welcome message",
@@ -44,7 +44,7 @@
 							"_": {
 								"postman_previewlanguage": "json"
 							},
-							"id": "faba0ab6-0ed0-4c0d-ab8a-10dc6f42a573",
+							"id": "a6ab4329-cdff-435f-9565-d569190b78ba",
 							"name": "Welcome message",
 							"originalRequest": {
 								"url": {
@@ -87,7 +87,7 @@
 			"event": []
 		},
 		{
-			"id": "70d5de6a-98c3-47e0-a15e-88ebdf11e260",
+			"id": "c4158b26-8a58-41a8-9cdf-5ad77e95fd22",
 			"name": "api",
 			"description": {
 				"content": "",
@@ -95,7 +95,7 @@
 			},
 			"item": [
 				{
-					"id": "03bb309b-b9f7-43d0-83c9-eb67590f1133",
+					"id": "f964d4fa-3554-4b66-b0b5-023eb8e4a623",
 					"name": "health",
 					"description": {
 						"content": "",
@@ -103,7 +103,7 @@
 					},
 					"item": [
 						{
-							"id": "c9d305f1-530a-46d2-8c74-92f3d8cdc9d9",
+							"id": "82d8ba7e-14ae-46e9-848c-3c37cf18051c",
 							"name": "Health check",
 							"request": {
 								"name": "Health check",
@@ -129,7 +129,7 @@
 									"_": {
 										"postman_previewlanguage": "text"
 									},
-									"id": "11edc860-62cd-45e8-b2ed-fee6ee10ce07",
+									"id": "ec906b00-f2fc-465b-9167-621c8f75eb22",
 									"originalRequest": {
 										"url": {
 											"path": [
@@ -155,12 +155,79 @@
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							}
+						},
+						{
+							"id": "ab65d15e-c8e5-4fc1-a562-549ca5509915",
+							"name": "tracing",
+							"description": {
+								"content": "",
+								"type": "text/plain"
+							},
+							"item": [
+								{
+									"id": "c8098f6d-d578-4109-92c2-35082411d99c",
+									"name": "Check if Weave tracing is enabled (WANDB_API_KEY set)",
+									"request": {
+										"name": "Check if Weave tracing is enabled (WANDB_API_KEY set)",
+										"description": {
+											"type": "text/plain"
+										},
+										"url": {
+											"path": [
+												"api",
+												"health",
+												"tracing"
+											],
+											"host": [
+												"{{baseUrl}}"
+											],
+											"query": [],
+											"variable": []
+										},
+										"method": "GET",
+										"body": {}
+									},
+									"response": [
+										{
+											"_": {
+												"postman_previewlanguage": "text"
+											},
+											"id": "438cd252-b371-4e7a-869c-ca18c49f55a0",
+											"originalRequest": {
+												"url": {
+													"path": [
+														"api",
+														"health",
+														"tracing"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": []
+												},
+												"method": "GET",
+												"body": {}
+											},
+											"status": "OK",
+											"code": 200,
+											"header": [],
+											"cookie": []
+										}
+									],
+									"event": [],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									}
+								}
+							],
+							"event": []
 						}
 					],
 					"event": []
 				},
 				{
-					"id": "0357b111-4d32-4a10-883d-3a6fa26c14b1",
+					"id": "79f6e639-0331-4536-b2d8-281bdb42e41c",
 					"name": "monitoring",
 					"description": {
 						"content": "",
@@ -168,7 +235,7 @@
 					},
 					"item": [
 						{
-							"id": "c276dd3f-c1ac-42e8-b35a-2172e91abe53",
+							"id": "5b59a383-c287-423b-bf97-06700bec656b",
 							"name": "health",
 							"description": {
 								"content": "",
@@ -176,7 +243,7 @@
 							},
 							"item": [
 								{
-									"id": "70e8cbf1-3ad3-4748-952f-d977a3826b76",
+									"id": "90022398-f5d9-4067-a7b5-2496de76b93a",
 									"name": "Get system health status",
 									"request": {
 										"name": "Get system health status",
@@ -214,7 +281,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "64bfc760-1a7e-4a65-9855-ab26b0222d6b",
+											"id": "00ab920c-baed-4943-8895-980fdcacc264",
 											"name": "System health status",
 											"originalRequest": {
 												"url": {
@@ -260,7 +327,7 @@
 					"event": []
 				},
 				{
-					"id": "92a62b9e-5d4a-4dea-9bc3-ca4aa95e13a7",
+					"id": "6f274386-a4f6-4327-9720-575ee140fab6",
 					"name": "research",
 					"description": {
 						"content": "",
@@ -268,7 +335,7 @@
 					},
 					"item": [
 						{
-							"id": "f72c5a3c-3ec6-411d-8a1f-f070ed526e46",
+							"id": "b8b5eac7-09b0-49f3-86b5-5e323fee5eb1",
 							"name": "Search research",
 							"request": {
 								"name": "Search research",
@@ -294,7 +361,7 @@
 									"_": {
 										"postman_previewlanguage": "text"
 									},
-									"id": "9c9ae967-76db-45cb-9ed9-3e60df704582",
+									"id": "8b10149f-23d0-4bb6-8c06-2fbf4665be2c",
 									"originalRequest": {
 										"url": {
 											"path": [
@@ -322,7 +389,7 @@
 							}
 						},
 						{
-							"id": "e7cc519b-760f-4db0-9c78-ec4818275b32",
+							"id": "3f7fb42b-bc87-4ecf-bf75-eb67ba3c25cb",
 							"name": "Save research",
 							"request": {
 								"name": "Save research",
@@ -363,7 +430,7 @@
 									"_": {
 										"postman_previewlanguage": "text"
 									},
-									"id": "88707d9c-482e-4e4b-908e-6dd11e049294",
+									"id": "9d2a6e34-08d8-441f-b6a6-8d834e2a8e49",
 									"originalRequest": {
 										"url": {
 											"path": [
@@ -409,7 +476,7 @@
 					"event": []
 				},
 				{
-					"id": "5f7fea38-7427-4232-ae0f-226c52caec96",
+					"id": "8447bd36-0726-48c0-b550-95c3a209893c",
 					"name": "agents",
 					"description": {
 						"content": "",
@@ -417,7 +484,7 @@
 					},
 					"item": [
 						{
-							"id": "cbb0b3a3-39d3-4840-b1d6-7ddc00eba0db",
+							"id": "03035af9-bcaf-48de-866e-e26885b07efd",
 							"name": "List all agents for the authenticated user",
 							"request": {
 								"name": "List all agents for the authenticated user",
@@ -459,7 +526,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "7f7f3a93-3779-4de5-a8f7-8a6f366fd891",
+									"id": "021f4487-855d-41b4-8298-b03a7ba099be",
 									"name": "List of agents",
 									"originalRequest": {
 										"url": {
@@ -508,7 +575,7 @@
 							}
 						},
 						{
-							"id": "29d4c781-6a63-456e-ace6-4a94af28b6e0",
+							"id": "345317c9-307e-48df-8698-6c5b5de0c7d0",
 							"name": "Create a new agent",
 							"request": {
 								"name": "Create a new agent",
@@ -563,7 +630,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "dea5f4a6-a377-43d8-a752-6f77980721e2",
+									"id": "7ca0faa2-615a-41d3-9a4d-d7a799332d27",
 									"name": "Agent created",
 									"originalRequest": {
 										"url": {
@@ -625,7 +692,7 @@
 							}
 						},
 						{
-							"id": "5f1ae6b7-23c3-4257-a9bb-00886eeb3e94",
+							"id": "d9d1e5d7-200b-4ed4-8371-5c02063d3fa2",
 							"name": "{id}",
 							"description": {
 								"content": "",
@@ -633,7 +700,7 @@
 							},
 							"item": [
 								{
-									"id": "0ddd3785-a12b-466a-b5e7-9ac70f86584c",
+									"id": "b4265b90-fc2b-4754-ab60-e0492af6bf3a",
 									"name": "Get a single agent by ID",
 									"request": {
 										"name": "Get a single agent by ID",
@@ -687,7 +754,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "20dd5a17-571c-4df6-9208-b3149e9f811c",
+											"id": "e9a95a2a-8f8a-47fc-a0b0-84d13a1cc0e3",
 											"name": "Agent details",
 											"originalRequest": {
 												"url": {
@@ -734,7 +801,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "926efd0b-c2a6-4b0b-aff3-fc74879f099b",
+											"id": "2d399621-38ca-43a5-81c5-65cb281cd4d5",
 											"name": "Agent not found",
 											"originalRequest": {
 												"url": {
@@ -774,7 +841,7 @@
 									}
 								},
 								{
-									"id": "43e1658e-2815-460e-8610-438500189b37",
+									"id": "bea67440-cc92-4fe4-9a4b-942fc4690dce",
 									"name": "Update an agent",
 									"request": {
 										"name": "Update an agent",
@@ -841,7 +908,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "31cdda56-180f-40c9-ad8c-a73def477236",
+											"id": "000df8b6-5927-40ae-b6d3-d36a23a2cfa3",
 											"name": "Agent updated",
 											"originalRequest": {
 												"url": {
@@ -904,7 +971,7 @@
 									}
 								},
 								{
-									"id": "b50b897f-d765-4fe3-ab65-735dc40556d9",
+									"id": "0172d5b1-bc12-43ff-96a5-f5fb2e6f14b0",
 									"name": "Delete an agent",
 									"request": {
 										"name": "Delete an agent",
@@ -952,7 +1019,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "361daf82-03dc-4efc-96a5-c223bba6a6e8",
+											"id": "665f67e8-d3f2-4f94-b549-fb724217c150",
 											"name": "Agent deleted",
 											"originalRequest": {
 												"url": {
@@ -989,7 +1056,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "d4004f3e-2c37-4a9c-b08a-1a6da6b5b796",
+											"id": "26ba5ab5-0f39-4b26-8628-07705ad8d70d",
 											"name": "Agent not found",
 											"originalRequest": {
 												"url": {
@@ -1029,7 +1096,7 @@
 									}
 								},
 								{
-									"id": "4ad206ad-a761-4916-ab8e-a25f62568b4f",
+									"id": "83619a30-c551-4e22-a7c6-33f8d1362d96",
 									"name": "messages",
 									"description": {
 										"content": "",
@@ -1037,7 +1104,7 @@
 									},
 									"item": [
 										{
-											"id": "c866ffe9-2997-4d92-b520-3cc0d625bc37",
+											"id": "d97d76c0-f07a-40fb-986e-c2b017dad51b",
 											"name": "Get conversation history for an agent",
 											"request": {
 												"name": "Get conversation history for an agent",
@@ -1089,7 +1156,7 @@
 																"type": "text/plain"
 															},
 															"key": "order",
-															"value": "desc"
+															"value": "asc"
 														}
 													],
 													"variable": [
@@ -1129,7 +1196,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "47a160af-f913-4c30-9e03-8a94fbf0eed4",
+													"id": "eea79dc7-b348-4cc4-89bc-d9b38a4e60e2",
 													"name": "Message history",
 													"originalRequest": {
 														"url": {
@@ -1177,7 +1244,7 @@
 																		"type": "text/plain"
 																	},
 																	"key": "order",
-																	"value": "desc"
+																	"value": "asc"
 																}
 															],
 															"variable": []
@@ -1217,7 +1284,7 @@
 											}
 										},
 										{
-											"id": "f70220a7-ccf5-4b22-b9a0-ea522a3fc8e9",
+											"id": "90f795ac-a0d3-4038-a0ef-9e9a6aa958c6",
 											"name": "Send a message to an agent",
 											"request": {
 												"name": "Send a message to an agent",
@@ -1285,7 +1352,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "7e15cc8e-118c-4d8c-abe6-818147abb932",
+													"id": "c96f71a0-bf92-4dde-b117-89a21f5b0f6c",
 													"name": "Message response",
 													"originalRequest": {
 														"url": {
@@ -1349,7 +1416,7 @@
 											}
 										},
 										{
-											"id": "fc7dfc04-8409-4c24-b2d5-2cad59cb2c91",
+											"id": "65ef12f3-02f8-47bd-9b2a-87aadbd45ba3",
 											"name": "reset",
 											"description": {
 												"content": "",
@@ -1357,7 +1424,7 @@
 											},
 											"item": [
 												{
-													"id": "088dde5a-fddc-4fa1-9174-790c43f1fade",
+													"id": "a27d0e10-8a5f-4d60-a8d4-a5ed0ba14baf",
 													"name": "Reset conversation history for an agent",
 													"request": {
 														"name": "Reset conversation history for an agent",
@@ -1426,7 +1493,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "c4bb2231-de74-45ce-8c29-948f7ef2d0c6",
+															"id": "249b8ba3-e526-4aea-9d77-7e4dda24bebb",
 															"name": "Messages reset",
 															"originalRequest": {
 																"url": {
@@ -1497,7 +1564,7 @@
 									"event": []
 								},
 								{
-									"id": "1082ebb8-1847-47ce-b3e2-bbc8660ed378",
+									"id": "99778f13-2586-41cc-a487-1885865f91cc",
 									"name": "blocks",
 									"description": {
 										"content": "",
@@ -1505,7 +1572,7 @@
 									},
 									"item": [
 										{
-											"id": "4e1d1287-1e55-45b6-bad3-39512fcbf23c",
+											"id": "17a20f93-8ccd-45ed-aea8-6e72fd52af39",
 											"name": "List memory blocks for an agent",
 											"request": {
 												"name": "List memory blocks for an agent",
@@ -1560,7 +1627,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "728e4163-9fde-452e-8f15-33fd01b447b2",
+													"id": "38171383-ec2f-405c-9a35-155bcae650b7",
 													"name": "List of memory blocks",
 													"originalRequest": {
 														"url": {
@@ -1611,7 +1678,7 @@
 											}
 										},
 										{
-											"id": "9e8b803d-5437-42fd-a4a1-2ec798d1f6bc",
+											"id": "c5f0255b-4f7d-4d85-973e-9f0956349f95",
 											"name": "{label}",
 											"description": {
 												"content": "",
@@ -1619,7 +1686,7 @@
 											},
 											"item": [
 												{
-													"id": "8dbf8ee3-ac43-4197-b82b-b0475ba5421b",
+													"id": "c5f6ff40-7ae7-413d-9c91-b5ad6e02a8c6",
 													"name": "Get a specific memory block by label",
 													"request": {
 														"name": "Get a specific memory block by label",
@@ -1685,7 +1752,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "37a1fb94-60eb-4dc0-90af-cb4509658690",
+															"id": "01925ded-1a96-4b16-b327-3fa582caec02",
 															"name": "Memory block",
 															"originalRequest": {
 																"url": {
@@ -1737,7 +1804,7 @@
 													}
 												},
 												{
-													"id": "13881e3b-7a77-4b7a-a20c-6a6a4f04a040",
+													"id": "bd522cea-8f9a-4780-bfe7-b87196d6ef82",
 													"name": "Update a memory block",
 													"request": {
 														"name": "Update a memory block",
@@ -1816,7 +1883,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "99c6d59e-a5da-4de3-9f61-1d36c182f4c1",
+															"id": "664801ee-2d93-4fc6-828e-8a1dc30af783",
 															"name": "Memory block updated",
 															"originalRequest": {
 																"url": {
@@ -1887,7 +1954,7 @@
 									"event": []
 								},
 								{
-									"id": "a9c11421-d644-4c0b-bfc1-afdaa016712a",
+									"id": "2329ed0d-5f9d-4580-b782-6ddb4a355d0a",
 									"name": "tools",
 									"description": {
 										"content": "",
@@ -1895,7 +1962,7 @@
 									},
 									"item": [
 										{
-											"id": "eae634c8-409c-4510-9e02-59808783a2ff",
+											"id": "6ab5aacd-7a40-4fe7-ba7f-a4c8533bc019",
 											"name": "List tools attached to an agent",
 											"request": {
 												"name": "List tools attached to an agent",
@@ -1950,7 +2017,7 @@
 													"_": {
 														"postman_previewlanguage": "json"
 													},
-													"id": "263b959e-8b07-4df8-8a5c-20bc14beb6e1",
+													"id": "348b3507-2994-41ea-8384-ebd216e0fd2f",
 													"name": "List of tools",
 													"originalRequest": {
 														"url": {
@@ -2001,7 +2068,7 @@
 											}
 										},
 										{
-											"id": "c3c9cfae-ef57-4de5-a899-570089222d19",
+											"id": "b225785c-d46e-4c10-a4f5-a17d9dfc9867",
 											"name": "{toolId}",
 											"description": {
 												"content": "",
@@ -2009,7 +2076,7 @@
 											},
 											"item": [
 												{
-													"id": "6de6684a-310b-4b77-86a5-91149ef9c4cb",
+													"id": "6e992e96-b5a9-4a60-ac5a-563e52bbd80f",
 													"name": "attach",
 													"description": {
 														"content": "",
@@ -2017,7 +2084,7 @@
 													},
 													"item": [
 														{
-															"id": "adf27df1-db8f-4797-a56a-38cd05807a13",
+															"id": "bc82f19e-ce2b-4e2f-8118-db9960e9907d",
 															"name": "Attach a tool to an agent",
 															"request": {
 																"name": "Attach a tool to an agent",
@@ -2084,7 +2151,7 @@
 																	"_": {
 																		"postman_previewlanguage": "json"
 																	},
-																	"id": "01f501b3-189d-4095-b29a-62b7b4a31782",
+																	"id": "69343b2b-4db1-403a-8a6e-a1f9ad03563d",
 																	"name": "Tool attached",
 																	"originalRequest": {
 																		"url": {
@@ -2140,7 +2207,7 @@
 													"event": []
 												},
 												{
-													"id": "10102912-9374-4ceb-be0f-6ef44cbe9ab7",
+													"id": "c1931ed6-49b9-4176-89eb-43c43b9007eb",
 													"name": "Detach a tool from an agent",
 													"request": {
 														"name": "Detach a tool from an agent",
@@ -2206,7 +2273,7 @@
 															"_": {
 																"postman_previewlanguage": "json"
 															},
-															"id": "7144626e-3199-4bdb-95f8-c379d126a0ba",
+															"id": "3e579395-b0a1-43a8-92a5-b444184d9a65",
 															"name": "Tool detached",
 															"originalRequest": {
 																"url": {
@@ -2270,7 +2337,7 @@
 					"event": []
 				},
 				{
-					"id": "7795a57b-c686-4d1b-bcdc-f7a29503a116",
+					"id": "eca12b4a-4750-4ccd-aa97-4b1755dfbaf4",
 					"name": "tools",
 					"description": {
 						"content": "",
@@ -2278,7 +2345,7 @@
 					},
 					"item": [
 						{
-							"id": "ab34f67f-8869-41c5-9279-3ee453c1f1ad",
+							"id": "9f609eb5-9dbf-4ad3-a5b3-bd96b90dc32c",
 							"name": "List all available tools",
 							"request": {
 								"name": "List all available tools",
@@ -2339,7 +2406,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "ce5af0af-3955-4547-b1b9-6c6c90490273",
+									"id": "a2cb1380-dd91-4343-ab10-c66d3c25dc8b",
 									"name": "List of tools",
 									"originalRequest": {
 										"url": {
@@ -2407,7 +2474,7 @@
 							}
 						},
 						{
-							"id": "1e751484-82b2-4fa1-b103-c00352ff5205",
+							"id": "0834eb4a-f201-4f2c-93cc-af4334628156",
 							"name": "Create a custom tool",
 							"request": {
 								"name": "Create a custom tool",
@@ -2462,7 +2529,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "b3202ac1-6f1b-45b7-967f-91f2048d2ce7",
+									"id": "188b5d70-0ed7-47bf-a353-9c52106d65d0",
 									"name": "Tool created",
 									"originalRequest": {
 										"url": {
@@ -2524,7 +2591,7 @@
 							}
 						},
 						{
-							"id": "ecce0d35-3692-4b1b-a3a4-52d10453aa7d",
+							"id": "982af6bf-68bb-4b25-adc9-088c4c020196",
 							"name": "{id}",
 							"description": {
 								"content": "",
@@ -2532,7 +2599,7 @@
 							},
 							"item": [
 								{
-									"id": "706f121a-f413-4ac4-afd0-70194278b0aa",
+									"id": "7f8de49e-7cc8-4e40-b7e5-eabe1bc83f87",
 									"name": "Get a tool by ID",
 									"request": {
 										"name": "Get a tool by ID",
@@ -2586,7 +2653,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "850e8870-af62-4492-8b8d-883b60f9a98b",
+											"id": "d63d2511-bf21-4611-a80e-f61dc67ad6b6",
 											"name": "Tool details",
 											"originalRequest": {
 												"url": {
@@ -2636,7 +2703,7 @@
 									}
 								},
 								{
-									"id": "b7ff27b0-e24a-4be9-9fd6-4f53e0548be1",
+									"id": "c314cdce-7c4e-4ee0-9b13-8f725c3497d6",
 									"name": "Delete a custom tool",
 									"request": {
 										"name": "Delete a custom tool",
@@ -2684,7 +2751,7 @@
 											"_": {
 												"postman_previewlanguage": "text"
 											},
-											"id": "405a4f8d-e936-4db8-a367-b86a2d2b4429",
+											"id": "dd73f945-b84f-47ff-9f61-550fb8bae09b",
 											"name": "Tool deleted",
 											"originalRequest": {
 												"url": {
@@ -2730,7 +2797,7 @@
 					"event": []
 				},
 				{
-					"id": "51350231-abf8-43e6-853d-92474e7babd0",
+					"id": "bf1e3526-be29-459e-b3e3-ab8249981dd1",
 					"name": "models",
 					"description": {
 						"content": "",
@@ -2738,7 +2805,7 @@
 					},
 					"item": [
 						{
-							"id": "27503d9e-42bb-4616-990e-a84c3ab05557",
+							"id": "15df114c-2ae2-4dc9-8636-18382e7fc548",
 							"name": "List available LLM models",
 							"request": {
 								"name": "List available LLM models",
@@ -2780,7 +2847,7 @@
 									"_": {
 										"postman_previewlanguage": "json"
 									},
-									"id": "9e4c4d33-f61e-4de1-b176-98e90fe394e3",
+									"id": "3981d9d2-2cb5-469d-be4d-217a8f3af181",
 									"name": "List of models",
 									"originalRequest": {
 										"url": {
@@ -2829,7 +2896,7 @@
 							}
 						},
 						{
-							"id": "b12a1c13-f57e-4c5c-b9e5-2de3ec43817e",
+							"id": "1ac03f83-9027-4deb-8d9b-a10f3051ac2d",
 							"name": "embeddings",
 							"description": {
 								"content": "",
@@ -2837,7 +2904,7 @@
 							},
 							"item": [
 								{
-									"id": "f86079e0-99e2-426c-80cb-20d1acd6c471",
+									"id": "d559b965-dd61-47e0-9944-3a14a25f5d6d",
 									"name": "List available embedding models",
 									"request": {
 										"name": "List available embedding models",
@@ -2880,7 +2947,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "72f9ee7a-6fe1-41db-b3d1-beefe3736698",
+											"id": "5f9a3516-ba40-420b-bcd5-3bab49aae556",
 											"name": "List of embedding models",
 											"originalRequest": {
 												"url": {
@@ -2936,7 +3003,7 @@
 					"event": []
 				},
 				{
-					"id": "db6d2a8a-fc3e-4bc1-839b-ae3af021e159",
+					"id": "cee678ca-d623-441d-8d3d-06093a76290d",
 					"name": "auth",
 					"description": {
 						"content": "",
@@ -2944,7 +3011,7 @@
 					},
 					"item": [
 						{
-							"id": "5f73358e-fabf-4435-87ba-9c690676a17f",
+							"id": "1cf43b4b-6151-4b07-9455-61d9da405f66",
 							"name": "register",
 							"description": {
 								"content": "",
@@ -2952,7 +3019,7 @@
 							},
 							"item": [
 								{
-									"id": "0d6a02ea-f9a5-4fe9-9b0e-88e990d052c7",
+									"id": "9bf6ee30-8621-444a-9ef7-5ed3770273a6",
 									"name": "Register a new user",
 									"request": {
 										"name": "Register a new user",
@@ -2998,7 +3065,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "c8179be3-c30a-4b58-852a-e4d924dc09a9",
+											"id": "5ac7c437-b994-4310-8997-1d1a46987d7d",
 											"name": "User registered successfully",
 											"originalRequest": {
 												"url": {
@@ -3056,7 +3123,7 @@
 							"event": []
 						},
 						{
-							"id": "99663d2c-f2f8-45f9-8689-c513947a90ec",
+							"id": "b21cfcbe-b79a-421c-a467-2953e16d6752",
 							"name": "login",
 							"description": {
 								"content": "",
@@ -3064,7 +3131,7 @@
 							},
 							"item": [
 								{
-									"id": "b2e29e24-c745-4014-8dfe-248326354618",
+									"id": "e82c9d3b-257a-47af-8686-1b0df8edad63",
 									"name": "Login user",
 									"request": {
 										"name": "Login user",
@@ -3110,7 +3177,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "3ef488de-086e-4008-95f2-77a77927729c",
+											"id": "c67212c1-9c06-44b7-a70a-589613ba2a78",
 											"name": "Login successful",
 											"originalRequest": {
 												"url": {
@@ -3163,7 +3230,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "e4af8480-a831-481e-a065-d99752e21591",
+												"id": "832eaf1e-7cc8-4750-a9f8-1a9b731ad7de",
 												"type": "text/javascript",
 												"exec": [
 													"// Post-login script: Extract JWT from Set-Cookie header and save to environment\n// This runs after the login request completes successfully\n\n// Only process if login was successful\nif (pm.response.code === 200 || pm.response.code === 201) {\n  // Get the Set-Cookie header(s)\n  const setCookieHeader = pm.response.headers.get(\"Set-Cookie\");\n\n  if (setCookieHeader) {\n    // Parse the access_token from the cookie\n    // Cookie format: access_token=<jwt>; Path=/; HttpOnly; ...\n    const cookies = setCookieHeader.split(\",\").map((c) => c.trim());\n\n    for (const cookie of cookies) {\n      const tokenMatch = cookie.match(/access_token=([^;]+)/);\n      if (tokenMatch && tokenMatch[1]) {\n        const token = tokenMatch[1];\n\n        // Save token to environment variable\n        pm.environment.set(\"bearerToken\", token);\n        console.log(\"Token saved to bearerToken environment variable\");\n\n        // Optionally decode and save expiry\n        try {\n          const parts = token.split(\".\");\n          if (parts.length === 3) {\n            const payload = JSON.parse(atob(parts[1]));\n            if (payload.exp) {\n              pm.environment.set(\"token_expiry\", payload.exp.toString());\n              console.log(\n                \"Token expiry saved:\",\n                new Date(payload.exp * 1000).toISOString(),\n              );\n            }\n          }\n        } catch (e) {\n          console.log(\"Could not decode token expiry:\", e.message);\n        }\n\n        break;\n      }\n    }\n  } else {\n    console.log(\"No Set-Cookie header found in response\");\n  }\n}\n"
@@ -3179,7 +3246,7 @@
 							"event": []
 						},
 						{
-							"id": "e7000f9b-e16d-451c-aab1-f2b1547b3de6",
+							"id": "72092a6d-b479-4373-ac11-7d03207db174",
 							"name": "logout",
 							"description": {
 								"content": "",
@@ -3187,7 +3254,7 @@
 							},
 							"item": [
 								{
-									"id": "f072f780-aed8-4636-b384-15f3df72ab94",
+									"id": "27469157-01d0-470b-b7a8-055fdb27064d",
 									"name": "Logout user",
 									"request": {
 										"name": "Logout user",
@@ -3220,7 +3287,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "8f6a8dbd-ca48-4a5e-9f43-4ff264a49a48",
+											"id": "da9a787e-c8a5-4823-98b7-807f1de8e5ef",
 											"name": "Logout successful",
 											"originalRequest": {
 												"url": {
@@ -3265,7 +3332,7 @@
 							"event": []
 						},
 						{
-							"id": "1508fb58-a0fb-484e-b8e2-3f66ff827f59",
+							"id": "915cb548-361c-445a-b4a4-af7734013241",
 							"name": "me",
 							"description": {
 								"content": "",
@@ -3273,7 +3340,7 @@
 							},
 							"item": [
 								{
-									"id": "a6590843-892c-4666-97ec-a97184ceaac3",
+									"id": "3119bc08-a04f-4971-9f6b-95d3783fa760",
 									"name": "Get current user",
 									"request": {
 										"name": "Get current user",
@@ -3316,7 +3383,7 @@
 											"_": {
 												"postman_previewlanguage": "json"
 											},
-											"id": "a0114594-5b22-4b3f-af14-c2dadef86428",
+											"id": "42911304-730d-4420-91c8-f91ac472fedd",
 											"name": "Current user info",
 											"originalRequest": {
 												"url": {
@@ -3370,6 +3437,1083 @@
 						}
 					],
 					"event": []
+				},
+				{
+					"id": "2b0ab95a-8e8a-43e2-9601-d19e1f941c95",
+					"name": "news-workflow",
+					"description": {
+						"content": "",
+						"type": "text/plain"
+					},
+					"item": [
+						{
+							"id": "29ffbb24-36ac-4d97-ba3d-69f23a6a75a3",
+							"name": "start",
+							"description": {
+								"content": "",
+								"type": "text/plain"
+							},
+							"item": [
+								{
+									"id": "ae6fb963-5877-4af6-9dc1-1c57b1174660",
+									"name": "Start a new news workflow",
+									"request": {
+										"name": "Start a new news workflow",
+										"description": {
+											"content": "Creates a new news search workflow and queues it for background processing. The workflow will search for news articles matching the query within the specified date range, extract location mentions, geocode them, and generate summaries.",
+											"type": "text/plain"
+										},
+										"url": {
+											"path": [
+												"api",
+												"news-workflow",
+												"start"
+											],
+											"host": [
+												"{{baseUrl}}"
+											],
+											"query": [],
+											"variable": []
+										},
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"method": "POST",
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"query\": \"<string>\",\n    \"region\": \"<string>\",\n    \"fromDate\": \"<date>\",\n    \"toDate\": \"<date>\"\n    // \"maxArticles\": 20,\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"type": "any",
+													"value": "{{bearerToken}}",
+													"key": "token"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"_": {
+												"postman_previewlanguage": "json"
+											},
+											"id": "d3d2720e-c035-42c5-a984-5b0492e91969",
+											"name": "Workflow created and queued for processing",
+											"originalRequest": {
+												"url": {
+													"path": [
+														"api",
+														"news-workflow",
+														"start"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": []
+												},
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": {
+															"content": "Added as a part of security scheme: bearer",
+															"type": "text/plain"
+														},
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"method": "POST",
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"query\": \"<string>\",\n  \"region\": \"<string>\",\n  \"fromDate\": \"<date>\",\n  \"toDate\": \"<date>\",\n  \"maxArticles\": 20\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"body": "{\n  \"workflowId\": \"<uuid>\",\n  \"jobId\": \"<string>\",\n  \"status\": \"<string>\",\n  \"statusUrl\": \"<string>\"\n}",
+											"cookie": []
+										},
+										{
+											"_": {
+												"postman_previewlanguage": "text"
+											},
+											"id": "21696413-7c09-4528-a4ab-2fc921f538e4",
+											"name": "Invalid input - date range exceeds 90 days or fromDate is after toDate",
+											"originalRequest": {
+												"url": {
+													"path": [
+														"api",
+														"news-workflow",
+														"start"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": []
+												},
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"description": {
+															"content": "Added as a part of security scheme: bearer",
+															"type": "text/plain"
+														},
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"method": "POST",
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"query\": \"<string>\",\n  \"region\": \"<string>\",\n  \"fromDate\": \"<date>\",\n  \"toDate\": \"<date>\",\n  \"maxArticles\": 20\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"header": [],
+											"cookie": []
+										},
+										{
+											"_": {
+												"postman_previewlanguage": "text"
+											},
+											"id": "71851a0b-9cbd-4436-9aad-7bd8c1978b0e",
+											"name": "Unauthorized - JWT token required",
+											"originalRequest": {
+												"url": {
+													"path": [
+														"api",
+														"news-workflow",
+														"start"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": []
+												},
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"description": {
+															"content": "Added as a part of security scheme: bearer",
+															"type": "text/plain"
+														},
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"method": "POST",
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"query\": \"<string>\",\n  \"region\": \"<string>\",\n  \"fromDate\": \"<date>\",\n  \"toDate\": \"<date>\",\n  \"maxArticles\": 20\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"header": [],
+											"cookie": []
+										}
+									],
+									"event": [],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									}
+								}
+							],
+							"event": []
+						},
+						{
+							"id": "317ccc2e-dadf-41d4-8791-e619a21a0bf7",
+							"name": "List user's workflows",
+							"request": {
+								"name": "List user's workflows",
+								"description": {
+									"content": "Returns all news workflows created by the authenticated user, ordered by creation date descending.",
+									"type": "text/plain"
+								},
+								"url": {
+									"path": [
+										"api",
+										"news-workflow"
+									],
+									"host": [
+										"{{baseUrl}}"
+									],
+									"query": [],
+									"variable": []
+								},
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"method": "GET",
+								"body": {},
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"type": "any",
+											"value": "{{bearerToken}}",
+											"key": "token"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"_": {
+										"postman_previewlanguage": "json"
+									},
+									"id": "31f8b892-ff4a-4143-8aff-a4237f31fd94",
+									"name": "List of workflows",
+									"originalRequest": {
+										"url": {
+											"path": [
+												"api",
+												"news-workflow"
+											],
+											"host": [
+												"{{baseUrl}}"
+											],
+											"query": [],
+											"variable": []
+										},
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"method": "GET",
+										"body": {}
+									},
+									"status": "OK",
+									"code": 200,
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"query\": \"<string>\",\n    \"region\": \"<string>\",\n    \"status\": \"SEARCHING\",\n    \"articlesFound\": \"<integer>\",\n    \"articlesProcessed\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"completedAt\": \"<dateTime>\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"query\": \"<string>\",\n    \"region\": \"<string>\",\n    \"status\": \"PENDING\",\n    \"articlesFound\": \"<integer>\",\n    \"articlesProcessed\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"completedAt\": \"<dateTime>\"\n  }\n]",
+									"cookie": []
+								},
+								{
+									"_": {
+										"postman_previewlanguage": "text"
+									},
+									"id": "f6c4ba10-0a92-43f9-b8d1-5090bb1d27c5",
+									"name": "Unauthorized - JWT token required",
+									"originalRequest": {
+										"url": {
+											"path": [
+												"api",
+												"news-workflow"
+											],
+											"host": [
+												"{{baseUrl}}"
+											],
+											"query": [],
+											"variable": []
+										},
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"method": "GET",
+										"body": {}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"header": [],
+									"cookie": []
+								}
+							],
+							"event": [],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							}
+						},
+						{
+							"id": "226291cf-e995-4315-b14b-62b1ac5d9f55",
+							"name": "{id}",
+							"description": {
+								"content": "",
+								"type": "text/plain"
+							},
+							"item": [
+								{
+									"id": "15ec9e6d-ece9-405d-8bd4-98455a08e734",
+									"name": "status",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									},
+									"item": [
+										{
+											"id": "e6125de1-15f6-4fb8-b38e-43385392930c",
+											"name": "Get workflow status",
+											"request": {
+												"name": "Get workflow status",
+												"description": {
+													"content": "Returns the current status and progress of a workflow, including article counts and any errors.",
+													"type": "text/plain"
+												},
+												"url": {
+													"path": [
+														"api",
+														"news-workflow",
+														":id",
+														"status"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": [
+														{
+															"disabled": false,
+															"description": {
+																"content": "(Required) Workflow ID (UUID format)",
+																"type": "text/plain"
+															},
+															"type": "any",
+															"value": "<uuid>",
+															"key": "id"
+														}
+													]
+												},
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"method": "GET",
+												"body": {},
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"type": "any",
+															"value": "{{bearerToken}}",
+															"key": "token"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"_": {
+														"postman_previewlanguage": "json"
+													},
+													"id": "31852bcd-26ef-437c-9afc-c51c7f3376b9",
+													"name": "Workflow status",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"status"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "OK",
+													"code": 200,
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"body": "{\n  \"id\": \"<uuid>\",\n  \"query\": \"<string>\",\n  \"region\": \"<string>\",\n  \"fromDate\": \"<dateTime>\",\n  \"toDate\": \"<dateTime>\",\n  \"status\": \"SEARCHING\",\n  \"articlesFound\": \"<integer>\",\n  \"articlesProcessed\": \"<integer>\",\n  \"errorCount\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"traceId\": \"<string>\",\n  \"startedAt\": \"<dateTime>\",\n  \"completedAt\": \"<dateTime>\",\n  \"createdAt\": \"<dateTime>\"\n}",
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "068c0f61-2d3a-474f-801c-aea2c3580b08",
+													"name": "Invalid workflow ID format",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"status"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"header": [],
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "d9fdfe6c-64da-48f5-bc7f-5306dd4e6f70",
+													"name": "Unauthorized - JWT token required",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"status"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"header": [],
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "847923ce-8e42-48f4-857d-9b4a18b170f2",
+													"name": "Workflow not found or not owned by user",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"status"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"header": [],
+													"cookie": []
+												}
+											],
+											"event": [],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											}
+										}
+									],
+									"event": []
+								},
+								{
+									"id": "51c83769-2b16-40b8-b7dd-8be375001e00",
+									"name": "report",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									},
+									"item": [
+										{
+											"id": "dcffa8cc-4726-4222-b46d-b13c1c29e540",
+											"name": "Get full workflow report",
+											"request": {
+												"name": "Get full workflow report",
+												"description": {
+													"content": "Returns the complete workflow with all processed articles, extracted locations, AI-generated summaries, key points, and sentiment analysis.",
+													"type": "text/plain"
+												},
+												"url": {
+													"path": [
+														"api",
+														"news-workflow",
+														":id",
+														"report"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": [
+														{
+															"disabled": false,
+															"description": {
+																"content": "(Required) Workflow ID (UUID format)",
+																"type": "text/plain"
+															},
+															"type": "any",
+															"value": "<uuid>",
+															"key": "id"
+														}
+													]
+												},
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"method": "GET",
+												"body": {},
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"type": "any",
+															"value": "{{bearerToken}}",
+															"key": "token"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"_": {
+														"postman_previewlanguage": "json"
+													},
+													"id": "f2e1bfda-078e-4167-8ecf-edb1938c808c",
+													"name": "Workflow report with articles and locations",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"report"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "OK",
+													"code": 200,
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"body": "{\n  \"id\": \"<uuid>\",\n  \"query\": \"<string>\",\n  \"region\": \"<string>\",\n  \"fromDate\": \"<dateTime>\",\n  \"toDate\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"articlesFound\": \"<integer>\",\n  \"articlesProcessed\": \"<integer>\",\n  \"totalLocations\": \"<integer>\",\n  \"geocodedLocations\": \"<integer>\",\n  \"articles\": [\n    {\n      \"id\": \"<uuid>\",\n      \"url\": \"<uri>\",\n      \"title\": \"<string>\",\n      \"author\": \"<string>\",\n      \"source\": \"<string>\",\n      \"publishedAt\": \"<dateTime>\",\n      \"content\": \"<string>\",\n      \"imageUrl\": \"<uri>\",\n      \"summary\": \"<string>\",\n      \"keyPoints\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"sentiment\": \"negative\",\n      \"status\": \"PROCESSING\",\n      \"locations\": [\n        {\n          \"id\": \"<uuid>\",\n          \"mention\": \"<string>\",\n          \"mentionType\": \"LANDMARK\",\n          \"context\": \"<string>\",\n          \"lat\": \"<double>\",\n          \"lng\": \"<double>\",\n          \"formattedAddress\": \"<string>\",\n          \"confidence\": \"<number>\",\n          \"geocodeError\": \"<string>\"\n        },\n        {\n          \"id\": \"<uuid>\",\n          \"mention\": \"<string>\",\n          \"mentionType\": \"BUSINESS\",\n          \"context\": \"<string>\",\n          \"lat\": \"<double>\",\n          \"lng\": \"<double>\",\n          \"formattedAddress\": \"<string>\",\n          \"confidence\": \"<number>\",\n          \"geocodeError\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"url\": \"<uri>\",\n      \"title\": \"<string>\",\n      \"author\": \"<string>\",\n      \"source\": \"<string>\",\n      \"publishedAt\": \"<dateTime>\",\n      \"content\": \"<string>\",\n      \"imageUrl\": \"<uri>\",\n      \"summary\": \"<string>\",\n      \"keyPoints\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"sentiment\": \"neutral\",\n      \"status\": \"COMPLETED\",\n      \"locations\": [\n        {\n          \"id\": \"<uuid>\",\n          \"mention\": \"<string>\",\n          \"mentionType\": \"ADDRESS\",\n          \"context\": \"<string>\",\n          \"lat\": \"<double>\",\n          \"lng\": \"<double>\",\n          \"formattedAddress\": \"<string>\",\n          \"confidence\": \"<number>\",\n          \"geocodeError\": \"<string>\"\n        },\n        {\n          \"id\": \"<uuid>\",\n          \"mention\": \"<string>\",\n          \"mentionType\": \"CITY\",\n          \"context\": \"<string>\",\n          \"lat\": \"<double>\",\n          \"lng\": \"<double>\",\n          \"formattedAddress\": \"<string>\",\n          \"confidence\": \"<number>\",\n          \"geocodeError\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"createdAt\": \"<dateTime>\",\n  \"completedAt\": \"<dateTime>\"\n}",
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "0138097b-c1d1-4adf-a0b0-932216a7dfbb",
+													"name": "Invalid workflow ID format",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"report"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"header": [],
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "ad9d82e8-4daf-4f06-bbe0-4b4569cb7b9e",
+													"name": "Unauthorized - JWT token required",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"report"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"header": [],
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "5225617e-98b1-4a0f-bdc0-ec0b0cfc499e",
+													"name": "Workflow not found or not owned by user",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"report"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"header": [],
+													"cookie": []
+												}
+											],
+											"event": [],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											}
+										}
+									],
+									"event": []
+								},
+								{
+									"id": "0e1fa218-c1b8-4233-b642-6b2a1b4982a1",
+									"name": "locations",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									},
+									"item": [
+										{
+											"id": "3caa3d65-830d-410c-9ada-5d80144367ff",
+											"name": "Get workflow locations as GeoJSON",
+											"request": {
+												"name": "Get workflow locations as GeoJSON",
+												"description": {
+													"content": "Returns all geocoded locations as a GeoJSON FeatureCollection for map display. Each feature includes the location coordinates, article metadata, and geocoding confidence.",
+													"type": "text/plain"
+												},
+												"url": {
+													"path": [
+														"api",
+														"news-workflow",
+														":id",
+														"locations"
+													],
+													"host": [
+														"{{baseUrl}}"
+													],
+													"query": [],
+													"variable": [
+														{
+															"disabled": false,
+															"description": {
+																"content": "(Required) Workflow ID (UUID format)",
+																"type": "text/plain"
+															},
+															"type": "any",
+															"value": "<uuid>",
+															"key": "id"
+														}
+													]
+												},
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"method": "GET",
+												"body": {},
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"type": "any",
+															"value": "{{bearerToken}}",
+															"key": "token"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"_": {
+														"postman_previewlanguage": "json"
+													},
+													"id": "bac5d95f-0b8f-419a-a752-a618ac8cae61",
+													"name": "GeoJSON FeatureCollection of locations",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"locations"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "OK",
+													"code": 200,
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"body": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [\n          \"<number>\",\n          \"<number>\"\n        ]\n      },\n      \"properties\": {\n        \"locationId\": \"<uuid>\",\n        \"articleId\": \"<uuid>\",\n        \"articleTitle\": \"<string>\",\n        \"mention\": \"<string>\",\n        \"mentionType\": \"<string>\",\n        \"formattedAddress\": \"<string>\",\n        \"confidence\": \"<number>\",\n        \"articleUrl\": \"<uri>\",\n        \"publishedAt\": \"<dateTime>\"\n      }\n    },\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [\n          \"<number>\",\n          \"<number>\"\n        ]\n      },\n      \"properties\": {\n        \"locationId\": \"<uuid>\",\n        \"articleId\": \"<uuid>\",\n        \"articleTitle\": \"<string>\",\n        \"mention\": \"<string>\",\n        \"mentionType\": \"<string>\",\n        \"formattedAddress\": \"<string>\",\n        \"confidence\": \"<number>\",\n        \"articleUrl\": \"<uri>\",\n        \"publishedAt\": \"<dateTime>\"\n      }\n    }\n  ]\n}",
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "417c05b2-9c56-4eb1-ab6b-70eee72bd30f",
+													"name": "Invalid workflow ID format",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"locations"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"header": [],
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "2778d8b3-ecee-4a89-b472-87f293c40968",
+													"name": "Unauthorized - JWT token required",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"locations"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"header": [],
+													"cookie": []
+												},
+												{
+													"_": {
+														"postman_previewlanguage": "text"
+													},
+													"id": "0d808004-ed94-4dda-a76d-093cce0c0bcc",
+													"name": "Workflow not found or not owned by user",
+													"originalRequest": {
+														"url": {
+															"path": [
+																"api",
+																"news-workflow",
+																":id",
+																"locations"
+															],
+															"host": [
+																"{{baseUrl}}"
+															],
+															"query": [],
+															"variable": []
+														},
+														"header": [
+															{
+																"description": {
+																	"content": "Added as a part of security scheme: bearer",
+																	"type": "text/plain"
+																},
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"method": "GET",
+														"body": {}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"header": [],
+													"cookie": []
+												}
+											],
+											"event": [],
+											"protocolProfileBehavior": {
+												"disableBodyPruning": true
+											}
+										}
+									],
+									"event": []
+								}
+							],
+							"event": []
+						}
+					],
+					"event": []
 				}
 			],
 			"event": []
@@ -3389,7 +4533,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "151b90c9-2e34-41cf-b799-034c61ec1c36",
+				"id": "ad2d8266-27e7-4ee3-9e75-dd5c4d13863b",
 				"type": "text/javascript",
 				"exec": [
 					"// Pre-request script: Check JWT validity before making authenticated requests\n// Runs before EVERY request in the collection\n\n// Public endpoints that don't need authentication\nconst publicEndpoints = [\n  \"/api/auth/login\",\n  \"/api/auth/register\",\n  \"/api/auth/logout\",\n  \"/api/health\",\n];\n\n// Get the current request path\nconst requestPath = pm.request.url.getPath();\n\n// Check if this is a public endpoint\nconst isPublic = publicEndpoints.some(\n  (endpoint) => requestPath === endpoint || requestPath.startsWith(endpoint),\n);\n\nif (!isPublic) {\n  // Check if we have a token\n  const token = pm.environment.get(\"bearerToken\");\n  const expiry = pm.environment.get(\"token_expiry\");\n\n  if (!token) {\n    console.warn(\n      \"No bearerToken found. Run login request first to authenticate.\",\n    );\n  } else if (expiry) {\n    // Check if token is expired\n    const now = Math.floor(Date.now() / 1000);\n    const expiryTime = parseInt(expiry, 10);\n\n    if (now >= expiryTime) {\n      console.warn(\"Token has expired. Please login again.\");\n      // Optionally clear the expired token\n      // pm.environment.set('bearerToken', '');\n      // pm.environment.set('token_expiry', '');\n    } else {\n      const remainingMinutes = Math.floor((expiryTime - now) / 60);\n      if (remainingMinutes < 5) {\n        console.log(\n          `Token expires in ${remainingMinutes} minutes. Consider refreshing.`,\n        );\n      }\n    }\n  }\n}\n",
@@ -3426,7 +4570,7 @@
 		}
 	],
 	"info": {
-		"_postman_id": "89a309ef-e20e-4166-a56b-3449679556db",
+		"_postman_id": "63d626c7-6b0c-428f-bdf1-e5f26fc8b7b0",
 		"name": "Map-Searcher API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"description": {
