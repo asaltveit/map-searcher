@@ -1260,6 +1260,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/mic.js [app-client] (ecmascript) <export default as Mic>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MicOff$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/mic-off.js [app-client] (ecmascript) <export default as MicOff>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$volume$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Volume2$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/volume-2.js [app-client] (ecmascript) <export default as Volume2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__ = __turbopack_context__.i("[project]/repos/map-searcher/client/node_modules/lucide-react/dist/esm/icons/message-square.js [app-client] (ecmascript) <export default as MessageSquare>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
@@ -1272,7 +1273,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 const MAP_PROMPT = "Update the map using the research in your context. Add layers for any places or routes mentioned.";
-function AgentInput({ className, onAfterMapAgentResponse }) {
+function AgentInput({ className, selectedAlertId, onAfterMapAgentResponse }) {
     _s();
     const [agents, setAgents] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [askInput, setAskInput] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
@@ -1301,6 +1302,14 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
             setError(null);
             setLastResponse("");
             try {
+                // If an alert is selected, use article chat instead of workflow agents
+                if (selectedAlertId) {
+                    console.log(`[AgentInput] Using article chat for alert ${selectedAlertId}`);
+                    const response = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["chatWithArticles"])(selectedAlertId, text);
+                    setLastResponse(response.response);
+                    return;
+                }
+                // Otherwise use the standard research workflow
                 const ids = await ensureAgents();
                 const researchResponse = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendAgentMessage"])(ids.researchAgentId, text);
                 const researchContent = (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLastAssistantContent"])(researchResponse);
@@ -1321,7 +1330,8 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
         }
     }["AgentInput.useCallback[submitMessage]"], [
         ensureAgents,
-        onAfterMapAgentResponse
+        onAfterMapAgentResponse,
+        selectedAlertId
     ]);
     const handleAskSubmit = ()=>{
         submitMessage(askInput);
@@ -1344,6 +1354,7 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
     const liveTranscript = (transcript + " " + interimTranscript).trim();
     const showMic = sttSupported !== false; // show slot when unknown or supported (avoids layout shift)
     const micReady = sttSupported === true;
+    const isArticleChatMode = !!selectedAlertId;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("space-y-6", className),
         children: [
@@ -1357,7 +1368,7 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                         children: "Ask a research question"
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                        lineNumber: 111,
+                        lineNumber: 125,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1371,13 +1382,13 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                                         "aria-hidden": true
                                     }, void 0, false, {
                                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                        lineNumber: 116,
+                                        lineNumber: 130,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                         id: "ask-input",
                                         type: "text",
-                                        placeholder: isListening ? liveTranscript || "Listening…" : "Search events, places, or ask a question…",
+                                        placeholder: isListening ? liveTranscript || "Listening…" : isArticleChatMode ? "Ask about the selected alert's articles…" : "Search events, places, or ask a question…",
                                         value: askInput,
                                         onChange: (e)=>setAskInput(e.target.value),
                                         onKeyDown: (e)=>e.key === "Enter" && handleAskSubmit(),
@@ -1388,13 +1399,13 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                                         "aria-atomic": isListening
                                     }, void 0, false, {
                                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                        lineNumber: 120,
+                                        lineNumber: 134,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                lineNumber: 115,
+                                lineNumber: 129,
                                 columnNumber: 11
                             }, this),
                             showMic && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1412,19 +1423,19 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                                     "aria-hidden": true
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                    lineNumber: 156,
+                                    lineNumber: 172,
                                     columnNumber: 30
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"], {
                                     className: "size-4",
                                     "aria-hidden": true
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                    lineNumber: 156,
+                                    lineNumber: 172,
                                     columnNumber: 74
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                lineNumber: 139,
+                                lineNumber: 155,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1432,16 +1443,28 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                                 onClick: handleAskSubmit,
                                 disabled: loading || !askInput.trim(),
                                 className: "min-h-[48px] shrink-0 touch-manipulation px-5 sm:min-h-[52px]",
-                                children: loading ? "Researching…" : "Research"
+                                children: loading ? isArticleChatMode ? "Chatting…" : "Researching…" : isArticleChatMode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"], {
+                                            className: "size-4 mr-1.5",
+                                            "aria-hidden": true
+                                        }, void 0, false, {
+                                            fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
+                                            lineNumber: 185,
+                                            columnNumber: 21
+                                        }, this),
+                                        "Chat"
+                                    ]
+                                }, void 0, true) : "Research"
                             }, void 0, false, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                lineNumber: 159,
+                                lineNumber: 175,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                        lineNumber: 114,
+                        lineNumber: 128,
                         columnNumber: 9
                     }, this),
                     showMic && micReady && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1450,7 +1473,7 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                         children: isListening ? "Tap the mic again to stop and send." : "Use the mic to speak your question."
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                        lineNumber: 169,
+                        lineNumber: 192,
                         columnNumber: 11
                     }, this),
                     sttError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1459,13 +1482,13 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                         children: sttError
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                        lineNumber: 174,
+                        lineNumber: 197,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                lineNumber: 110,
+                lineNumber: 124,
                 columnNumber: 7
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1474,12 +1497,12 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                 children: error
             }, void 0, false, {
                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                lineNumber: 181,
+                lineNumber: 204,
                 columnNumber: 9
             }, this),
             lastResponse && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "rounded-xl border border-border bg-card px-4 py-4 shadow-sm sm:px-5 sm:py-5",
-                "aria-label": "Findings",
+                "aria-label": isArticleChatMode ? "Chat Response" : "Findings",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "mb-3 flex flex-wrap items-center justify-between gap-2",
@@ -1487,19 +1510,26 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center gap-2 text-sm font-medium text-foreground",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                    isArticleChatMode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"], {
                                         className: "size-4 shrink-0 text-muted-foreground",
                                         "aria-hidden": true
                                     }, void 0, false, {
                                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                        lineNumber: 196,
-                                        columnNumber: 15
+                                        lineNumber: 220,
+                                        columnNumber: 17
+                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                        className: "size-4 shrink-0 text-muted-foreground",
+                                        "aria-hidden": true
+                                    }, void 0, false, {
+                                        fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
+                                        lineNumber: 222,
+                                        columnNumber: 17
                                     }, this),
-                                    "Findings"
+                                    isArticleChatMode ? "Chat Response" : "Findings"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                lineNumber: 195,
+                                lineNumber: 218,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1515,20 +1545,20 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                                         "aria-hidden": true
                                     }, void 0, false, {
                                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 234,
                                         columnNumber: 15
                                     }, this),
                                     "Speak"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                                lineNumber: 199,
+                                lineNumber: 226,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                        lineNumber: 194,
+                        lineNumber: 217,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1536,19 +1566,19 @@ function AgentInput({ className, onAfterMapAgentResponse }) {
                         children: lastResponse
                     }, void 0, false, {
                         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                        lineNumber: 211,
+                        lineNumber: 238,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-                lineNumber: 190,
+                lineNumber: 213,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/repos/map-searcher/client/src/components/AgentInput.tsx",
-        lineNumber: 108,
+        lineNumber: 122,
         columnNumber: 5
     }, this);
 }
@@ -5599,7 +5629,7 @@ function Home() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-sm text-zinc-600 sm:text-base dark:text-zinc-400",
-                                    children: "Ask research and map below (type or use the mic)."
+                                    children: selectedAlertId ? "Chat with your alert's articles below." : "Ask research and map below (type or use the mic)."
                                 }, void 0, false, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
                                     lineNumber: 135,
@@ -5615,7 +5645,7 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                                    lineNumber: 139,
+                                    lineNumber: 141,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -5624,9 +5654,11 @@ function Home() {
                             lineNumber: 134,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$AgentInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AgentInput"], {}, void 0, false, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$AgentInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AgentInput"], {
+                            selectedAlertId: selectedAlertId
+                        }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 145,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$CreateAlertDialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CreateAlertDialog"], {
@@ -5635,7 +5667,7 @@ function Home() {
                             onCreated: handleAlertCreated
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 148,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$repos$2f$map$2d$searcher$2f$client$2f$src$2f$components$2f$alerts$2f$ArticlePanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ArticlePanel"], {
@@ -5645,7 +5677,7 @@ function Home() {
                             loading: locationsLoading && selectedAlertId !== null
                         }, void 0, false, {
                             fileName: "[project]/repos/map-searcher/client/src/app/page.tsx",
-                            lineNumber: 155,
+                            lineNumber: 157,
                             columnNumber: 11
                         }, this)
                     ]

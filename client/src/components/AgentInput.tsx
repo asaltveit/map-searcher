@@ -10,19 +10,23 @@ import {
   sendAgentMessage,
   updateResearchBlock,
   getLastAssistantContent,
+  chatWithArticles,
   type AgentIds,
 } from "@/lib/api";
 import { cn } from "@/lib/utils";
-import { Search, FileText, Mic, MicOff, Volume2 } from "lucide-react";
+import { Search, FileText, Mic, MicOff, Volume2, MessageSquare } from "lucide-react";
 
 const MAP_PROMPT =
   "Update the map using the research in your context. Add layers for any places or routes mentioned.";
 
 export function AgentInput({
   className,
+  selectedAlertId,
   onAfterMapAgentResponse,
 }: {
   className?: string;
+  /** When set, chat messages are routed to the article chat endpoint instead of workflow agents. */
+  selectedAlertId?: string | null;
   /** Called after map agent responds so the client can refetch map state and update the map. */
   onAfterMapAgentResponse?: () => Promise<void>;
 }) {
@@ -59,6 +63,15 @@ export function AgentInput({
       setError(null);
       setLastResponse("");
       try {
+        // If an alert is selected, use article chat instead of workflow agents
+        if (selectedAlertId) {
+          console.log(`[AgentInput] Using article chat for alert ${selectedAlertId}`);
+          const response = await chatWithArticles(selectedAlertId, text);
+          setLastResponse(response.response);
+          return;
+        }
+
+        // Otherwise use the standard research workflow
         const ids = await ensureAgents();
         const researchResponse = await sendAgentMessage(ids.researchAgentId, text);
         const researchContent = getLastAssistantContent(researchResponse);
@@ -77,7 +90,7 @@ export function AgentInput({
         setLoading(false);
       }
     },
-    [ensureAgents, onAfterMapAgentResponse]
+    [ensureAgents, onAfterMapAgentResponse, selectedAlertId]
   );
 
   const handleAskSubmit = () => {
@@ -103,6 +116,7 @@ export function AgentInput({
   const liveTranscript = (transcript + " " + interimTranscript).trim();
   const showMic = sttSupported !== false; // show slot when unknown or supported (avoids layout shift)
   const micReady = sttSupported === true;
+  const isArticleChatMode = !!selectedAlertId;
 
   return (
     <div className={cn("space-y-6", className)}>
@@ -123,7 +137,9 @@ export function AgentInput({
               placeholder={
                 isListening
                   ? (liveTranscript || "Listening…")
-                  : "Search events, places, or ask a question…"
+                  : isArticleChatMode
+                    ? "Ask about the selected alert's articles…"
+                    : "Search events, places, or ask a question…"
               }
               value={askInput}
               onChange={(e) => setAskInput(e.target.value)}
@@ -162,7 +178,14 @@ export function AgentInput({
             disabled={loading || !askInput.trim()}
             className="min-h-[48px] shrink-0 touch-manipulation px-5 sm:min-h-[52px]"
           >
-            {loading ? "Researching…" : "Research"}
+            {loading
+              ? (isArticleChatMode ? "Chatting…" : "Researching…")
+              : (isArticleChatMode ? (
+                  <>
+                    <MessageSquare className="size-4 mr-1.5" aria-hidden />
+                    Chat
+                  </>
+                ) : "Research")}
           </Button>
         </div>
         {showMic && micReady && (
@@ -189,12 +212,16 @@ export function AgentInput({
       {lastResponse && (
         <section
           className="rounded-xl border border-border bg-card px-4 py-4 shadow-sm sm:px-5 sm:py-5"
-          aria-label="Findings"
+          aria-label={isArticleChatMode ? "Chat Response" : "Findings"}
         >
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <FileText className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-              Findings
+              {isArticleChatMode ? (
+                <MessageSquare className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+              ) : (
+                <FileText className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+              )}
+              {isArticleChatMode ? "Chat Response" : "Findings"}
             </div>
             <Button
               type="button"

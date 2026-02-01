@@ -133,7 +133,9 @@ export default function Home() {
 
           <div className="flex items-center justify-between mt-2 mb-4">
             <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
-              Ask research and map below (type or use the mic).
+              {selectedAlertId
+                ? "Chat with your alert's articles below."
+                : "Ask research and map below (type or use the mic)."}
             </p>
             {hasLocations && (
               <span className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -142,7 +144,7 @@ export default function Home() {
             )}
           </div>
 
-          <AgentInput />
+          <AgentInput selectedAlertId={selectedAlertId} />
 
           {/* Create Alert Dialog */}
           <CreateAlertDialog

@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsString, IsNotEmpty } from "class-validator";
 import { AlertFrequency } from "@prisma/client";
 
 export class AlertResponseDto {
@@ -177,6 +178,8 @@ export class AlertGeoJsonResponseDto {
 
 export class ChatWithArticlesDto {
   @ApiProperty({ description: "User message to send to the chat agent" })
+  @IsString()
+  @IsNotEmpty()
   message: string;
 }
 
