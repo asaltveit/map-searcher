@@ -23,12 +23,15 @@ export function AgentInput({
   className,
   selectedAlertId,
   onAfterMapAgentResponse,
+  onVoiceClick,
 }: {
   className?: string;
   /** When set, chat messages are routed to the article chat endpoint instead of workflow agents. */
   selectedAlertId?: string | null;
   /** Called after map agent responds so the client can refetch map state and update the map. */
   onAfterMapAgentResponse?: () => Promise<void>;
+  /** Called when voice button is clicked to open voice chat panel. */
+  onVoiceClick?: () => void;
 }) {
   const [agents, setAgents] = useState<AgentIds | null>(null);
   const [askInput, setAskInput] = useState("");
