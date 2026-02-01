@@ -64,21 +64,19 @@ export class CreateAgentDto {
   @MaxLength(500)
   description?: string;
 
-  @ApiPropertyOptional({
-    description: "LLM model to use",
+  @ApiProperty({
+    description: "LLM model to use (required by Letta SDK)",
     example: "openai/gpt-4o-mini",
   })
-  @IsOptional()
   @IsString()
-  model?: string;
+  model: string;
 
-  @ApiPropertyOptional({
-    description: "Embedding model for memory",
+  @ApiProperty({
+    description: "Embedding model for memory (required by Letta SDK)",
     example: "openai/text-embedding-3-small",
   })
-  @IsOptional()
   @IsString()
-  embedding?: string;
+  embedding: string;
 
   @ApiPropertyOptional({
     description: "Custom system prompt",

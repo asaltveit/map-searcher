@@ -8,10 +8,13 @@ globals:
   collectionVariables:
     bearerToken: ""
     token_expiry: ""
+    agentId: ""
+    toolId: ""
 
-  # Pre-request script runs before EVERY request
+  # Pre-request scripts run before EVERY request
   collectionPreRequestScripts:
     - file:portman/scripts/jwt-check.js
+    - file:portman/scripts/strip-json-comments.js
 
   # Apply bearer token to all protected endpoints
   securityOverwrites:
@@ -57,4 +60,15 @@ tests:
         - file:portman/scripts/login-save-token.js
 
 # Assign variables from responses
-assignVariables: []
+assignVariables:
+  # Save agentId from create agent response
+  - openApiOperationId: AgentsController_create
+    collectionVariables:
+      - responseBodyProp: id
+        name: agentId
+
+  # Save toolId from list tools response (first tool)
+  - openApiOperationId: AgentsController_listTools
+    collectionVariables:
+      - responseBodyProp: "[0].id"
+        name: toolId

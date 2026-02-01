@@ -60,14 +60,16 @@ describe("AgentsController", () => {
 
       const result = await controller.createAgent(mockRequest, {
         name: "Test Agent",
+        model: "openai/gpt-4o-mini",
+        embedding: "openai/text-embedding-3-small",
       });
 
       expect(result).toEqual(mockAgent);
       expect(agentsService.createAgent).toHaveBeenCalledWith(mockUserId, {
         name: "Test Agent",
         description: undefined,
-        model: undefined,
-        embedding: undefined,
+        model: "openai/gpt-4o-mini",
+        embedding: "openai/text-embedding-3-small",
         system: undefined,
         memoryBlocks: undefined,
         tools: undefined,
@@ -83,6 +85,7 @@ describe("AgentsController", () => {
         name: "Test Agent",
         description: "Test description",
         model: "openai/gpt-4",
+        embedding: "openai/text-embedding-3-small",
         tools: ["web_search"],
         tags: ["test"],
       });
@@ -93,6 +96,7 @@ describe("AgentsController", () => {
           name: "Test Agent",
           description: "Test description",
           model: "openai/gpt-4",
+          embedding: "openai/text-embedding-3-small",
           tools: ["web_search"],
           tags: ["test"],
         }),
