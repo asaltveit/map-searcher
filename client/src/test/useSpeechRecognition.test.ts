@@ -28,9 +28,11 @@ describe("useSpeechRecognition", () => {
       onerror: null,
       onend: null,
     };
-    (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition = vi.fn(
-      () => mockRecognition
-    );
+    // Create a constructor function that returns the exact mockRecognition object
+    function MockSpeechRecognition() {
+      return mockRecognition;
+    }
+    (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition = MockSpeechRecognition as unknown as typeof SpeechRecognition;
     delete (window as unknown as { webkitSpeechRecognition?: unknown }).webkitSpeechRecognition;
   });
 
