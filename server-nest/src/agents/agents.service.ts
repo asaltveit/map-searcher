@@ -77,9 +77,7 @@ export class AgentsService {
       },
     });
 
-    this.logger.log(
-      `Created agent ${lettaAgent.id} for user ${userId}`,
-    );
+    this.logger.log(`Created agent ${lettaAgent.id} for user ${userId}`);
 
     return lettaAgent;
   }
@@ -113,7 +111,11 @@ export class AgentsService {
     return this.lettaService.retrieveAgent(agentId);
   }
 
-  async updateAgent(userId: string, agentId: string, params: UpdateAgentParams) {
+  async updateAgent(
+    userId: string,
+    agentId: string,
+    params: UpdateAgentParams,
+  ) {
     await this.verifyOwnership(userId, agentId);
 
     // Update in Letta
@@ -150,7 +152,11 @@ export class AgentsService {
 
   // ==================== Messages ====================
 
-  async sendMessage(userId: string, agentId: string, params: SendMessageParams) {
+  async sendMessage(
+    userId: string,
+    agentId: string,
+    params: SendMessageParams,
+  ) {
     await this.verifyOwnership(userId, agentId);
     return this.lettaService.sendMessage(agentId, params);
   }
