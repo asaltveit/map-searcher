@@ -42,6 +42,16 @@ export async function trace(name, fn) {
   return fn();
 }
 
+/**
+ * Run a full user workflow (e.g. research → update block → map) as one Weave op.
+ * Use this when you have a single endpoint that runs the whole flow so one trace = one user task.
+ * @param {() => Promise<T>} runWorkflow - Async function that performs research, block update, map
+ * @returns {Promise<T>}
+ */
+export async function traceWorkflow(runWorkflow) {
+  return trace('workflow', runWorkflow);
+}
+
 export function isTracingEnabled() {
   return !!process.env.WANDB_API_KEY;
 }

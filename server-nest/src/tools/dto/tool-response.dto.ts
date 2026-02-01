@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsOptional, IsString } from "class-validator";
 
 export class ToolResponseDto {
   @ApiProperty({ description: "Tool ID", example: "tool-123..." })
@@ -80,11 +81,15 @@ export class ListToolsQueryDto {
     description: "Filter by tool name",
     example: "web_search",
   })
+  @IsOptional()
+  @IsString()
   name?: string;
 
   @ApiPropertyOptional({
     description: "Search query",
     example: "search",
   })
+  @IsOptional()
+  @IsString()
   search?: string;
 }

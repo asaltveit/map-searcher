@@ -194,7 +194,8 @@ export class AgentsController {
   async resetMessages(
     @Req() req: JwtRequest,
     @Param("id") agentId: string,
-    @Body() dto: ResetMessagesDto,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Body() _dto: ResetMessagesDto,
   ) {
     this.validateAgentId(agentId);
     return this.agentsService.resetMessages(req.user.userId, agentId);

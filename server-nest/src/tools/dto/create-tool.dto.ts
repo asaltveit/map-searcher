@@ -27,7 +27,8 @@ export class CreateToolDto {
   sourceCode: string;
 
   @ApiPropertyOptional({
-    description: "Name for the tool (derived from function name if not provided)",
+    description:
+      "Name for the tool (derived from function name if not provided)",
     example: "my_custom_tool",
   })
   @IsOptional()
