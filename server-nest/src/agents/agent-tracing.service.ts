@@ -33,8 +33,10 @@ export class AgentTracingService {
       throw new NotFoundException(`Agent not found: ${agentId}`);
     }
     const traceName = agent.name.replace(/\s+/g, "_");
-    return this.tracingService.trace(traceName, () =>
-      this.lettaService.sendMessage(agentId, params),
+    return this.tracingService.traceWithInput(
+      traceName,
+      (input) => this.lettaService.sendMessage(agentId, input),
+      params,
     );
   }
 }

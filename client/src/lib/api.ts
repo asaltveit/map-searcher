@@ -1,6 +1,7 @@
 /**
- * Client API for the backend (Express server).
- * Set NEXT_PUBLIC_API_URL in production (e.g. https://api.example.com); in dev, defaults to same origin or http://localhost:3001.
+ * Client API for the backend (server-nest by default).
+ * Set NEXT_PUBLIC_API_URL in production (e.g. https://api.example.com).
+ * In dev, when the client runs on port 3000, defaults to http://localhost:3001 (run server-nest with PORT=3001).
  */
 function getBase(): string {
   if (typeof window === "undefined") return "";
@@ -15,22 +16,25 @@ export interface AgentIds {
   researchBlockId: string;
 }
 
+/** Get or create workflow agents (research + map + shared block). Uses /api/workflow/agents so both Express and server-nest work. */
 export async function getAgents(): Promise<AgentIds> {
-  const res = await fetch(`${getBase()}/api/agents`, { credentials: "include" });
+  const res = await fetch(`${getBase()}/api/workflow/agents`, {
+    credentials: "include",
+  });
   if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
   return res.json();
 }
 
-/** Send a user message to an agent. Body: { messages: [{ role: 'user', content }] }. Returns Letta response. */
+/** Send a user message to a workflow agent. Uses /api/workflow/send-message so both Express and server-nest work. Returns Letta response. */
 export async function sendAgentMessage(
   agentId: string,
   content: string
 ): Promise<unknown> {
-  const res = await fetch(`${getBase()}/api/agents/${encodeURIComponent(agentId)}/messages`, {
+  const res = await fetch(`${getBase()}/api/workflow/send-message`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({ messages: [{ role: "user", content }] }),
+    body: JSON.stringify({ agentId, content }),
   });
   if (!res.ok) throw new Error(await res.text().catch(() => res.statusText));
   return res.json();

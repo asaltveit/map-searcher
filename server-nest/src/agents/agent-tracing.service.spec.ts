@@ -33,6 +33,9 @@ describe("AgentTracingService", () => {
 
     const mockTracingService = {
       trace: jest.fn(<T>(_name: string, fn: () => Promise<T>) => fn()),
+      traceWithInput: jest.fn(
+        <T, I>(_name: string, fn: (input: I) => Promise<T>, input: I) => fn(input),
+      ),
     };
 
     const mockLettaService = {
@@ -71,9 +74,10 @@ describe("AgentTracingService", () => {
       expect(prismaService.agent.findFirst).toHaveBeenCalledWith({
         where: { userId: mockUserId, lettaAgentId: mockAgentId },
       });
-      expect(tracingService.trace).toHaveBeenCalledWith(
+      expect(tracingService.traceWithInput).toHaveBeenCalledWith(
         "Research_Agent",
         expect.any(Function),
+        { content: "Hello!" },
       );
       expect(lettaService.sendMessage).toHaveBeenCalledWith(mockAgentId, {
         content: "Hello!",
@@ -91,9 +95,10 @@ describe("AgentTracingService", () => {
         content: "Hi",
       });
 
-      expect(tracingService.trace).toHaveBeenCalledWith(
+      expect(tracingService.traceWithInput).toHaveBeenCalledWith(
         "Map_Agent",
         expect.any(Function),
+        { content: "Hi" },
       );
     });
 

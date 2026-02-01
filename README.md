@@ -18,14 +18,14 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
 
    ```bash
    cd weave-hacks
-   npm run install:all
+   pnpm install
    ```
 
-2. Copy env and set keys:
+2. Copy the env template and set your values (the app reads from `.env`, not `.env.example`):
 
    ```bash
-   cp .env.example .env
-   # Edit .env: set LETTA_API_KEY and REDIS_URL (e.g. redis://localhost:6379)
+   cp .env.example server-nest/.env
+   # Edit server-nest/.env: set LETTA_API_KEY, REDIS_URL, DATABASE_URL (and optional keys)
    ```
 
 3. Start Redis (if local):
@@ -34,33 +34,31 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
    redis-server
    ```
 
-4. Run app:
+4. Run app (two terminals):
 
-   ```bash
-   npm run dev
-   ```
+   - **Backend:** `cd server-nest && PORT=3001 pnpm run start:dev` → http://localhost:3001  
+   - **Frontend:** `cd client && pnpm run dev` → http://localhost:3000  
 
-   - Backend: http://localhost:3001  
-   - Frontend: http://localhost:5173 (proxies /api to backend)
+   The client expects the API at `http://localhost:3001` when the app runs on port 3000 (set `NEXT_PUBLIC_API_URL` in production).
 
 ## Usage
 
-1. Open http://localhost:5173
+1. Open http://localhost:3000
 2. Click **Load agents** (creates research + map agents and shared block on first use)
 3. Type a request, e.g. **"Research museums in Portland and show a route between them on the map"**
 4. Send. The workflow runs: research agent (search stored research first, then web search, save with source) → shared block updated → map agent (adds layers and sets view). Map and chat update as tools run.
 
 ## Testing
 
-- **Server:** `npm run test:server` (from repo root). Requires network (supertest binds a port). Tests: validation (`isValidId`), auth (user id sanitization), and route security (400 for invalid agent id, researchBlockId, source_url, missing content).
-- **Client:** `cd client && npm run test`. Vitest + React Testing Library + jest-axe. Tests: home page and VoiceSection accessibility (main landmark, region/labels, live transcript, button labels, no axe violations).
+- **Backend:** `pnpm --filter server-nest test` (or `cd server-nest && pnpm test`). Jest; includes workflow, agents, and API tests.
+- **Client:** `pnpm --filter client test` (or `cd client && pnpm test`). Vitest + React Testing Library + jest-axe. Tests: home page and VoiceSection accessibility (main landmark, region/labels, live transcript, button labels, no axe violations).
 
 ## Project layout
 
-- `server/` – Express backend: Letta proxy, Redis research store, per-user agents (hybrid), auth stub
-- `client/` – Vite React TS: MapLibre map, chat, workflow runner, client-side tools (research + map)
+- `server-nest/` – NestJS backend: Letta workflow (agents, send-message, update-block), research store, auth, health
+- `client/` – Next.js React TS: MapLibre map, chat, voice section, workflow API client
 - `voice/` – Pipecat STT/TTS scaffold (see [voice/README.md](voice/README.md))
-- `.env` – LETTA_API_KEY, REDIS_URL (optional: WANDB_API_KEY, ENABLE_HYBRID_MULTI_USER)
+- `.env` – Backend reads from `server-nest/.env`. See root `.env.example` for a template (copy to `server-nest/.env`).
 
 ## Env
 
@@ -68,24 +66,25 @@ See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8
 |----------|----------|-------------|
 | LETTA_API_KEY | Yes | Letta API key |
 | REDIS_URL | Yes | Redis URL (e.g. redis://localhost:6379) |
+| DATABASE_URL | Yes | PostgreSQL URL for server-nest/Prisma (e.g. postgresql://localhost:5432/map_searcher) |
 | WANDB_API_KEY | No | W&B Weave tracing |
+| WANDB_ENTITY | No | W&B username/team if you see "Default entity name not found" |
 | ENABLE_HYBRID_MULTI_USER | No | Set to `true` for per-user agents + my research; requires X-User-Id or cookie |
+| NEXT_PUBLIC_API_URL | No | Client: API base URL in production (e.g. https://your-api.fly.dev) |
 
 ## Security
 
-- **Helmet**: Secure HTTP headers (X-Content-Type-Options, X-Frame-Options, etc.); CSP disabled so the separate Vite frontend can load scripts/maps.
-- Secrets (LETTA_API_KEY, REDIS_URL) stay on the server; frontend only talks to `/api`
-- Research API validates URLs (http/https only) and content length
-- Map tool args are validated (allowlist layer types, bounds-check center/zoom)
-- **Rate limiting**: `/api` routes are limited to 100 requests per 15 minutes per IP; respond with 429 when exceeded
+- NestJS **ValidationPipe** (whitelist, forbidNonWhitelisted) on all DTOs; CORS restricted to known origins (e.g. localhost:3000).
+- Secrets (LETTA_API_KEY, REDIS_URL) stay on the backend; frontend only talks to the API (e.g. `NEXT_PUBLIC_API_URL` in production).
+- Research and workflow endpoints validate input; map tool args are validated (allowlist layer types, bounds-check center/zoom).
 
 ## Tracing (Weave)
 
-When `WANDB_API_KEY` is set, the server initializes W&B Weave and traces `sendMessage` and `updateBlock` calls for latency and observability. If the Weave SDK fails to initialize (e.g. missing netrc), tracing is disabled and the app continues without it.
+When `WANDB_API_KEY` is set, the NestJS backend initializes W&B Weave and traces `sendMessage` and `updateBlock` calls for latency and observability. If the Weave SDK fails to initialize (e.g. missing netrc), tracing is disabled and the app continues without it.
 
 ## Logging
 
-The server uses structured "wide event" logging (JSON lines): each request logs `request_end` with `requestId`, `method`, `path`, `statusCode`, `durationMs`, and `userId`. Errors log `request_error` with `path`, `requestId`, and `error`. See `server/logger.js`.
+The NestJS backend uses Nest’s built-in logger; request lifecycle and errors are logged to the console (or your configured logger).
 
 ## Accessibility
 

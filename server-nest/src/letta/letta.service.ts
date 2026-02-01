@@ -8,6 +8,7 @@ export interface CreateAgentParams {
   embedding?: string;
   system?: string;
   memoryBlocks?: Array<{ label: string; value: string; limit?: number }>;
+  blockIds?: string[];
   tools?: string[];
   temperature?: number;
   tags?: string[];
@@ -93,6 +94,7 @@ export class LettaService implements OnModuleInit {
           value: "Name: User",
         },
       ],
+      ...(params.blockIds?.length && { block_ids: params.blockIds }),
       tools: params.tools,
       tags: params.tags,
     });
@@ -176,7 +178,33 @@ export class LettaService implements OnModuleInit {
     return result;
   }
 
-  // ==================== Memory Blocks ====================
+  // ==================== Global Blocks (shared across agents) ====================
+
+  async createBlock(params: {
+    label: string;
+    value: string;
+    description?: string;
+  }) {
+    const client = this.ensureClient();
+    const block = await client.blocks.create({
+      label: params.label,
+      value: params.value,
+      description: params.description,
+    });
+    this.logger.log(`Created block: ${block.id} (${params.label})`);
+    return block;
+  }
+
+  async updateBlockById(blockId: string, value: string) {
+    const client = this.ensureClient();
+    const block = await client.blocks.update(blockId, {
+      value: String(value).slice(0, 100_000),
+    });
+    this.logger.log(`Updated block: ${blockId}`);
+    return block;
+  }
+
+  // ==================== Memory Blocks (agent-scoped) ====================
 
   async listBlocks(agentId: string) {
     const client = this.ensureClient();

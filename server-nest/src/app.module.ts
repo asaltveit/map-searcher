@@ -15,6 +15,7 @@ import { AgentsModule } from "./agents/agents.module";
 import { ResearchModule } from "./research/research.module";
 import { ToolsModule } from "./tools/tools.module";
 import { ModelsModule } from "./models/models.module";
+import { WorkflowModule } from "./workflow/workflow.module";
 import { UserResolverMiddleware } from "./common/middleware/user-resolver.middleware";
 import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
 
@@ -83,6 +84,7 @@ import { getRedisConfig, isRedisConfigured } from "./config/redis.config";
     ResearchModule,
     ToolsModule,
     ModelsModule,
+    WorkflowModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

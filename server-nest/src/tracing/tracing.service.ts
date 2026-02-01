@@ -24,6 +24,20 @@ export class TracingService {
     return fn();
   }
 
+  /**
+   * Run fn(input) with optional Weave op tracing.
+   * The input is recorded in the trace (e.g. the question sent to an agent).
+   * Returns fn(input) result; no-op if Weave not available.
+   */
+  async traceWithInput<T, I>(name: string, fn: (input: I) => Promise<T>, input: I): Promise<T> {
+    const ok = await this.ensureWeave();
+    if (ok && this.op) {
+      const traced = this.op(fn, { name });
+      return traced(input);
+    }
+    return fn(input);
+  }
+
   isTracingEnabled(): boolean {
     return !!process.env.WANDB_API_KEY;
   }
@@ -34,11 +48,13 @@ export class TracingService {
 
     try {
       const weave = await import("weave");
-      if (weave.login && typeof weave.login === "function") {
-        await weave.login({ apiKey: process.env.WANDB_API_KEY });
-      }
+      // Skip login() when WANDB_API_KEY is already set (e.g. from .env). login() tries to
+      // write to ~/.netrc and warns if it can't; init() uses process.env.WANDB_API_KEY.
       if (weave.init && typeof weave.init === "function") {
-        await weave.init("map-searcher");
+        // Use entity/project to avoid "Default entity name not found" (W&B GraphQL defaultEntity)
+        const entity = process.env.WANDB_ENTITY?.trim();
+        const projectId = entity ? `${entity}/map-searcher` : "map-searcher";
+        await weave.init(projectId);
         this.initialized = true;
       }
       if (weave.op && typeof weave.op === "function") {

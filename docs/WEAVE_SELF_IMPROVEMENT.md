@@ -6,7 +6,7 @@ This doc describes how to use W&B Weave so your research and map agents can **se
 
 ## What You Have Today
 
-- **Tracing**: `server/tracing.js` wraps `sendMessage` and `updateBlock` in Weave ops when `WANDB_API_KEY` is set. Each Letta API call is one Weave trace.
+- **Tracing**: server-nest’s `TracingService` and workflow/agent tracing wrap key operations in Weave ops when `WANDB_API_KEY` is set. Each Letta API call is one Weave trace.
 - **Agents**: Research agent (web search, save research) and map agent (layers, view) share a block; personas live in Letta memory blocks.
 
 Self-improvement = **observe** (traces) → **judge** (feedback + evals) → **update** (personas, memory, few-shot examples).
@@ -18,7 +18,7 @@ Self-improvement = **observe** (traces) → **judge** (feedback + evals) → **u
 Right now each `sendMessage` and `updateBlock` is a separate trace. For improvement you want **one trace per user task** (e.g. one “find museums in Portland” → research → block update → map).
 
 **Option A – Workflow endpoint (recommended)**  
-Add a single server endpoint that runs the full workflow (research agent → update block → map agent) and wrap that in one Weave op using `traceWorkflow(async () => { ... })` from `server/tracing.js`. Then:
+Add a single endpoint that runs the full workflow (research agent → update block → map agent) and wrap it in one Weave op (e.g. using server-nest’s `TracingService.trace()`). Then:
 
 - One Weave trace = one user query and its full outcome.
 - Feedback and evals attach to that trace (e.g. “did the map show the right area?”).
@@ -69,7 +69,7 @@ Put the Python eval script in `weave-eval/` (or similar), use `weave.init(projec
 - **Prompt / persona updates**  
   - Periodically (e.g. weekly) open Weave, filter traces by low scores or 👎.  
   - Inspect failures (e.g. “research never included coordinates”, “map agent didn’t set view”).  
-  - Edit `RESEARCH_PERSONA` / `MAP_PERSONA` in `server/agents-store.js` (or in Letta UI if you manage personas there) to add instructions or constraints.  
+  - Edit `RESEARCH_PERSONA` / `MAP_PERSONA` in `server-nest/src/workflow/workflow.config.ts` (or in Letta UI) to add instructions or constraints.  
   - Deploy and let new traces show up in Weave; compare old vs new runs.
 
 - **Few-shot / memory**  

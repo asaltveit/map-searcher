@@ -11,7 +11,7 @@ This project sends traces to **W&B Weave** when `WANDB_API_KEY` is set. Here’s
    In the W&B UI: **Settings → API keys**. Create a key and set it as `WANDB_API_KEY` in your server env (e.g. `.env`).
 
 3. **Open the Weave UI for this project**  
-   This app uses the project name **`weave-hacks`** (see `server/tracing.js` → `weave.init('weave-hacks')`).
+   This app uses the project name **`map-searcher`** (see server-nest’s `TracingService` → `weave.init(…)`).
 
    - If you didn’t set a team, traces go to your **default team**.
    - Open: **https://wandb.ai/&lt;your-username-or-team&gt;/weave-hacks/weave**

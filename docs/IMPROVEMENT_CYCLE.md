@@ -45,8 +45,7 @@ Use this cycle when you want to improve the product from written feedback and a 
 ### 3. Agent behavior improvements (personas / config)
 
 - For backlog entries that are about **agent behavior** (e.g. area: agents, or type: persona):
-  - **Express** – Edit `RESEARCH_PERSONA` / `MAP_PERSONA` in `server/agents-store.js` (or update via Letta UI if you manage personas there).
-  - **Nest** – Update defaults in `server-nest/src/config/letta.config.ts` and/or the place you create/update agents (e.g. `AgentsService`); or update via Letta UI.
+  - Edit workflow personas in `server-nest/src/workflow/workflow.config.ts` (RESEARCH_PERSONA, MAP_PERSONA), or defaults in `server-nest/src/config/letta.config.ts` and agents; or update via Letta UI.
 - Deploy and verify; no Weave or trace data involved.
 
 ### 4. Optional: sync storage → backlog
@@ -61,7 +60,7 @@ Use this cycle when you want to improve the product from written feedback and a 
 |------|--------|
 | 1 | Add entries to [improvement-backlog.md](./improvement-backlog.md) (from review or storage). |
 | 2 | For **code** work: run `improvement_agent.py` with backlog; merge PRs. |
-| 3 | For **agent** work: edit personas/config in `server/agents-store.js` or server-nest config/Letta; deploy. |
+| 3 | For **agent** work: edit personas/config in server-nest (workflow.config.ts or letta.config.ts) or Letta UI; deploy. |
 | 4 | (Optional) Use storage search when running the PR agent for “users affected”; no Weave. |
 
 ---
