@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 import { resolve } from "path";
 
+const monorepoRoot = resolve(process.cwd(), "..");
+
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: monorepoRoot,
   turbopack: {
-    root: resolve(process.cwd(), ".."),
+    root: monorepoRoot,
   },
 };
 
