@@ -5,7 +5,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "505cb7cd-f825-486b-a535-c9353f29e335",
+                    "id": "4faa0bc8-37f2-4f14-bd1b-b1a521768570",
                     "name": "Get welcome message",
                     "request": {
                         "name": "Get welcome message",
@@ -35,7 +35,7 @@
                     },
                     "response": [
                         {
-                            "id": "213485d2-9f50-4af2-a06e-59b2d66d9eca",
+                            "id": "1172996a-b36e-499e-aef6-33bfacd70c8d",
                             "name": "Welcome message",
                             "originalRequest": {
                                 "url": {
@@ -86,7 +86,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "61c8c97d-6041-4306-ac15-0c989a820956",
+                            "id": "4af07b8b-972f-4378-b337-b87415e1fd09",
                             "name": "Health check",
                             "request": {
                                 "name": "Health check",
@@ -108,7 +108,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "2370e710-39c9-47d0-9764-55c3f17b73eb",
+                                    "id": "33636835-92fd-419e-bd87-a2ad5c8d92e5",
                                     "originalRequest": {
                                         "url": {
                                             "path": [
@@ -147,7 +147,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "7b854ccc-498f-4b86-9606-4a749de77707",
+                                    "id": "a3039bc2-e30b-4260-8b68-00235a108399",
                                     "name": "Get system health status",
                                     "request": {
                                         "name": "Get system health status",
@@ -181,7 +181,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "af7681ac-0fa4-4f61-9be7-af235221002a",
+                                            "id": "92228ca7-3686-4720-8253-72fbb40943db",
                                             "name": "System health status",
                                             "originalRequest": {
                                                 "url": {
@@ -230,7 +230,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "7a6ddc60-8833-470f-aa43-c506f5017b4e",
+                            "id": "fc06b03f-6d9e-4a89-953e-72d87c9267ea",
                             "name": "Search research",
                             "request": {
                                 "name": "Search research",
@@ -252,7 +252,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "cb930977-9ccf-49cc-9471-f32baaaf0cf8",
+                                    "id": "79f85c75-a8f6-4e3f-abd3-f0f4990e1283",
                                     "originalRequest": {
                                         "url": {
                                             "path": [
@@ -281,7 +281,7 @@
                             }
                         },
                         {
-                            "id": "9c118146-9e81-498d-9981-7a322aa251ab",
+                            "id": "3053e041-4806-49c2-8bb1-17692ceffd0c",
                             "name": "Save research",
                             "request": {
                                 "name": "Save research",
@@ -318,7 +318,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "935a19c7-7af2-4a2f-a1b1-f24d6d191b07",
+                                    "id": "48a4490a-0b67-41c4-8a80-4a0d7bc8d293",
                                     "originalRequest": {
                                         "url": {
                                             "path": [
@@ -368,7 +368,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "a037019f-5430-4647-a2c7-0a4ab54b4aa6",
+                            "id": "b91b4c48-9c2a-46e4-8175-7646b67208cb",
                             "name": "List all agents for the authenticated user",
                             "request": {
                                 "name": "List all agents for the authenticated user",
@@ -404,7 +404,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "610827be-f699-4037-a7c3-a95348269588",
+                                    "id": "924eed4f-170c-4ad9-b133-65be133d8c22",
                                     "name": "List of agents",
                                     "originalRequest": {
                                         "url": {
@@ -454,7 +454,7 @@
                             }
                         },
                         {
-                            "id": "d5f5475c-39a3-448f-9a58-3a952acd92c5",
+                            "id": "95008e23-1c73-492c-a42d-22b0da0536ed",
                             "name": "Create a new agent",
                             "request": {
                                 "name": "Create a new agent",
@@ -503,7 +503,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "900e208a-f641-4a54-904a-b784dd077b11",
+                                    "id": "ed82f6d8-6f05-4665-991f-da0e3399876c",
                                     "name": "Agent created",
                                     "originalRequest": {
                                         "url": {
@@ -570,7 +570,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "c4cd5bca-e7d4-4718-8978-3c4a09b58122",
+                                    "id": "c9ed95b2-d3a4-482c-8550-0e0e40424477",
                                     "name": "Get a single agent by ID",
                                     "request": {
                                         "name": "Get a single agent by ID",
@@ -618,7 +618,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "92afb049-9a57-4e91-bbe0-c27d1ac09560",
+                                            "id": "670bae7b-4a14-4d7d-b66e-6419e609b987",
                                             "name": "Agent details",
                                             "originalRequest": {
                                                 "url": {
@@ -663,7 +663,7 @@
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "4287f4eb-8fa0-4d6d-be1e-da56006bf43b",
+                                            "id": "ef8ad04e-6953-45d8-a6ab-2fdf6298a36f",
                                             "name": "Agent not found",
                                             "originalRequest": {
                                                 "url": {
@@ -704,7 +704,7 @@
                                     }
                                 },
                                 {
-                                    "id": "08a63e29-841b-4bdf-b267-6dd278875861",
+                                    "id": "37cf7106-b811-4eca-b044-d9e3e34e6567",
                                     "name": "Update an agent",
                                     "request": {
                                         "name": "Update an agent",
@@ -765,7 +765,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "d0739a22-f2f5-4f10-be5b-dc4a76140d55",
+                                            "id": "8db254ad-143e-42e2-8a87-fe22202f09aa",
                                             "name": "Agent updated",
                                             "originalRequest": {
                                                 "url": {
@@ -829,7 +829,7 @@
                                     }
                                 },
                                 {
-                                    "id": "13a1f1a6-dee3-4026-8d88-fbe498823bf7",
+                                    "id": "b9f07b00-ae50-4739-9207-cc4bee68b210",
                                     "name": "Delete an agent",
                                     "request": {
                                         "name": "Delete an agent",
@@ -871,7 +871,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "3bb9bb99-0b9c-4bc7-9c46-a2f53180927a",
+                                            "id": "3564c36b-0992-442d-931f-f92967dc2cc2",
                                             "name": "Agent deleted",
                                             "originalRequest": {
                                                 "url": {
@@ -906,7 +906,7 @@
                                             "_postman_previewlanguage": "text"
                                         },
                                         {
-                                            "id": "df1158f3-601a-4a36-bcd0-14ea36564b2f",
+                                            "id": "c848fc66-7f73-4e8d-a643-64f636b263f8",
                                             "name": "Agent not found",
                                             "originalRequest": {
                                                 "url": {
@@ -951,7 +951,7 @@
                                     "description": "",
                                     "item": [
                                         {
-                                            "id": "5c768a86-7efe-4895-9b5a-7e142e26402a",
+                                            "id": "1c0eebc7-d0e4-4c73-98e1-d18ca3fb3638",
                                             "name": "Get conversation history for an agent",
                                             "request": {
                                                 "name": "Get conversation history for an agent",
@@ -1001,7 +1001,7 @@
                                                                 "type": "text/plain"
                                                             },
                                                             "key": "order",
-                                                            "value": "asc"
+                                                            "value": "desc"
                                                         }
                                                     ],
                                                     "variable": [
@@ -1037,7 +1037,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "5da43ca6-c077-42b9-b123-030948a59afa",
+                                                    "id": "9e52f7bd-0864-4ffd-8a15-d626ed7c84d7",
                                                     "name": "Message history",
                                                     "originalRequest": {
                                                         "url": {
@@ -1085,7 +1085,7 @@
                                                                         "type": "text/plain"
                                                                     },
                                                                     "key": "order",
-                                                                    "value": "asc"
+                                                                    "value": "desc"
                                                                 }
                                                             ],
                                                             "variable": []
@@ -1126,7 +1126,7 @@
                                             }
                                         },
                                         {
-                                            "id": "56fc232f-001a-4f4c-8a11-ce9677f8be23",
+                                            "id": "5eb95abf-a67a-4f99-9afc-b0f69d1ba3ad",
                                             "name": "Send a message to an agent",
                                             "request": {
                                                 "name": "Send a message to an agent",
@@ -1188,7 +1188,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "08c2ddcc-d405-4ec4-877c-af30fef1eaef",
+                                                    "id": "e7cf1d17-5f17-427f-adaf-9f958924f299",
                                                     "name": "Message response",
                                                     "originalRequest": {
                                                         "url": {
@@ -1257,7 +1257,7 @@
                                             "description": "",
                                             "item": [
                                                 {
-                                                    "id": "8843c68f-2bc5-47b5-85e6-0f31b5a27a3b",
+                                                    "id": "59757512-cdb6-4341-9ee3-fb3b0c2e483b",
                                                     "name": "Reset conversation history for an agent",
                                                     "request": {
                                                         "name": "Reset conversation history for an agent",
@@ -1320,7 +1320,7 @@
                                                     },
                                                     "response": [
                                                         {
-                                                            "id": "f14e0890-074a-4960-82fd-7085c1756c8c",
+                                                            "id": "e2e52d16-cacf-4562-8776-52e7f540eb9f",
                                                             "name": "Messages reset",
                                                             "originalRequest": {
                                                                 "url": {
@@ -1394,7 +1394,7 @@
                                     "description": "",
                                     "item": [
                                         {
-                                            "id": "e383d450-e4b6-4aa0-8462-1e40fd6fa30c",
+                                            "id": "87d53e81-c028-4ee9-8b27-bb19ca72bb61",
                                             "name": "List memory blocks for an agent",
                                             "request": {
                                                 "name": "List memory blocks for an agent",
@@ -1443,7 +1443,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "596f1d74-5d91-4743-a690-8d083e86beb0",
+                                                    "id": "85b5b87a-3286-4c27-8828-9a84d3d9852d",
                                                     "name": "List of memory blocks",
                                                     "originalRequest": {
                                                         "url": {
@@ -1499,7 +1499,7 @@
                                             "description": "",
                                             "item": [
                                                 {
-                                                    "id": "66bb949c-a8cd-4b04-afd0-f2125ed252c8",
+                                                    "id": "4961c7c3-bc8e-454c-8eef-fefd9cc73a66",
                                                     "name": "Get a specific memory block by label",
                                                     "request": {
                                                         "name": "Get a specific memory block by label",
@@ -1559,7 +1559,7 @@
                                                     },
                                                     "response": [
                                                         {
-                                                            "id": "26147193-d19a-48dc-9d37-98ca79e70f6b",
+                                                            "id": "e49dcc2c-f4a1-4446-8b02-d373e839fae9",
                                                             "name": "Memory block",
                                                             "originalRequest": {
                                                                 "url": {
@@ -1612,7 +1612,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": "5a7e1d4d-bb30-40df-810b-6f91abe78fb9",
+                                                    "id": "5db2f38c-75bd-4fe1-a9eb-565f5f623220",
                                                     "name": "Update a memory block",
                                                     "request": {
                                                         "name": "Update a memory block",
@@ -1685,7 +1685,7 @@
                                                     },
                                                     "response": [
                                                         {
-                                                            "id": "0421f5fb-0450-46a3-800f-0cb7d2701135",
+                                                            "id": "fd1dcf97-430c-4858-bf89-7cc12a3ae10e",
                                                             "name": "Memory block updated",
                                                             "originalRequest": {
                                                                 "url": {
@@ -1759,7 +1759,7 @@
                                     "description": "",
                                     "item": [
                                         {
-                                            "id": "283d3902-114d-470a-bc31-0269e9b34f1b",
+                                            "id": "9a32c492-d7a2-4943-b5fe-8abfc4a1a92d",
                                             "name": "List tools attached to an agent",
                                             "request": {
                                                 "name": "List tools attached to an agent",
@@ -1808,7 +1808,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "94f5c6a5-20c9-4d3e-a5d2-780bb0fadb2b",
+                                                    "id": "a1daeb7d-84b7-4a54-a7d4-7f7f4b095f98",
                                                     "name": "List of tools",
                                                     "originalRequest": {
                                                         "url": {
@@ -1868,7 +1868,7 @@
                                                     "description": "",
                                                     "item": [
                                                         {
-                                                            "id": "2f491823-d6bd-4cf7-bc4e-acd8d5b9306e",
+                                                            "id": "c02263b5-3e04-43fe-aacf-2ad2c3677d11",
                                                             "name": "Attach a tool to an agent",
                                                             "request": {
                                                                 "name": "Attach a tool to an agent",
@@ -1929,7 +1929,7 @@
                                                             },
                                                             "response": [
                                                                 {
-                                                                    "id": "b460371b-a499-4326-9c98-b05c99d73f02",
+                                                                    "id": "22d33d0e-9570-4f5d-98d1-6dd8eae3c0c0",
                                                                     "name": "Tool attached",
                                                                     "originalRequest": {
                                                                         "url": {
@@ -1985,7 +1985,7 @@
                                                     ]
                                                 },
                                                 {
-                                                    "id": "f2c7e264-1ab9-413b-9ae1-94e5bd4aec08",
+                                                    "id": "8258dd57-07f9-4d2b-81e4-fd0592317275",
                                                     "name": "Detach a tool from an agent",
                                                     "request": {
                                                         "name": "Detach a tool from an agent",
@@ -2045,7 +2045,7 @@
                                                     },
                                                     "response": [
                                                         {
-                                                            "id": "86745eb0-55b1-4893-b864-dd8241a8bd78",
+                                                            "id": "a8f24163-2e66-4dd1-bbbe-f27c927b9a18",
                                                             "name": "Tool detached",
                                                             "originalRequest": {
                                                                 "url": {
@@ -2110,7 +2110,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "e5628611-807a-4ccf-ae0b-e15bee4d7ceb",
+                            "id": "38d21ca4-0cc0-40e1-b464-f7fa37bf6b29",
                             "name": "List all available tools",
                             "request": {
                                 "name": "List all available tools",
@@ -2165,7 +2165,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "f097afda-1e63-400d-b17c-233af9ae4b33",
+                                    "id": "be86a8fd-0825-49ac-bbc8-06b6b9f011f2",
                                     "name": "List of tools",
                                     "originalRequest": {
                                         "url": {
@@ -2234,7 +2234,7 @@
                             }
                         },
                         {
-                            "id": "79c6a5fb-ec82-4a84-b4cf-c6d1979fdbc5",
+                            "id": "067b7836-641b-4b6f-9a0d-718c9078df82",
                             "name": "Create a custom tool",
                             "request": {
                                 "name": "Create a custom tool",
@@ -2283,7 +2283,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "1180c341-3e08-41de-b857-3faa1894157b",
+                                    "id": "09046a5d-3717-43ac-8b09-10a7cceedd06",
                                     "name": "Tool created",
                                     "originalRequest": {
                                         "url": {
@@ -2350,7 +2350,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "a9fb36b5-de13-4b45-9d7b-a1986046d212",
+                                    "id": "0b425fa6-4337-4867-8526-458d8797107b",
                                     "name": "Get a tool by ID",
                                     "request": {
                                         "name": "Get a tool by ID",
@@ -2398,7 +2398,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "63980a04-e1ff-4c38-afe0-4cfc84f4e405",
+                                            "id": "f03942ec-ba1e-4354-9d29-bde45c83ec4b",
                                             "name": "Tool details",
                                             "originalRequest": {
                                                 "url": {
@@ -2449,7 +2449,7 @@
                                     }
                                 },
                                 {
-                                    "id": "685c1614-dd43-45a5-956c-e72dddf98e30",
+                                    "id": "70610cc0-3733-4433-a1fc-3d8cd79d0b63",
                                     "name": "Delete a custom tool",
                                     "request": {
                                         "name": "Delete a custom tool",
@@ -2491,7 +2491,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "414ef942-d344-40e0-aa05-456ce7f787ad",
+                                            "id": "14304672-85bd-4f9b-a81b-bdd7694b6ab8",
                                             "name": "Tool deleted",
                                             "originalRequest": {
                                                 "url": {
@@ -2540,7 +2540,7 @@
                     "description": "",
                     "item": [
                         {
-                            "id": "d4eefb74-1418-40e4-9c38-86ff4f0a19e1",
+                            "id": "4a591c77-82e6-4994-b39c-bb5e4c0d9d7e",
                             "name": "List available LLM models",
                             "request": {
                                 "name": "List available LLM models",
@@ -2576,7 +2576,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "b81ac6e3-2c4b-4d1c-8bb5-ea9f97a5818a",
+                                    "id": "fb062991-790d-4eb2-ba4d-6ad623ce9fcc",
                                     "name": "List of models",
                                     "originalRequest": {
                                         "url": {
@@ -2630,7 +2630,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "5a8379f9-556e-43f1-9c63-ab909820fb65",
+                                    "id": "6e7b619f-ea3f-4468-a888-69d5ff163050",
                                     "name": "List available embedding models",
                                     "request": {
                                         "name": "List available embedding models",
@@ -2667,7 +2667,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "b7ab1b51-d8b5-4ea9-b912-c27d299d6d52",
+                                            "id": "4a8caa35-3f1f-4f4b-a06a-c4ad94bc18f0",
                                             "name": "List of embedding models",
                                             "originalRequest": {
                                                 "url": {
@@ -2730,7 +2730,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "93ea25be-8eab-4a06-9095-35c35030d7f1",
+                                    "id": "4d444b1d-6d15-4e86-bdd2-22f9f5874700",
                                     "name": "Register a new user",
                                     "request": {
                                         "name": "Register a new user",
@@ -2772,7 +2772,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "a3983012-8e80-4c92-b12d-dd62e6a747b0",
+                                            "id": "d3f95084-dd42-4167-b46b-1fa8675e06c9",
                                             "name": "User registered successfully",
                                             "originalRequest": {
                                                 "url": {
@@ -2834,7 +2834,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "96b61620-4a62-48cf-beee-9f3818dff1cd",
+                                    "id": "3887b081-b033-4532-a5ca-28312ef155e1",
                                     "name": "Login user",
                                     "request": {
                                         "name": "Login user",
@@ -2876,7 +2876,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "ae43ce0b-5f28-4958-9dab-8ea331e58b46",
+                                            "id": "11fd9a44-8eca-4690-9b8d-7731185a80cb",
                                             "name": "Login successful",
                                             "originalRequest": {
                                                 "url": {
@@ -2938,7 +2938,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "ced318e1-48a2-44fe-8acb-a2672d89925e",
+                                    "id": "12c5c475-1b52-443d-9235-1239e6c9eab6",
                                     "name": "Logout user",
                                     "request": {
                                         "name": "Logout user",
@@ -2967,7 +2967,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "7c32caef-cf3c-4f01-82e3-0fa57b5d7b1e",
+                                            "id": "d6821667-3ecd-4ba0-8c6b-ab7983fece83",
                                             "name": "Logout successful",
                                             "originalRequest": {
                                                 "url": {
@@ -3016,7 +3016,7 @@
                             "description": "",
                             "item": [
                                 {
-                                    "id": "c7e13975-80cd-475c-8193-ed788e8d7894",
+                                    "id": "f859cc49-f452-46b8-bbc2-4205bc63fc5a",
                                     "name": "Get current user",
                                     "request": {
                                         "name": "Get current user",
@@ -3053,7 +3053,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "c35217ea-4985-45e1-b627-c758d135002b",
+                                            "id": "0d3bdbcf-944c-42e6-8414-4a472008b777",
                                             "name": "Current user info",
                                             "originalRequest": {
                                                 "url": {
@@ -3118,7 +3118,7 @@
         }
     ],
     "info": {
-        "_postman_id": "e782f5d1-04a6-4159-8df5-24168caf5129",
+        "_postman_id": "66d60e8b-9e61-4ee5-ad6a-c93041126acb",
         "name": "Map-Searcher API",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": {
