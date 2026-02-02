@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Loader2, Send, Phone, PhoneOff, Mic, MicOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { PipecatClient, RTVIMessage } from '@pipecat-ai/client-js';
+import { PipecatClient } from '@pipecat-ai/client-js';
 
 import { DailyTransport } from '@pipecat-ai/daily-transport';
 
@@ -152,8 +152,7 @@ export function PipecatChat({ alertId }: PipecatChatProps) {
 
     try {
       // Send message to bot via text transport
-      const message = new RTVIMessage('send-text', { text: userMessage });
-      clientRef.current.sendMessage(message);
+      clientRef.current.sendClientMessage('send-text', { text: userMessage });
     } catch (error) {
       console.error('[PIPECAT] Failed to send message:', error);
     } finally {
