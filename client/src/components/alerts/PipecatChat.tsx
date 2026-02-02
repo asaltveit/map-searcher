@@ -5,11 +5,6 @@ import { Loader2, Send, Phone, PhoneOff, Mic, MicOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PipecatClient } from '@pipecat-ai/client-js';
 
-// Message type for Pipecat client events
-interface TransportMessage {
-  type: string;
-  data: string;
-}
 import { DailyTransport } from '@pipecat-ai/daily-transport';
 
 interface Message {
@@ -43,18 +38,16 @@ export function PipecatChat({ alertId }: PipecatChatProps) {
           enableCam: false,
         });
 
-        // Handle incoming messages from the bot
-        client.on('message', (message: TransportMessage) => {
-          if (message.type === 'text') {
-            setMessages((prev) => [
-              ...prev,
-              {
-                role: 'assistant',
-                content: message.data,
-                timestamp: Date.now(),
-              },
-            ]);
-          }
+        // Handle incoming text from the bot
+        client.on('botLlmText', (data: { text: string }) => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: 'assistant',
+              content: data.text,
+              timestamp: Date.now(),
+            },
+          ]);
         });
 
         client.on('connected', () => {
