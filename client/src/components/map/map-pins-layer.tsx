@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { Source, Layer, Popup, useMap } from 'react-map-gl/maplibre';
 export const PINS_LAYER_ID = 'research-pins';
 const PINS_SOURCE_ID = 'research-pins-source';
@@ -59,7 +59,10 @@ export function MapPinsLayer({
   const fitDoneRef = useRef(false);
   const mapRef = useMap();
 
-  const features = (data?.features ?? []) as GeoJSON.Feature<GeoJSON.Point>[];
+  const features = useMemo(
+    () => (data?.features ?? []) as GeoJSON.Feature<GeoJSON.Point>[],
+    [data?.features]
+  );
   const hasFeatures = features.length > 0;
 
   useEffect(() => {

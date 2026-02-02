@@ -50,6 +50,7 @@ export function AlertDetail({ alertId, onBack, onRefresh }: AlertDetailProps) {
 
   useEffect(() => {
     loadAlert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alertId]);
 
   const loadAlert = async () => {

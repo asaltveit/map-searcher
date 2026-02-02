@@ -138,7 +138,7 @@ export default function Home() {
             <>
               <div className="flex items-center justify-between mt-2 mb-4">
                 <p className="text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
-                  Chat with your alert's articles below.
+                  Chat with your alert&apos;s articles below.
                 </p>
                 {hasLocations && (
                   <span className="text-xs text-zinc-500 dark:text-zinc-400">

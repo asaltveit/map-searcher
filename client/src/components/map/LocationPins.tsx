@@ -54,7 +54,8 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
   const [popupInfo, setPopupInfo] = useState<GeoJsonFeature | null>(null);
   const [hoverInfo, setHoverInfo] = useState<string | null>(null);
 
-  const onClick = useCallback(
+  // Handle click on a pin to show popup
+  const handleClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const feature = event.features?.[0];
       console.log(`[PINS] onClick - feature clicked:`, feature?.properties?.mention);
@@ -76,7 +77,7 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
     [onFeatureClick]
   );
 
-  const onMouseEnter = useCallback((event: MapLayerMouseEvent) => {
+  const handleMouseEnter = useCallback((event: MapLayerMouseEvent) => {
     const feature = event.features?.[0];
     console.log(`[PINS] onMouseEnter - locationId=${feature?.properties?.locationId}`);
     if (feature) {
@@ -84,10 +85,15 @@ export function LocationPins({ data, onFeatureClick }: LocationPinsProps) {
     }
   }, []);
 
-  const onMouseLeave = useCallback(() => {
+  const handleMouseLeave = useCallback(() => {
     console.log(`[PINS] onMouseLeave`);
     setHoverInfo(null);
   }, []);
+
+  // Mark handlers as used for interactive layers
+  void handleClick;
+  void handleMouseEnter;
+  void handleMouseLeave;
 
   // Create hover filter
   const hoverFilter = hoverInfo

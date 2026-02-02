@@ -22,6 +22,7 @@ declare module "jest-axe" {
 }
 
 declare module "vitest" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Assertion<T = unknown> {
     toHaveNoViolations(): void;
   }

@@ -17,7 +17,7 @@ export function AudioWaveform({
 }: AudioWaveformProps) {
   const bars = Array.from({ length: barCount }, (_, i) => i);
 
-  const getBarClasses = (index: number) => {
+  const getBarClasses = () => {
     switch (state) {
       case "listening":
         return cn(

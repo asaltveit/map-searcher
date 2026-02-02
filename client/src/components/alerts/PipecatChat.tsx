@@ -20,7 +20,7 @@ interface PipecatChatProps {
   onClose?: () => void;
 }
 
-export function PipecatChat({ alertId, onClose }: PipecatChatProps) {
+export function PipecatChat({ alertId }: PipecatChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isConnected, setIsConnected] = useState(false);

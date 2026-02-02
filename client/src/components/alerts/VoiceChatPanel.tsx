@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import { WaveformIndicator, type WaveformState } from "@/components/ui/AudioWaveform";
 import { cn } from "@/lib/utils";
-import { Mic, MicOff, X, Volume2, VolumeX } from "lucide-react";
+import { Mic, Volume2, VolumeX } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";

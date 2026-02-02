@@ -59,7 +59,6 @@ export const MapContainer = forwardRef<MapRef, MapContainerProps>(function MapCo
         setSelectedFeature(null);
         return;
       }
-      const coords = (f.geometry as GeoJSON.Point).coordinates as [number, number];
       setSelectedFeature({
         feature: f as GeoJSON.Feature<GeoJSON.Point>,
         lngLat: [ev.lngLat.lng, ev.lngLat.lat],
