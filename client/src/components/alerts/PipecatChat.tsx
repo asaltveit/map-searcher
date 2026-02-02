@@ -77,7 +77,7 @@ export function PipecatChat({ alertId }: PipecatChatProps) {
     initClient();
 
     return () => {
-      if (clientRef.current?.isConnected()) {
+      if (clientRef.current?.connected) {
         clientRef.current.disconnect();
       }
     };
