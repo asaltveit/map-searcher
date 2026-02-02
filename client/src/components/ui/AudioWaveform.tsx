@@ -68,7 +68,7 @@ export function AudioWaveform({
           key={i}
           className={cn(
             "w-1 h-6 rounded-full origin-bottom",  // Fixed height, transform origin at bottom
-            getBarClasses(i)
+            getBarClasses()
           )}
           style={{
             animationDelay: `${i * 0.1}s`,
