@@ -40,6 +40,6 @@ describe("VoiceSection (unsupported STT)", () => {
     render(<VoiceSection />);
     const region = document.querySelector('[role="region"][aria-labelledby="voice-section-title"]');
     expect(region).toBeInTheDocument();
-    expect(screen.getByText("Voice")).toBeInTheDocument();
+    expect(screen.getByText("Voice input")).toBeInTheDocument();
   });
 });

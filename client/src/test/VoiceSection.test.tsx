@@ -45,7 +45,7 @@ describe("VoiceSection", () => {
     const region = document.querySelector('[role="region"][aria-labelledby="voice-section-title"]');
     expect(region).toBeInTheDocument();
     const title = document.getElementById("voice-section-title");
-    expect(title).toHaveTextContent("Voice");
+    expect(title).toHaveTextContent("Voice input");
   });
 
   it("has a live region for the transcript with aria-label", () => {
@@ -56,7 +56,7 @@ describe("VoiceSection", () => {
 
   it("associates the text-to-speech input with its label", () => {
     render(<VoiceSection />);
-    const input = screen.getByLabelText(/text to speak/i);
+    const input = screen.getByLabelText(/hear findings aloud/i);
     expect(input).toHaveAttribute("id", "voice-speak-input");
   });
 
@@ -72,9 +72,9 @@ describe("VoiceSection", () => {
     expect(speak).toBeInTheDocument();
   });
 
-  it("shows Speak last response button when textToSpeak is provided", () => {
+  it("shows Speak last findings button when textToSpeak is provided", () => {
     render(<VoiceSection textToSpeak="Hello from the assistant" />);
-    const speakLast = screen.getByRole("button", { name: /speak last response/i });
+    const speakLast = screen.getByRole("button", { name: /speak last findings/i });
     expect(speakLast).toBeInTheDocument();
   });
 });
