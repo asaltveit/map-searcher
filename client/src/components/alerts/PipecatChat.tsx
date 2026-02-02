@@ -41,7 +41,6 @@ export function PipecatChat({ alertId }: PipecatChatProps) {
           transport: new DailyTransport(),
           enableMic: false,
           enableCam: false,
-          autoSubscribeAudio: true,
         });
 
         // Handle incoming messages from the bot
