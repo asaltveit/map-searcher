@@ -27,6 +27,16 @@ vi.mock("react-map-gl/maplibre", () => ({
   NavigationControl: function MockNavigationControl({ position }: { position?: string }) {
     return <div data-testid="navigation-control" data-position={position} />;
   },
+  Source: function MockSource({ children }: { children?: ReactNode }) {
+    return <>{children}</>;
+  },
+  Layer: function MockLayer() {
+    return null;
+  },
+  Popup: function MockPopup({ children }: { children?: ReactNode }) {
+    return <div data-testid="popup">{children}</div>;
+  },
+  useMap: () => ({ current: null }),
 }));
 
 vi.mock("../../../node_modules/maplibre-gl/dist/maplibre-gl.css", () => ({}));
