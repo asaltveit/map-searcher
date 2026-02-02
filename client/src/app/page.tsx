@@ -44,7 +44,7 @@ export default function Home() {
     }
 
     const bounds = calculateBounds(locations);
-    console.log(`[PAGE] fitMapToBounds - bounds=${bounds ? `[${bounds[0]}, ${bounds[1]}, ${bounds[2]}, ${bounds[3]}]` : 'null'}`);
+    console.log(`[PAGE] fitMapToBounds - bounds=${bounds ? `[[${bounds[0][0]}, ${bounds[0][1]}], [${bounds[1][0]}, ${bounds[1][1]}]]` : 'null'}`);
     if (bounds) {
       console.log(`[PAGE] fitMapToBounds FITTING map to bounds`);
       mapRef.current.fitBounds(bounds, DEFAULT_FIT_BOUNDS_OPTIONS);
