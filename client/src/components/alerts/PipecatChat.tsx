@@ -3,10 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Loader2, Send, Phone, PhoneOff, Mic, MicOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  PipecatClient,
-  type UserTransportMessageData,
-} from '@pipecat-ai/client-js';
+import { PipecatClient } from '@pipecat-ai/client-js';
+
+// Message type for Pipecat client events
+interface TransportMessage {
+  type: string;
+  data: string;
+}
 import { DailyTransport } from '@pipecat-ai/daily-transport';
 
 interface Message {
@@ -42,7 +45,7 @@ export function PipecatChat({ alertId }: PipecatChatProps) {
         });
 
         // Handle incoming messages from the bot
-        client.on('message', (message: UserTransportMessageData) => {
+        client.on('message', (message: TransportMessage) => {
           if (message.type === 'text') {
             setMessages((prev) => [
               ...prev,
