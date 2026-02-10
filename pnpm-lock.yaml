@@ -133,13 +133,13 @@ importers:
     dependencies:
       '@bull-board/api':
         specifier: ^6.17.0
-        version: 6.17.0(@bull-board/ui@6.16.4)
+        version: 6.17.0(@bull-board/ui@6.17.0)
       '@bull-board/express':
-        specifier: ^6.15.0
-        version: 6.16.4
+        specifier: ^6.17.0
+        version: 6.17.0
       '@bull-board/nestjs':
         specifier: ^6.17.0
-        version: 6.17.0(@bull-board/api@6.17.0(@bull-board/ui@6.16.4))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 6.17.0(@bull-board/api@6.17.0(@bull-board/ui@6.17.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@letta-ai/letta-client':
         specifier: ^1.7.8
         version: 1.7.8
@@ -582,18 +582,13 @@ packages:
   '@borewit/text-codec@0.2.1':
     resolution: {integrity: sha512-k7vvKPbf7J2fZ5klGRD9AeKfUvojuZIQ3BT5u7Jfv+puwXkUBUT5PVyMDfJZpy30CBDXGMgw7fguK/lpOMBvgw==}
 
-  '@bull-board/api@6.16.4':
-    resolution: {integrity: sha512-fn4O+QbA3mRj0rEE41mvwbvtiiv0UYgnxQ9ErWb9n74EwIC/yZbiyxQ+Gh/ehU9u7B0PuaNyR0IOG/h3DGo1Mg==}
-    peerDependencies:
-      '@bull-board/ui': 6.16.4
-
   '@bull-board/api@6.17.0':
     resolution: {integrity: sha512-nnYzOu74KRimG+WmZ8j4r3+i3FpwbXrSekrMyNsne9I7bj5XqpkacFg7HA8+IwG9ysPqrWdy/KEl2XG1vCR4Fw==}
     peerDependencies:
       '@bull-board/ui': 6.17.0
 
-  '@bull-board/express@6.16.4':
-    resolution: {integrity: sha512-znKZGrqBtHh3iU73TvJherEY1OforQ10hcLMGer1ktRTD+5BxyLedIlhdZIxJsn+ComQQcmEySbqJSF2b78UOA==}
+  '@bull-board/express@6.17.0':
+    resolution: {integrity: sha512-x6WxX4i+mrJYLNDcHr/2nqnpPo+c8vcLpJWQTtzmqvx+p+x8gQB+vJeLcV9Gm7aE9qr3Q1jmc3Gdq87NFa8sDw==}
 
   '@bull-board/nestjs@6.17.0':
     resolution: {integrity: sha512-aLOiFx2+Km98X39rE63e6vAVF7cz/NA8/kMANe9oz6OrFSFu+v7CAHeIa7k48jsHyyllfOPi4ubC+mKgMdYAYQ==}
@@ -605,8 +600,8 @@ packages:
       reflect-metadata: ^0.1.13 || ^0.2.0
       rxjs: ^7.8.1
 
-  '@bull-board/ui@6.16.4':
-    resolution: {integrity: sha512-5Yv+4g0rDvBBq2RxaUewSEwD8ywvqCX6lKlzPM5Aaf0+4cxGoENQRZNcBaAIKX4+fAzAbdVB4VGP4NUgtx5LVg==}
+  '@bull-board/ui@6.17.0':
+    resolution: {integrity: sha512-jhfzgQiIapWWTUWxbsEoiLXqG0+j52AVg4fdsHOt2jrn0oAPi9oP2zUI4SFYvvpYEWjsYxxzkBmJAl3Qup9aEA==}
 
   '@chevrotain/cst-dts-gen@10.5.0':
     resolution: {integrity: sha512-lhmC/FyqQ2o7pGK4Om+hzuDrm9rhFYIJ/AXoQBeongmn870Xeb0L6oGEiuR8nohFNL5sMaQEJWCxr1oIVIVXrw==}
@@ -7754,37 +7749,32 @@ snapshots:
 
   '@borewit/text-codec@0.2.1': {}
 
-  '@bull-board/api@6.16.4(@bull-board/ui@6.16.4)':
+  '@bull-board/api@6.17.0(@bull-board/ui@6.17.0)':
     dependencies:
-      '@bull-board/ui': 6.16.4
+      '@bull-board/ui': 6.17.0
       redis-info: 3.1.0
 
-  '@bull-board/api@6.17.0(@bull-board/ui@6.16.4)':
+  '@bull-board/express@6.17.0':
     dependencies:
-      '@bull-board/ui': 6.16.4
-      redis-info: 3.1.0
-
-  '@bull-board/express@6.16.4':
-    dependencies:
-      '@bull-board/api': 6.16.4(@bull-board/ui@6.16.4)
-      '@bull-board/ui': 6.16.4
+      '@bull-board/api': 6.17.0(@bull-board/ui@6.17.0)
+      '@bull-board/ui': 6.17.0
       ejs: 3.1.10
       express: 5.2.1
     transitivePeerDependencies:
       - supports-color
 
-  '@bull-board/nestjs@6.17.0(@bull-board/api@6.17.0(@bull-board/ui@6.16.4))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+  '@bull-board/nestjs@6.17.0(@bull-board/api@6.17.0(@bull-board/ui@6.17.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
-      '@bull-board/api': 6.17.0(@bull-board/ui@6.16.4)
+      '@bull-board/api': 6.17.0(@bull-board/ui@6.17.0)
       '@nestjs/bull-shared': 11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)
       '@nestjs/common': 11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.13(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.12)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
 
-  '@bull-board/ui@6.16.4':
+  '@bull-board/ui@6.17.0':
     dependencies:
-      '@bull-board/api': 6.16.4(@bull-board/ui@6.16.4)
+      '@bull-board/api': 6.17.0(@bull-board/ui@6.17.0)
 
   '@chevrotain/cst-dts-gen@10.5.0':
     dependencies:
