@@ -12,10 +12,12 @@ updates:
     labels:
       - "dependencies"
     groups:
-      frontend-deps:
+      react:
+        patterns:
+          - "*react*"
+      eslint:
         patterns:
           - "*eslint*"
-          - "react*"
     
   - package-ecosystem: "npm"
     directory: "/server-nest"
