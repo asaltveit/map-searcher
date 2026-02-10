@@ -11,6 +11,11 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
+    groups:
+      frontend-deps:
+        patterns:
+          - "*eslint*"
+          - "react*"
     
   - package-ecosystem: "npm"
     directory: "/server-nest"
