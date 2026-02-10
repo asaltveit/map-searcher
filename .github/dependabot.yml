@@ -11,6 +11,14 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
+    
+  - package-ecosystem: "npm"
+    directory: "/server-nest"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
 
   # Python: voice service
   - package-ecosystem: "pip"
