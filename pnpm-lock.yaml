@@ -132,14 +132,14 @@ importers:
   server-nest:
     dependencies:
       '@bull-board/api':
-        specifier: ^6.15.0
-        version: 6.16.4(@bull-board/ui@6.16.4)
+        specifier: ^6.17.0
+        version: 6.17.0(@bull-board/ui@6.16.4)
       '@bull-board/express':
         specifier: ^6.15.0
         version: 6.16.4
       '@bull-board/nestjs':
         specifier: ^6.17.0
-        version: 6.17.0(@bull-board/api@6.16.4(@bull-board/ui@6.16.4))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 6.17.0(@bull-board/api@6.17.0(@bull-board/ui@6.16.4))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@letta-ai/letta-client':
         specifier: ^1.7.8
         version: 1.7.8
@@ -586,6 +586,11 @@ packages:
     resolution: {integrity: sha512-fn4O+QbA3mRj0rEE41mvwbvtiiv0UYgnxQ9ErWb9n74EwIC/yZbiyxQ+Gh/ehU9u7B0PuaNyR0IOG/h3DGo1Mg==}
     peerDependencies:
       '@bull-board/ui': 6.16.4
+
+  '@bull-board/api@6.17.0':
+    resolution: {integrity: sha512-nnYzOu74KRimG+WmZ8j4r3+i3FpwbXrSekrMyNsne9I7bj5XqpkacFg7HA8+IwG9ysPqrWdy/KEl2XG1vCR4Fw==}
+    peerDependencies:
+      '@bull-board/ui': 6.17.0
 
   '@bull-board/express@6.16.4':
     resolution: {integrity: sha512-znKZGrqBtHh3iU73TvJherEY1OforQ10hcLMGer1ktRTD+5BxyLedIlhdZIxJsn+ComQQcmEySbqJSF2b78UOA==}
@@ -7758,6 +7763,11 @@ snapshots:
       '@bull-board/ui': 6.16.4
       redis-info: 3.1.0
 
+  '@bull-board/api@6.17.0(@bull-board/ui@6.16.4)':
+    dependencies:
+      '@bull-board/ui': 6.16.4
+      redis-info: 3.1.0
+
   '@bull-board/express@6.16.4':
     dependencies:
       '@bull-board/api': 6.16.4(@bull-board/ui@6.16.4)
@@ -7767,9 +7777,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@bull-board/nestjs@6.17.0(@bull-board/api@6.16.4(@bull-board/ui@6.16.4))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+  '@bull-board/nestjs@6.17.0(@bull-board/api@6.17.0(@bull-board/ui@6.16.4))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13))(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
-      '@bull-board/api': 6.16.4(@bull-board/ui@6.16.4)
+      '@bull-board/api': 6.17.0(@bull-board/ui@6.16.4)
       '@nestjs/bull-shared': 11.0.4(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.13)
       '@nestjs/common': 11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.13(@nestjs/common@11.1.13(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.12)(reflect-metadata@0.2.2)(rxjs@7.8.2)

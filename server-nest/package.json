@@ -32,7 +32,7 @@
     "postman:sync": "npm run openapi:gen && npm run postman:gen && npm run postman:push && npm run postman:sync:envs"
   },
   "dependencies": {
-    "@bull-board/api": "^6.15.0",
+    "@bull-board/api": "^6.17.0",
     "@bull-board/express": "^6.15.0",
     "@bull-board/nestjs": "^6.17.0",
     "@letta-ai/letta-client": "^1.7.8",
