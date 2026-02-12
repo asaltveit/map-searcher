@@ -26,6 +26,10 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    groups:
+      prisma:
+        patterns:
+          - "*prisma*"
 
   # Python: voice service
   - package-ecosystem: "pip"
