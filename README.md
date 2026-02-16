@@ -739,10 +739,6 @@ Memory Blocks:
 
 ---
 
-## Plan
-
-See [Letta Map Agent + MapLibre](.cursor/plans/letta_map_agent_+_maplibre_0c09b8a8.plan.md) for the full plan (workflow, Redis, hybrid multi-user, accessibility, security, Weave, Pipecat, etc.).
-
 ## Prerequisites
 
 - Node 18+
