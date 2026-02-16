@@ -20,8 +20,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.6.0)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@pipecat-ai/daily-transport':
-        specifier: ^1.5.0
-        version: 1.5.0(@pipecat-ai/client-js@1.6.0)
+        specifier: ^1.6.0
+        version: 1.6.0(@pipecat-ai/client-js@1.6.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -659,8 +659,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@daily-co/daily-js@0.84.0':
-    resolution: {integrity: sha512-/ynXrMDDkRXhLlHxiFNf9QU5yw4ZGPr56wNARgja/Tiid71UIniundTavCNF5cMb2I1vNoMh7oEJ/q8stg/V7g==}
+  '@daily-co/daily-js@0.86.0':
+    resolution: {integrity: sha512-x4ZoThZHGC9Qiq1CrMEd5oe9WhisT7+NPn/HsbS9ZT1HsPX5eIIaUW3WOim0p3DFv1JlhCxcwYZPGX3fXUPEaw==}
     engines: {node: '>=10.0.0'}
 
   '@date-fns/tz@1.4.1':
@@ -1881,10 +1881,10 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@pipecat-ai/daily-transport@1.5.0':
-    resolution: {integrity: sha512-dVe8XQjBxsQBWR3/567ClJYoEMIMN2+8gcdkbTGoK2EfQqnKIAxmIQo/o3hXzBrZe/PNzvoMOap7o7w2OnPQXQ==}
+  '@pipecat-ai/daily-transport@1.6.0':
+    resolution: {integrity: sha512-QmJTgh2rncP3APLwWbM9N/WYMip0a1biTXP7IJ/WZqx0VNuN7S8wbNl7mmzNIMyxReIaG7soBwVfB0sOd389tQ==}
     peerDependencies:
-      '@pipecat-ai/client-js': ~1.5.0
+      '@pipecat-ai/client-js': ~1.6.0
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -7835,7 +7835,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@daily-co/daily-js@0.84.0':
+  '@daily-co/daily-js@0.86.0':
     dependencies:
       '@babel/runtime': 7.28.6
       '@sentry/browser': 8.55.0
@@ -9098,9 +9098,9 @@ snapshots:
       - '@babel/template'
       - '@types/react'
 
-  '@pipecat-ai/daily-transport@1.5.0(@pipecat-ai/client-js@1.6.0)':
+  '@pipecat-ai/daily-transport@1.6.0(@pipecat-ai/client-js@1.6.0)':
     dependencies:
-      '@daily-co/daily-js': 0.84.0
+      '@daily-co/daily-js': 0.86.0
       '@pipecat-ai/client-js': 1.6.0
 
   '@pkgjs/parseargs@0.11.0':
