@@ -21,18 +21,6 @@ updates:
       prisma:
         patterns:
           - "*prisma*"
-    
-  - package-ecosystem: "npm"
-    directory: "/server-nest"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-    groups:
-      prisma:
-        patterns:
-          - "*prisma*"
 
   # Python: voice service
   - package-ecosystem: "pip"
