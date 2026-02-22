@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@bull-board/api": "^6.18.2",
-    "@bull-board/express": "^6.18.2",
+    "@bull-board/express": "^6.19.0",
     "@bull-board/nestjs": "^6.18.2",
     "@letta-ai/letta-client": "^1.7.8",
     "@nestjs/bullmq": "^11.0.4",
