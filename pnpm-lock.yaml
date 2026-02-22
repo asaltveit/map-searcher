@@ -228,8 +228,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       weave:
-        specifier: ^0.11.0
-        version: 0.11.0(ws@8.19.0)
+        specifier: ^0.11.1
+        version: 0.11.1(ws@8.19.0)
     devDependencies:
       '@apideck/portman':
         specifier: ^1.26.0
@@ -3167,6 +3167,11 @@ packages:
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.16.0:
+    resolution: {integrity: sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -7274,8 +7279,8 @@ packages:
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
-  weave@0.11.0:
-    resolution: {integrity: sha512-sRPB6O0sdn/Ueipt1gOxmgrJgbIDAwnm8hmYjSX4mblEoyuAySKgiHNdFJSSJsLyskjHlOIRsFlymECJYlbQKQ==}
+  weave@0.11.1:
+    resolution: {integrity: sha512-JU9IqrETDHrMBF1DAIIo1E7SylmBLmZqHqPpTLO9JjjNsDqXCtKtWw+ckBJ6Edyn74RIfOeZDcHLTNQ8EKTzdA==}
 
   web-streams-polyfill@4.0.0-beta.3:
     resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
@@ -10455,9 +10460,9 @@ snapshots:
       mime-types: 3.0.2
       negotiator: 1.0.0
 
-  acorn-import-attributes@1.9.5(acorn@8.15.0):
+  acorn-import-attributes@1.9.5(acorn@8.16.0):
     dependencies:
-      acorn: 8.15.0
+      acorn: 8.16.0
 
   acorn-import-phases@1.0.4(acorn@8.15.0):
     dependencies:
@@ -10472,6 +10477,8 @@ snapshots:
       acorn: 8.15.0
 
   acorn@8.15.0: {}
+
+  acorn@8.16.0: {}
 
   agent-base@7.1.4: {}
 
@@ -12205,15 +12212,15 @@ snapshots:
 
   import-in-the-middle@1.15.0:
     dependencies:
-      acorn: 8.15.0
-      acorn-import-attributes: 1.9.5(acorn@8.15.0)
+      acorn: 8.16.0
+      acorn-import-attributes: 1.9.5(acorn@8.16.0)
       cjs-module-lexer: 1.4.3
       module-details-from-path: 1.0.4
 
   import-in-the-middle@2.0.6:
     dependencies:
-      acorn: 8.15.0
-      acorn-import-attributes: 1.9.5(acorn@8.15.0)
+      acorn: 8.16.0
+      acorn-import-attributes: 1.9.5(acorn@8.16.0)
       cjs-module-lexer: 2.2.0
       module-details-from-path: 1.0.4
 
@@ -14736,7 +14743,7 @@ snapshots:
   terser@5.46.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.15.0
+      acorn: 8.16.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -15175,7 +15182,7 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
-  weave@0.11.0(ws@8.19.0):
+  weave@0.11.1(ws@8.19.0):
     dependencies:
       cli-progress: 3.12.0
       cross-spawn: 7.0.6
