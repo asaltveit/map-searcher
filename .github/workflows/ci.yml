@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 20
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter server-nest prisma:generate
       - run: pnpm --filter server-nest lint:check
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 20
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter server-nest prisma:generate
       - run: pnpm --filter server-nest prisma db push
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 20
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter server-nest prisma:generate
       - run: pnpm --filter server-nest typecheck
