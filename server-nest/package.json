@@ -37,7 +37,7 @@
     "@bull-board/nestjs": "^6.21.0",
     "@letta-ai/letta-client": "^1.10.2",
     "@nestjs/bullmq": "^11.0.4",
-    "@nestjs/common": "^11.1.17",
+    "@nestjs/common": "^11.1.19",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.1.18",
     "@nestjs/jwt": "^11.0.1",
