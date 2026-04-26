@@ -2,4 +2,4 @@
 # See README.md for usage and Pipecat examples.
 pipecat-ai>=0.0.50
 python-dotenv>=1.2.2
-loguru>=0.7.0
+loguru>=0.7.3
