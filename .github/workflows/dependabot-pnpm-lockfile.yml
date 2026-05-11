@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@v6
 
       - name: Regenerate pnpm-lock.yaml
         run: pnpm install --lockfile-only
