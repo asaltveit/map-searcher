@@ -141,8 +141,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0(@bull-board/api@6.21.0(@bull-board/ui@6.21.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.18))(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.18)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@letta-ai/letta-client':
-        specifier: ^1.10.2
-        version: 1.10.2
+        specifier: ^1.10.3
+        version: 1.10.3
       '@nestjs/bullmq':
         specifier: ^11.0.4
         version: 11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.18)(bullmq@5.70.1)
@@ -1530,8 +1530,8 @@ packages:
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
 
-  '@letta-ai/letta-client@1.10.2':
-    resolution: {integrity: sha512-BYAPkIl6wHYORJ+zHmlWaPSrlsMbN5YkoSnHnEUvaIJBOpa5kLwldNjzHIALcSAV19Qc0ktRoIQy0i0Vqb21yQ==}
+  '@letta-ai/letta-client@1.10.3':
+    resolution: {integrity: sha512-E0nDGWZ00nkn43iIM1vlFuL84FhefstJnGqNuMamI3e0NzAtnpF5Z/BVxUnIPd1kVBRyId+QWSqVp8p66aztzQ==}
 
   '@lukeed/csprng@1.1.0':
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
@@ -9125,7 +9125,7 @@ snapshots:
 
   '@kurkle/color@0.3.4': {}
 
-  '@letta-ai/letta-client@1.10.2': {}
+  '@letta-ai/letta-client@1.10.3': {}
 
   '@lukeed/csprng@1.1.0': {}
 
