@@ -133,13 +133,13 @@ importers:
     dependencies:
       '@bull-board/api':
         specifier: ^6.21.0
-        version: 6.21.0(@bull-board/ui@6.21.0)
+        version: 6.21.0(@bull-board/ui@7.0.0)
       '@bull-board/express':
-        specifier: ^6.21.0
-        version: 6.21.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@bull-board/nestjs':
         specifier: ^7.0.0
-        version: 7.0.0(@bull-board/api@6.21.0(@bull-board/ui@6.21.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19))(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 7.0.0(@bull-board/api@6.21.0(@bull-board/ui@7.0.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19))(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@letta-ai/letta-client':
         specifier: ^1.10.3
         version: 1.10.3
@@ -593,8 +593,13 @@ packages:
     peerDependencies:
       '@bull-board/ui': 6.21.0
 
-  '@bull-board/express@6.21.0':
-    resolution: {integrity: sha512-es5UhfDvF6YOa34mKUWUmopxmcLbNNCx5SlgeeyWQgs6WkMqahZ5kve7YCgclQomHdsycJIL3wCktXnTEQ6wRg==}
+  '@bull-board/api@7.0.0':
+    resolution: {integrity: sha512-ISNspLHVmUWUSq/eLw+wd1FuBBUnqpLbYP2xUNmehpfKhS+NoZWMbBvqjUYVeE/HLfUkRcR1edzMKpl5n9zlSw==}
+    peerDependencies:
+      '@bull-board/ui': 7.0.0
+
+  '@bull-board/express@7.0.0':
+    resolution: {integrity: sha512-3Tc/EyU5PQMTcTzcafFSrmRDiEbJBEU/EaVQ5OVYcuJ7DZCp5Pkvm0/2VtaCe2uywdtwn0ZaynlSIpB27FKX6A==}
 
   '@bull-board/nestjs@7.0.0':
     resolution: {integrity: sha512-ypXm0eJHIMQzjN+3fjf84cVxugBg/K4Bpo0eYcV4u/AsteR/dnr6e7F79ICRgg1WWoczqmSMl0JhlmykpyhAMg==}
@@ -606,8 +611,8 @@ packages:
       reflect-metadata: ^0.1.13 || ^0.2.0
       rxjs: ^7.8.1
 
-  '@bull-board/ui@6.21.0':
-    resolution: {integrity: sha512-SemKRipdrZVqboae/Xhl7CTdIwWJ+F3G/DEP7XHi1Qt1kXZUIKJkySXlFHILunygCiHRpCJ6/Ax/XNdHI/n3QA==}
+  '@bull-board/ui@7.0.0':
+    resolution: {integrity: sha512-AnKeklpDn0iMFgu4ukDU6uTNmw4oudl07G4k2Fh95SknKDrXSiWRV0N1TGUawMqyfG1Yi5P/W/8d7raBq/Uw6w==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -3761,9 +3766,6 @@ packages:
   async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
 
-  async@3.2.6:
-    resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
-
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
@@ -4405,9 +4407,9 @@ packages:
   effect@3.20.0:
     resolution: {integrity: sha512-qMLfDJscrNG8p/aw+IkT9W7fgj50Z4wG5bLBy0Txsxz8iUHjDIkOgO3SV0WZfnQbNG2VJYb0b+rDLMrhM4+Krw==}
 
-  ejs@3.1.10:
-    resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
-    engines: {node: '>=0.10.0'}
+  ejs@5.0.2:
+    resolution: {integrity: sha512-IpbUaI/CAW86l3f+T8zN0iggSc0LmMZLcIW5eRVStLVNCoTXkE0YlncbbH50fp8Cl6zHIky0sW2uUbhBqGw0Jw==}
+    engines: {node: '>=0.12.18'}
     hasBin: true
 
   electron-to-chromium@1.5.283:
@@ -4770,9 +4772,6 @@ packages:
   file-type@3.9.0:
     resolution: {integrity: sha512-RLoqTXE8/vPmMuTI88DAzhMYC99I8BWv7zYP4A1puo5HIjEJ5EX48ighy4ZyKMG9EDXxBgW6e++cn7d1xuFghA==}
     engines: {node: '>=0.10.0'}
-
-  filelist@1.0.6:
-    resolution: {integrity: sha512-5giy2PkLYY1cP39p17Ech+2xlpTRL9HLspOfEgm0L6CwBXBTgsK5ou0JtzYuepxkaQ/tvhCFIJ5uXo0OrM2DxA==}
 
   filesize@10.1.4:
     resolution: {integrity: sha512-ryBwPIIeErmxgPnm6cbESAzXjuEFubs+yKYLBZvg3CaiNcmkJChoOGcBSrZ6IwkMwPABwPpVXE6IlNdGJJrvEg==}
@@ -5372,11 +5371,6 @@ packages:
 
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
-
-  jake@10.9.4:
-    resolution: {integrity: sha512-wpHYzhxiVQL+IV05BLE2Xn34zW1S223hvjtqk0+gsPrwd/8JNLXJgZZM/iPFsYc1xyphF+6M6EvdE5E9MBGkDA==}
-    engines: {node: '>=10'}
-    hasBin: true
 
   jest-axe@10.0.0:
     resolution: {integrity: sha512-9QR0M7//o5UVRnEUUm68IsGapHrcKGakYy9dKWWMX79LmeUKguDI6DREyljC5I13j78OUmtKLF5My6ccffLFBg==}
@@ -6013,10 +6007,6 @@ packages:
 
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
-
-  minimatch@5.1.9:
-    resolution: {integrity: sha512-7o1wEA2RyMP7Iu7GNba9vc0RWWGACJOCZBJX2GJWip0ikV+wcOsgVuY9uE8CPiyQhkGFSlhuSkZPavN7u1c2Fw==}
-    engines: {node: '>=10'}
 
   minimatch@9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
@@ -8282,32 +8272,37 @@ snapshots:
     dependencies:
       css-tree: 3.2.1
 
-  '@bull-board/api@6.21.0(@bull-board/ui@6.21.0)':
+  '@bull-board/api@6.21.0(@bull-board/ui@7.0.0)':
     dependencies:
-      '@bull-board/ui': 6.21.0
+      '@bull-board/ui': 7.0.0
       redis-info: 3.1.0
 
-  '@bull-board/express@6.21.0':
+  '@bull-board/api@7.0.0(@bull-board/ui@7.0.0)':
     dependencies:
-      '@bull-board/api': 6.21.0(@bull-board/ui@6.21.0)
-      '@bull-board/ui': 6.21.0
-      ejs: 3.1.10
+      '@bull-board/ui': 7.0.0
+      redis-info: 3.1.0
+
+  '@bull-board/express@7.0.0':
+    dependencies:
+      '@bull-board/api': 7.0.0(@bull-board/ui@7.0.0)
+      '@bull-board/ui': 7.0.0
+      ejs: 5.0.2
       express: 5.2.1
     transitivePeerDependencies:
       - supports-color
 
-  '@bull-board/nestjs@7.0.0(@bull-board/api@6.21.0(@bull-board/ui@6.21.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19))(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+  '@bull-board/nestjs@7.0.0(@bull-board/api@6.21.0(@bull-board/ui@7.0.0))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19))(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
-      '@bull-board/api': 6.21.0(@bull-board/ui@6.21.0)
+      '@bull-board/api': 6.21.0(@bull-board/ui@7.0.0)
       '@nestjs/bull-shared': 11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)
       '@nestjs/common': 11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.17)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
 
-  '@bull-board/ui@6.21.0':
+  '@bull-board/ui@7.0.0':
     dependencies:
-      '@bull-board/api': 6.21.0(@bull-board/ui@6.21.0)
+      '@bull-board/api': 7.0.0(@bull-board/ui@7.0.0)
 
   '@colors/colors@1.5.0':
     optional: true
@@ -11602,8 +11597,6 @@ snapshots:
 
   async@3.2.5: {}
 
-  async@3.2.6: {}
-
   asynckit@0.4.0: {}
 
   available-typed-arrays@1.0.7:
@@ -12227,9 +12220,7 @@ snapshots:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
 
-  ejs@3.1.10:
-    dependencies:
-      jake: 10.9.4
+  ejs@5.0.2: {}
 
   electron-to-chromium@1.5.283: {}
 
@@ -12796,10 +12787,6 @@ snapshots:
       - supports-color
 
   file-type@3.9.0: {}
-
-  filelist@1.0.6:
-    dependencies:
-      minimatch: 5.1.9
 
   filesize@10.1.4: {}
 
@@ -13443,12 +13430,6 @@ snapshots:
       '@isaacs/cliui': 8.0.2
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
-
-  jake@10.9.4:
-    dependencies:
-      async: 3.2.6
-      filelist: 1.0.6
-      picocolors: 1.1.1
 
   jest-axe@10.0.0:
     dependencies:
@@ -14244,10 +14225,6 @@ snapshots:
   minimatch@3.1.5:
     dependencies:
       brace-expansion: 1.1.12
-
-  minimatch@5.1.9:
-    dependencies:
-      brace-expansion: 2.1.0
 
   minimatch@9.0.5:
     dependencies:
