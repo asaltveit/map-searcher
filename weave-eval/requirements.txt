@@ -1,4 +1,4 @@
 # W&B Weave Python SDK for evaluation and scorers
 weave>=0.52.40
 # Improvement PR Agent: LLM for test + implementation generation
-openai>=2.36.0
+openai>=2.37.0
