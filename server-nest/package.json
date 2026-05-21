@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@apideck/portman": "^1.34.0",
-    "@nestjs/cli": "^11.0.0",
+    "@nestjs/cli": "^11.0.21",
     "@nestjs/schematics": "^11.1.0",
     "@nestjs/testing": "^11.1.17",
     "@types/cookie-parser": "^1.4.10",
