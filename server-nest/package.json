@@ -39,12 +39,12 @@
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^11.1.19",
     "@nestjs/config": "^4.0.4",
-    "@nestjs/core": "^11.1.19",
+    "@nestjs/core": "^11.1.21",
     "@nestjs/jwt": "^11.0.1",
     "@nestjs/passport": "^11.0.5",
-    "@nestjs/platform-express": "^11.1.17",
+    "@nestjs/platform-express": "^11.1.19",
     "@nestjs/schedule": "^6.1.1",
-    "@nestjs/swagger": "^11.4.2",
+    "@nestjs/swagger": "^11.4.3",
     "@prisma/adapter-pg": "7.8.0",
     "@prisma/client": "^7.8.0",
     "@sentry/nestjs": "^10.40.0",
@@ -80,10 +80,10 @@
     "@types/supertest": "^7.2.0",
     "@types/uuid": "^11.0.0",
     "dotenv-cli": "^11.0.0",
-    "eslint": "^9.18.0",
+    "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
-    "jest": "^30.3.0",
+    "jest": "^30.4.2",
     "newman": "^6.2.2",
     "prettier": "^3.4.2",
     "supertest": "^7.0.0",
@@ -93,6 +93,6 @@
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.49.0"
+    "typescript-eslint": "^8.59.3"
   }
 }
