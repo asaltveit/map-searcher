@@ -64,13 +64,17 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Body() dto: CreateAlertDto,
   ): Promise<AlertResponseDto> {
-    this.logger.log(`[CTRL] createAlert START - userId=${req.user.userId}, dto=${JSON.stringify(dto)}`);
+    this.logger.log(
+      `[CTRL] createAlert START - userId=${req.user.userId}, dto=${JSON.stringify(dto)}`,
+    );
     try {
       const result = await this.alertsService.createAlert(req.user.userId, dto);
       this.logger.log(`[CTRL] createAlert SUCCESS - alertId=${result.id}`);
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] createAlert FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] createAlert FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -86,10 +90,14 @@ export class AlertsController {
     this.logger.log(`[CTRL] listAlerts START - userId=${req.user.userId}`);
     try {
       const result = await this.alertsService.listAlerts(req.user.userId);
-      this.logger.log(`[CTRL] listAlerts SUCCESS - userId=${req.user.userId}, count=${result.length}, alerts=${JSON.stringify(result.map(a => ({ id: a.id, query: a.query, articleCount: a.articleCount })))}`);
+      this.logger.log(
+        `[CTRL] listAlerts SUCCESS - userId=${req.user.userId}, count=${result.length}, alerts=${JSON.stringify(result.map((a) => ({ id: a.id, query: a.query, articleCount: a.articleCount })))}`,
+      );
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] listAlerts FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] listAlerts FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -114,25 +122,37 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Query("alertIds") alertIdsStr?: string,
   ): Promise<AlertGeoJsonResponseDto> {
-    this.logger.log(`[CTRL] getAlertsLocations START - userId=${req.user.userId}, alertIdsStr="${alertIdsStr || 'ALL'}"`);
+    this.logger.log(
+      `[CTRL] getAlertsLocations START - userId=${req.user.userId}, alertIdsStr="${alertIdsStr || "ALL"}"`,
+    );
     const alertIds = alertIdsStr
       ? alertIdsStr.split(",").filter(Boolean)
       : undefined;
-    this.logger.log(`[CTRL] getAlertsLocations parsed alertIds=${JSON.stringify(alertIds)}`);
+    this.logger.log(
+      `[CTRL] getAlertsLocations parsed alertIds=${JSON.stringify(alertIds)}`,
+    );
     try {
       const result = await this.alertsService.getAlertsLocationsGeoJson(
         req.user.userId,
         alertIds,
       );
-      this.logger.log(`[CTRL] getAlertsLocations SUCCESS - userId=${req.user.userId}, featureCount=${result.features.length}`);
+      this.logger.log(
+        `[CTRL] getAlertsLocations SUCCESS - userId=${req.user.userId}, featureCount=${result.features.length}`,
+      );
       if (result.features.length > 0) {
-        this.logger.log(`[CTRL] getAlertsLocations SAMPLE FEATURES - first 3: ${JSON.stringify(result.features.slice(0, 3).map(f => ({ articleTitle: f.properties.articleTitle, mention: f.properties.mention, coords: f.geometry.coordinates })))}`);
+        this.logger.log(
+          `[CTRL] getAlertsLocations SAMPLE FEATURES - first 3: ${JSON.stringify(result.features.slice(0, 3).map((f) => ({ articleTitle: f.properties.articleTitle, mention: f.properties.mention, coords: f.geometry.coordinates })))}`,
+        );
       } else {
-        this.logger.warn(`[CTRL] getAlertsLocations NO FEATURES FOUND - userId=${req.user.userId}, alertIds=${JSON.stringify(alertIds)}`);
+        this.logger.warn(
+          `[CTRL] getAlertsLocations NO FEATURES FOUND - userId=${req.user.userId}, alertIds=${JSON.stringify(alertIds)}`,
+        );
       }
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] getAlertsLocations FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] getAlertsLocations FAILED - userId=${req.user.userId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -168,13 +188,22 @@ export class AlertsController {
       },
     },
   })
-  @ApiResponse({ status: 400, description: "Invalid input or TTS not configured" })
+  @ApiResponse({
+    status: 400,
+    description: "Invalid input or TTS not configured",
+  })
   @Header("Content-Type", "audio/mpeg")
   async textToSpeech(
-    @Body() body: { text: string; voice?: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer" },
+    @Body()
+    body: {
+      text: string;
+      voice?: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer";
+    },
     @Res() res: Response,
   ): Promise<void> {
-    this.logger.log(`[CTRL] textToSpeech START - textLength=${body.text?.length || 0}, voice=${body.voice || 'nova'}`);
+    this.logger.log(
+      `[CTRL] textToSpeech START - textLength=${body.text?.length || 0}, voice=${body.voice || "nova"}`,
+    );
 
     if (!body.text || body.text.trim().length === 0) {
       throw new BadRequestException("Text is required");
@@ -185,7 +214,9 @@ export class AlertsController {
         body.text,
         body.voice,
       );
-      this.logger.log(`[CTRL] textToSpeech SUCCESS - audioSize=${audioBuffer.length} bytes`);
+      this.logger.log(
+        `[CTRL] textToSpeech SUCCESS - audioSize=${audioBuffer.length} bytes`,
+      );
 
       res.setHeader("Content-Type", "audio/mpeg");
       res.setHeader("Content-Length", audioBuffer.length);
@@ -213,19 +244,30 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Param("id") alertId: string,
   ): Promise<AlertDetailDto> {
-    this.logger.log(`[CTRL] getAlert START - userId=${req.user.userId}, alertId=${alertId}`);
+    this.logger.log(
+      `[CTRL] getAlert START - userId=${req.user.userId}, alertId=${alertId}`,
+    );
     this.validateUuid(alertId);
     try {
-      const result = await this.alertsService.getAlert(req.user.userId, alertId);
-      this.logger.log(`[CTRL] getAlert SUCCESS - alertId=${alertId}, query="${result.query}", region="${result.region}", articleCount=${result.articleCount}, articlesReturned=${result.articles?.length || 0}`);
+      const result = await this.alertsService.getAlert(
+        req.user.userId,
+        alertId,
+      );
+      this.logger.log(
+        `[CTRL] getAlert SUCCESS - alertId=${alertId}, query="${result.query}", region="${result.region}", articleCount=${result.articleCount}, articlesReturned=${result.articles?.length || 0}`,
+      );
       if (result.articles && result.articles.length > 0) {
-        this.logger.log(`[CTRL] getAlert ARTICLES SAMPLE - first 3: ${JSON.stringify(result.articles.slice(0, 3).map(a => ({ id: a.id, title: a.title, locationCount: a.locationCount })))}`);
+        this.logger.log(
+          `[CTRL] getAlert ARTICLES SAMPLE - first 3: ${JSON.stringify(result.articles.slice(0, 3).map((a) => ({ id: a.id, title: a.title, locationCount: a.locationCount })))}`,
+        );
       } else {
         this.logger.warn(`[CTRL] getAlert NO ARTICLES - alertId=${alertId}`);
       }
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] getAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] getAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -248,14 +290,22 @@ export class AlertsController {
     @Param("id") alertId: string,
     @Body() dto: UpdateAlertDto,
   ): Promise<AlertResponseDto> {
-    this.logger.log(`[CTRL] updateAlert START - userId=${req.user.userId}, alertId=${alertId}, dto=${JSON.stringify(dto)}`);
+    this.logger.log(
+      `[CTRL] updateAlert START - userId=${req.user.userId}, alertId=${alertId}, dto=${JSON.stringify(dto)}`,
+    );
     this.validateUuid(alertId);
     try {
-      const result = await this.alertsService.updateAlert(req.user.userId, alertId, dto);
+      const result = await this.alertsService.updateAlert(
+        req.user.userId,
+        alertId,
+        dto,
+      );
       this.logger.log(`[CTRL] updateAlert SUCCESS - alertId=${alertId}`);
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] updateAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] updateAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -272,14 +322,21 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Param("id") alertId: string,
   ): Promise<{ success: boolean }> {
-    this.logger.log(`[CTRL] deleteAlert START - userId=${req.user.userId}, alertId=${alertId}`);
+    this.logger.log(
+      `[CTRL] deleteAlert START - userId=${req.user.userId}, alertId=${alertId}`,
+    );
     this.validateUuid(alertId);
     try {
-      const result = await this.alertsService.deleteAlert(req.user.userId, alertId);
+      const result = await this.alertsService.deleteAlert(
+        req.user.userId,
+        alertId,
+      );
       this.logger.log(`[CTRL] deleteAlert SUCCESS - alertId=${alertId}`);
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] deleteAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] deleteAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -300,14 +357,23 @@ export class AlertsController {
     @Req() req: JwtRequest,
     @Param("id") alertId: string,
   ): Promise<RunAlertResponseDto> {
-    this.logger.log(`[CTRL] runAlert START - userId=${req.user.userId}, alertId=${alertId}`);
+    this.logger.log(
+      `[CTRL] runAlert START - userId=${req.user.userId}, alertId=${alertId}`,
+    );
     this.validateUuid(alertId);
     try {
-      const result = await this.alertsService.runAlert(req.user.userId, alertId);
-      this.logger.log(`[CTRL] runAlert SUCCESS - alertId=${alertId}, jobId=${result.jobId}, message="${result.message}"`);
+      const result = await this.alertsService.runAlert(
+        req.user.userId,
+        alertId,
+      );
+      this.logger.log(
+        `[CTRL] runAlert SUCCESS - alertId=${alertId}, jobId=${result.jobId}, message="${result.message}"`,
+      );
       return result;
     } catch (error) {
-      this.logger.error(`[CTRL] runAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[CTRL] runAlert FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -315,7 +381,8 @@ export class AlertsController {
   @Post(":id/chat")
   @ApiOperation({
     summary: "Chat with articles",
-    description: "Send a message to an AI agent that has context about the alert's articles",
+    description:
+      "Send a message to an AI agent that has context about the alert's articles",
   })
   @ApiParam({ name: "id", description: "Alert ID" })
   @ApiBody({ type: ChatWithArticlesDto })
@@ -330,25 +397,39 @@ export class AlertsController {
     @Param("id") alertId: string,
     @Body() dto: ChatWithArticlesDto,
   ): Promise<ChatResponseDto> {
-    this.logger.log(`[CTRL] chatWithArticles START - userId=${req.user.userId}, alertId=${alertId}, messageLength=${dto.message?.length || 0}`);
-    this.logger.log(`[CTRL] chatWithArticles dto - message="${dto.message?.substring(0, 80)}${dto.message?.length > 80 ? '...' : ''}"`);
+    this.logger.log(
+      `[CTRL] chatWithArticles START - userId=${req.user.userId}, alertId=${alertId}, messageLength=${dto.message?.length || 0}`,
+    );
+    this.logger.log(
+      `[CTRL] chatWithArticles dto - message="${dto.message?.substring(0, 80)}${dto.message?.length > 80 ? "..." : ""}"`,
+    );
 
     this.validateUuid(alertId);
 
     try {
-      this.logger.log(`[CTRL] chatWithArticles - Calling service for userId=${req.user.userId}`);
+      this.logger.log(
+        `[CTRL] chatWithArticles - Calling service for userId=${req.user.userId}`,
+      );
       const result = await this.alertsService.chatWithArticles(
         req.user.userId,
         alertId,
         dto.message,
       );
-      this.logger.log(`[CTRL] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${result.agentId}, responseLength=${result.response.length}`);
-      this.logger.log(`[CTRL] chatWithArticles response - "${result.response.substring(0, 150)}${result.response.length > 150 ? '...' : ''}"`);
+      this.logger.log(
+        `[CTRL] chatWithArticles SUCCESS - alertId=${alertId}, agentId=${result.agentId}, responseLength=${result.response.length}`,
+      );
+      this.logger.log(
+        `[CTRL] chatWithArticles response - "${result.response.substring(0, 150)}${result.response.length > 150 ? "..." : ""}"`,
+      );
       return result;
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
-      this.logger.error(`[CTRL] chatWithArticles FAILED - alertId=${alertId}, error=${errorMsg}`);
-      this.logger.error(`[CTRL] chatWithArticles STACK - ${error instanceof Error ? error.stack : 'no stack'}`);
+      this.logger.error(
+        `[CTRL] chatWithArticles FAILED - alertId=${alertId}, error=${errorMsg}`,
+      );
+      this.logger.error(
+        `[CTRL] chatWithArticles STACK - ${error instanceof Error ? error.stack : "no stack"}`,
+      );
       throw error;
     }
   }
@@ -356,7 +437,8 @@ export class AlertsController {
   @Post("pipecat/connect")
   @ApiOperation({
     summary: "Connect to Pipecat voice bot",
-    description: "Establish a connection to the Pipecat voice AI agent for voice chat about alert articles",
+    description:
+      "Establish a connection to the Pipecat voice AI agent for voice chat about alert articles",
   })
   @ApiBody({
     schema: {
@@ -388,7 +470,9 @@ export class AlertsController {
     sessionId: string;
     roomUrl: string;
   }> {
-    this.logger.log(`[CTRL] pipecatConnect START - userId=${req.user.userId}, alertId=${body.alertId}`);
+    this.logger.log(
+      `[CTRL] pipecatConnect START - userId=${req.user.userId}, alertId=${body.alertId}`,
+    );
     this.validateUuid(body.alertId);
 
     try {
@@ -396,11 +480,15 @@ export class AlertsController {
         req.user.userId,
         body.alertId,
       );
-      this.logger.log(`[CTRL] pipecatConnect SUCCESS - alertId=${body.alertId}`);
+      this.logger.log(
+        `[CTRL] pipecatConnect SUCCESS - alertId=${body.alertId}`,
+      );
       return result;
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
-      this.logger.error(`[CTRL] pipecatConnect FAILED - alertId=${body.alertId}, error=${errorMsg}`);
+      this.logger.error(
+        `[CTRL] pipecatConnect FAILED - alertId=${body.alertId}, error=${errorMsg}`,
+      );
       throw error;
     }
   }

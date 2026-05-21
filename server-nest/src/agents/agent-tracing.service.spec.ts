@@ -34,7 +34,8 @@ describe("AgentTracingService", () => {
     const mockTracingService = {
       trace: jest.fn(<T>(_name: string, fn: () => Promise<T>) => fn()),
       traceWithInput: jest.fn(
-        <T, I>(_name: string, fn: (input: I) => Promise<T>, input: I) => fn(input),
+        <T, I>(_name: string, fn: (input: I) => Promise<T>, input: I) =>
+          fn(input),
       ),
     };
 

@@ -97,7 +97,10 @@ describe("GeocodingService", () => {
         { id: "loc2", mention: "456 Oak Ave" },
       ];
 
-      const results = await service.batchGeocode(locations, "San Francisco, CA");
+      const results = await service.batchGeocode(
+        locations,
+        "San Francisco, CA",
+      );
 
       expect(results.size).toBe(2);
       expect(results.get("loc1")).toBeDefined();

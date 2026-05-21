@@ -146,9 +146,13 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
   console.log(`🚀 Server running on port ${process.env.PORT ?? 3000}`);
   if (process.env.WANDB_API_KEY) {
-    console.log("✅ Weave tracing: enabled (WANDB_API_KEY set); traces → wandb.ai project 'map-searcher'");
+    console.log(
+      "✅ Weave tracing: enabled (WANDB_API_KEY set); traces → wandb.ai project 'map-searcher'",
+    );
   } else {
-    console.log("⚠️  Weave tracing: disabled (set WANDB_API_KEY in .env to enable)");
+    console.log(
+      "⚠️  Weave tracing: disabled (set WANDB_API_KEY in .env to enable)",
+    );
   }
 }
 void bootstrap();

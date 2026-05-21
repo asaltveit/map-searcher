@@ -4,7 +4,9 @@ import { PrismaService } from "../prisma.service";
 /** Prisma client with Improvement delegate (generated at build time). */
 type PrismaWithImprovement = PrismaService & {
   improvement: {
-    create: (args: { data: { text: string; userId: string } }) => Promise<{ id: string }>;
+    create: (args: {
+      data: { text: string; userId: string };
+    }) => Promise<{ id: string }>;
     findMany: (args: {
       select?: { userId: true };
       where?: { text: { contains: string; mode: "insensitive" } };
@@ -36,20 +38,26 @@ export class ImprovementsService {
    * Search improvements by text (ILIKE). Used by improvement PR agent for "users affected".
    * Returns { count, requesters } for PR body.
    */
-  async search(query: string): Promise<{ count: number; requesters: string[] }> {
+  async search(
+    query: string,
+  ): Promise<{ count: number; requesters: string[] }> {
     const q = (query || "").trim().slice(0, 500);
     if (!q) {
       const all = await this.improvement.findMany({
         select: { userId: true },
       });
-      const requesters = [...new Set(all.map((r: { userId: string }) => r.userId))] as string[];
+      const requesters = [
+        ...new Set(all.map((r: { userId: string }) => r.userId)),
+      ] as string[];
       return { count: all.length, requesters };
     }
     const rows = await this.improvement.findMany({
       where: { text: { contains: q, mode: "insensitive" } },
       select: { userId: true },
     });
-    const requesters = [...new Set(rows.map((r: { userId: string }) => r.userId))] as string[];
+    const requesters = [
+      ...new Set(rows.map((r: { userId: string }) => r.userId)),
+    ] as string[];
     return { count: rows.length, requesters };
   }
 }

@@ -29,7 +29,9 @@ export class GeocodingService {
     location: string,
     regionContext: string,
   ): Promise<GeocodeResult> {
-    this.logger.log(`[GEOCODE] geocode START - location="${location}", regionContext="${regionContext}"`);
+    this.logger.log(
+      `[GEOCODE] geocode START - location="${location}", regionContext="${regionContext}"`,
+    );
 
     // Rate limiting: ensure at least 1 second between requests
     await this.rateLimit();
@@ -51,21 +53,29 @@ export class GeocodingService {
         },
       });
 
-      this.logger.log(`[GEOCODE] Nominatim response status: ${response.status}`);
+      this.logger.log(
+        `[GEOCODE] Nominatim response status: ${response.status}`,
+      );
 
       if (!response.ok) {
-        this.logger.error(`[GEOCODE] Nominatim HTTP error: ${response.status} ${response.statusText}`);
+        this.logger.error(
+          `[GEOCODE] Nominatim HTTP error: ${response.status} ${response.statusText}`,
+        );
         throw new Error(`Nominatim returned ${response.status}`);
       }
 
       const results: NominatimResult[] = await response.json();
-      this.logger.log(`[GEOCODE] Nominatim results count: ${results?.length || 0}`);
+      this.logger.log(
+        `[GEOCODE] Nominatim results count: ${results?.length || 0}`,
+      );
 
       if (results && results.length > 0) {
         const result = results[0];
         const lat = parseFloat(result.lat);
         const lng = parseFloat(result.lon);
-        this.logger.log(`[GEOCODE] SUCCESS - location="${location}", lat=${lat}, lng=${lng}, address="${result.display_name}", importance=${result.importance}`);
+        this.logger.log(
+          `[GEOCODE] SUCCESS - location="${location}", lat=${lat}, lng=${lng}, address="${result.display_name}", importance=${result.importance}`,
+        );
         return {
           success: true,
           lat,
@@ -75,7 +85,9 @@ export class GeocodingService {
         };
       }
 
-      this.logger.warn(`[GEOCODE] NO RESULTS from Nominatim for query="${query}"`);
+      this.logger.warn(
+        `[GEOCODE] NO RESULTS from Nominatim for query="${query}"`,
+      );
 
       // No results found - try LocationIQ fallback if configured
       if (process.env.LOCATIONIQ_API_KEY) {
@@ -83,7 +95,9 @@ export class GeocodingService {
         return this.geocodeWithLocationIQ(location, regionContext);
       }
 
-      this.logger.warn(`[GEOCODE] FAILED - No results found and no LocationIQ fallback configured`);
+      this.logger.warn(
+        `[GEOCODE] FAILED - No results found and no LocationIQ fallback configured`,
+      );
       return { success: false, error: "No results found" };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -106,7 +120,9 @@ export class GeocodingService {
     location: string,
     regionContext: string,
   ): Promise<GeocodeResult> {
-    this.logger.log(`[GEOCODE-LIQ] geocodeWithLocationIQ START - location="${location}", regionContext="${regionContext}"`);
+    this.logger.log(
+      `[GEOCODE-LIQ] geocodeWithLocationIQ START - location="${location}", regionContext="${regionContext}"`,
+    );
     await this.rateLimit();
 
     const query = `${location}, ${regionContext}`;
@@ -120,21 +136,29 @@ export class GeocodingService {
 
     try {
       const response = await fetch(url.toString());
-      this.logger.log(`[GEOCODE-LIQ] LocationIQ response status: ${response.status}`);
+      this.logger.log(
+        `[GEOCODE-LIQ] LocationIQ response status: ${response.status}`,
+      );
 
       if (!response.ok) {
-        this.logger.error(`[GEOCODE-LIQ] LocationIQ HTTP error: ${response.status}`);
+        this.logger.error(
+          `[GEOCODE-LIQ] LocationIQ HTTP error: ${response.status}`,
+        );
         throw new Error(`LocationIQ returned ${response.status}`);
       }
 
       const results = await response.json();
-      this.logger.log(`[GEOCODE-LIQ] LocationIQ results count: ${results?.length || 0}`);
+      this.logger.log(
+        `[GEOCODE-LIQ] LocationIQ results count: ${results?.length || 0}`,
+      );
 
       if (results && results.length > 0) {
         const result = results[0];
         const lat = parseFloat(result.lat);
         const lng = parseFloat(result.lon);
-        this.logger.log(`[GEOCODE-LIQ] SUCCESS - location="${location}", lat=${lat}, lng=${lng}`);
+        this.logger.log(
+          `[GEOCODE-LIQ] SUCCESS - location="${location}", lat=${lat}, lng=${lng}`,
+        );
         return {
           success: true,
           lat,
@@ -144,11 +168,15 @@ export class GeocodingService {
         };
       }
 
-      this.logger.warn(`[GEOCODE-LIQ] NO RESULTS from LocationIQ for query="${query}"`);
+      this.logger.warn(
+        `[GEOCODE-LIQ] NO RESULTS from LocationIQ for query="${query}"`,
+      );
       return { success: false, error: "No results found (LocationIQ)" };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      this.logger.error(`[GEOCODE-LIQ] EXCEPTION for query="${query}": ${message}`);
+      this.logger.error(
+        `[GEOCODE-LIQ] EXCEPTION for query="${query}": ${message}`,
+      );
       return { success: false, error: `LocationIQ: ${message}` };
     }
   }

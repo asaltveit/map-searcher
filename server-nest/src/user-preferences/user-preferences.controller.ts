@@ -32,14 +32,17 @@ export class UserPreferencesController {
   @Get()
   @ApiOperation({
     summary: "Get user preferences",
-    description: "Returns the current user's preferences, creating defaults if none exist",
+    description:
+      "Returns the current user's preferences, creating defaults if none exist",
   })
   @ApiResponse({
     status: 200,
     description: "User preferences",
     type: PreferencesResponseDto,
   })
-  async getPreferences(@Req() req: JwtRequest): Promise<PreferencesResponseDto> {
+  async getPreferences(
+    @Req() req: JwtRequest,
+  ): Promise<PreferencesResponseDto> {
     return this.userPreferencesService.getPreferences(req.user.userId);
   }
 

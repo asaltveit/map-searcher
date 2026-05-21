@@ -63,7 +63,11 @@ export class TracingService {
    * Returns fn(input) result; no-op if Weave not available.
    * Tracing errors are logged but don't affect the main function result.
    */
-  async traceWithInput<T, I>(name: string, fn: (input: I) => Promise<T>, input: I): Promise<T> {
+  async traceWithInput<T, I>(
+    name: string,
+    fn: (input: I) => Promise<T>,
+    input: I,
+  ): Promise<T> {
     const ok = await this.ensureWeave();
     if (!ok || !this.op) {
       return fn(input);

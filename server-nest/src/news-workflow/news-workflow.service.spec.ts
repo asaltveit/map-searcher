@@ -1,7 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getQueueToken } from "@nestjs/bullmq";
 import { NotFoundException } from "@nestjs/common";
-import { NewsWorkflowService, NEWS_WORKFLOW_QUEUE } from "./news-workflow.service";
+import {
+  NewsWorkflowService,
+  NEWS_WORKFLOW_QUEUE,
+} from "./news-workflow.service";
 import { PrismaService } from "../prisma.service";
 import { GeocodingService } from "./services/geocoding.service";
 import { WorkflowStatus, ProcessingStatus, LocationType } from "@prisma/client";
@@ -77,7 +80,9 @@ describe("NewsWorkflowService", () => {
 
   describe("startWorkflow", () => {
     it("should create workflow and queue job", async () => {
-      (mockPrisma.newsWorkflow.create as jest.Mock).mockResolvedValue(mockWorkflow);
+      (mockPrisma.newsWorkflow.create as jest.Mock).mockResolvedValue(
+        mockWorkflow,
+      );
 
       const result = await service.startWorkflow(mockUserId, {
         query: "crime",
@@ -100,9 +105,14 @@ describe("NewsWorkflowService", () => {
 
   describe("getWorkflowStatus", () => {
     it("should return workflow status", async () => {
-      (mockPrisma.newsWorkflow.findFirst as jest.Mock).mockResolvedValue(mockWorkflow);
+      (mockPrisma.newsWorkflow.findFirst as jest.Mock).mockResolvedValue(
+        mockWorkflow,
+      );
 
-      const result = await service.getWorkflowStatus(mockUserId, mockWorkflowId);
+      const result = await service.getWorkflowStatus(
+        mockUserId,
+        mockWorkflowId,
+      );
 
       expect(result.id).toBe(mockWorkflowId);
       expect(result.query).toBe("crime");
@@ -157,7 +167,10 @@ describe("NewsWorkflowService", () => {
         workflowWithArticles,
       );
 
-      const result = await service.getWorkflowReport(mockUserId, mockWorkflowId);
+      const result = await service.getWorkflowReport(
+        mockUserId,
+        mockWorkflowId,
+      );
 
       expect(result.id).toBe(mockWorkflowId);
       expect(result.articles).toHaveLength(1);
@@ -203,13 +216,17 @@ describe("NewsWorkflowService", () => {
       expect(result.type).toBe("FeatureCollection");
       expect(result.features).toHaveLength(1);
       expect(result.features[0].geometry.type).toBe("Point");
-      expect(result.features[0].geometry.coordinates).toEqual([-122.4194, 37.7749]);
+      expect(result.features[0].geometry.coordinates).toEqual([
+        -122.4194, 37.7749,
+      ]);
     });
   });
 
   describe("listWorkflows", () => {
     it("should return list of workflows", async () => {
-      (mockPrisma.newsWorkflow.findMany as jest.Mock).mockResolvedValue([mockWorkflow]);
+      (mockPrisma.newsWorkflow.findMany as jest.Mock).mockResolvedValue([
+        mockWorkflow,
+      ]);
 
       const result = await service.listWorkflows(mockUserId);
 
@@ -220,8 +237,13 @@ describe("NewsWorkflowService", () => {
 
   describe("updateWorkflowStatus", () => {
     it("should update workflow status", async () => {
-      const updatedWorkflow = { ...mockWorkflow, status: WorkflowStatus.SEARCHING };
-      (mockPrisma.newsWorkflow.update as jest.Mock).mockResolvedValue(updatedWorkflow);
+      const updatedWorkflow = {
+        ...mockWorkflow,
+        status: WorkflowStatus.SEARCHING,
+      };
+      (mockPrisma.newsWorkflow.update as jest.Mock).mockResolvedValue(
+        updatedWorkflow,
+      );
 
       const result = await service.updateWorkflowStatus(
         mockWorkflowId,
@@ -235,7 +257,9 @@ describe("NewsWorkflowService", () => {
 
   describe("saveArticleResults", () => {
     it("should save articles with geocoded locations", async () => {
-      (mockPrisma.newsWorkflow.findUnique as jest.Mock).mockResolvedValue(mockWorkflow);
+      (mockPrisma.newsWorkflow.findUnique as jest.Mock).mockResolvedValue(
+        mockWorkflow,
+      );
       (mockPrisma.newsArticle.upsert as jest.Mock).mockResolvedValue({
         id: "article-1",
       });
@@ -279,9 +303,9 @@ describe("NewsWorkflowService", () => {
     it("should throw NotFoundException if workflow not found", async () => {
       (mockPrisma.newsWorkflow.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(
-        service.saveArticleResults("not-found", []),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.saveArticleResults("not-found", [])).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

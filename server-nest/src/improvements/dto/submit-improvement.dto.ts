@@ -5,7 +5,8 @@ const MAX_IMPROVEMENT_LENGTH = 2000;
 
 export class SubmitImprovementDto {
   @ApiProperty({
-    description: "User-submitted improvement request (e.g. unmet feature request)",
+    description:
+      "User-submitted improvement request (e.g. unmet feature request)",
     example: "Add calendar integration for saving research",
     maxLength: MAX_IMPROVEMENT_LENGTH,
   })
