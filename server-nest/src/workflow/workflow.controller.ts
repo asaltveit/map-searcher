@@ -10,7 +10,6 @@ import * as Express from "express";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { WorkflowService, WorkflowAgents, MapState } from "./workflow.service";
 
-
 export class WorkflowAgentsDto implements WorkflowAgents {
   researchAgentId!: string;
   mapAgentId!: string;
@@ -44,7 +43,8 @@ export class WorkflowController {
     type: WorkflowAgentsDto,
   })
   async getAgents(@Req() req: Express.Request): Promise<WorkflowAgents> {
-    const userId = (req as Express.Request & { userId?: string }).userId ?? "default";
+    const userId =
+      (req as Express.Request & { userId?: string }).userId ?? "default";
     return this.workflowService.getOrCreateAgents(userId);
   }
 
@@ -70,7 +70,8 @@ export class WorkflowController {
     @Req() req: Express.Request,
     @Body() dto: WorkflowSendMessageDto,
   ): Promise<unknown> {
-    const userId = (req as Express.Request & { userId?: string }).userId ?? "default";
+    const userId =
+      (req as Express.Request & { userId?: string }).userId ?? "default";
     const { agentId, content } = dto;
     if (!agentId || typeof content !== "string") {
       throw new BadRequestException("agentId and content required");
@@ -83,10 +84,14 @@ export class WorkflowController {
   }
 
   @Get("map-state")
-  @ApiOperation({ summary: "Get current map state (GeoJSON + optional view) from last map agent run" })
+  @ApiOperation({
+    summary:
+      "Get current map state (GeoJSON + optional view) from last map agent run",
+  })
   @ApiResponse({ status: 200, description: "Map state or empty when none" })
   async getMapState(@Req() req: Express.Request): Promise<MapState | null> {
-    const userId = (req as Express.Request & { userId?: string }).userId ?? "default";
+    const userId =
+      (req as Express.Request & { userId?: string }).userId ?? "default";
     return this.workflowService.getMapState(userId);
   }
 }

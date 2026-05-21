@@ -1,10 +1,7 @@
 import { Injectable, Logger, BadRequestException } from "@nestjs/common";
 import { LettaService } from "../letta/letta.service";
 import { TracingService } from "../tracing/tracing.service";
-import {
-  RESEARCH_PERSONA,
-  MAP_PERSONA,
-} from "./workflow.config";
+import { RESEARCH_PERSONA, MAP_PERSONA } from "./workflow.config";
 import {
   DEFAULT_AGENT_MODEL,
   DEFAULT_EMBEDDING_MODEL,
@@ -36,11 +33,14 @@ const END_MAP_STATE_JSON_MARKER = "END_MAP_STATE_JSON";
 
 function getLastAssistantContent(response: unknown): string {
   const r = response as Record<string, unknown>;
-  const messages = (r?.messages as Array<{ role?: string; content?: string }>) ?? (r?.steps as Array<{ role?: string; content?: string }>);
+  const messages =
+    (r?.messages as Array<{ role?: string; content?: string }>) ??
+    (r?.steps as Array<{ role?: string; content?: string }>);
   if (Array.isArray(messages)) {
     for (let i = messages.length - 1; i >= 0; i--) {
       const m = messages[i];
-      if (m?.role === "assistant" && typeof m?.content === "string") return m.content;
+      if (m?.role === "assistant" && typeof m?.content === "string")
+        return m.content;
     }
   }
   const content = r?.content ?? r?.output;
@@ -57,15 +57,23 @@ function extractMapStateFromResponse(response: unknown): MapState | null {
   if (end === -1) return null;
   const jsonStr = text.slice(afterMarker, end).trim();
   try {
-    const parsed = JSON.parse(jsonStr) as { type?: string; features?: unknown[]; view?: { center?: number[]; zoom?: number } };
-    if (parsed?.type !== "FeatureCollection" || !Array.isArray(parsed.features)) return null;
+    const parsed = JSON.parse(jsonStr) as {
+      type?: string;
+      features?: unknown[];
+      view?: { center?: number[]; zoom?: number };
+    };
+    if (parsed?.type !== "FeatureCollection" || !Array.isArray(parsed.features))
+      return null;
     const geoJson: FeatureCollection = {
       type: "FeatureCollection",
       features: parsed.features as FeatureCollection["features"],
     };
     const view =
       parsed.view?.center?.length === 2 && typeof parsed.view?.zoom === "number"
-        ? { center: parsed.view.center as [number, number], zoom: parsed.view.zoom }
+        ? {
+            center: parsed.view.center as [number, number],
+            zoom: parsed.view.zoom,
+          }
         : undefined;
     return { geoJson, view };
   } catch {
@@ -141,9 +149,7 @@ export class WorkflowService {
   isWorkflowAgent(userId: string, agentId: string): boolean {
     const agents = this.store.get(userId);
     if (!agents) return false;
-    return (
-      agents.researchAgentId === agentId || agents.mapAgentId === agentId
-    );
+    return agents.researchAgentId === agentId || agents.mapAgentId === agentId;
   }
 
   async sendMessage(
@@ -155,13 +161,17 @@ export class WorkflowService {
       throw new BadRequestException(`Agent ${agentId} is not a workflow agent`);
     }
     return this.tracingService.trace("workflow.sendMessage", async () => {
-      const response = await this.lettaService.sendMessage(agentId, { content });
+      const response = await this.lettaService.sendMessage(agentId, {
+        content,
+      });
       const agents = this.store.get(userId);
       if (agents && agentId === agents.mapAgentId) {
         const mapState = extractMapStateFromResponse(response);
         if (mapState) {
           this.mapStateStore.set(userId, mapState);
-          this.logger.log(`Map state updated for user ${userId} (${mapState.geoJson.features.length} features)`);
+          this.logger.log(
+            `Map state updated for user ${userId} (${mapState.geoJson.features.length} features)`,
+          );
         }
       }
       return response;

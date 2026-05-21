@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException, BadRequestException } from "@nestjs/common";
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  BadRequestException,
+} from "@nestjs/common";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
 import { PrismaService } from "../prisma.service";
@@ -68,14 +73,22 @@ export class AlertsService {
    * Create a new alert
    */
   async createAlert(userId: string, dto: CreateAlertDto) {
-    this.logger.log(`[SVC] createAlert START - userId=${userId}, query="${dto.query}", region="${dto.region}", frequency=${dto.frequency || 'MANUAL'}, maxArticles=${dto.maxArticles || 20}`);
+    this.logger.log(
+      `[SVC] createAlert START - userId=${userId}, query="${dto.query}", region="${dto.region}", frequency=${dto.frequency || "MANUAL"}, maxArticles=${dto.maxArticles || 20}`,
+    );
 
-    const nextRunAt = this.calculateNextRunAt(dto.frequency || AlertFrequency.MANUAL);
-    this.logger.log(`[SVC] createAlert calculated nextRunAt=${nextRunAt?.toISOString() || 'null'}`);
+    const nextRunAt = this.calculateNextRunAt(
+      dto.frequency || AlertFrequency.MANUAL,
+    );
+    this.logger.log(
+      `[SVC] createAlert calculated nextRunAt=${nextRunAt?.toISOString() || "null"}`,
+    );
 
     try {
       // Determine if we'll be auto-running this alert
-      const willAutoRun = (dto.frequency || AlertFrequency.MANUAL) === AlertFrequency.MANUAL && (dto.isActive ?? true);
+      const willAutoRun =
+        (dto.frequency || AlertFrequency.MANUAL) === AlertFrequency.MANUAL &&
+        (dto.isActive ?? true);
 
       const alert = await this.prisma.newsAlert.create({
         data: {
@@ -86,19 +99,27 @@ export class AlertsService {
           frequency: dto.frequency || AlertFrequency.MANUAL,
           isActive: dto.isActive ?? true,
           nextRunAt,
-          processingStatus: willAutoRun ? AlertProcessingStatus.PROCESSING : AlertProcessingStatus.IDLE,
+          processingStatus: willAutoRun
+            ? AlertProcessingStatus.PROCESSING
+            : AlertProcessingStatus.IDLE,
         },
       });
 
-      this.logger.log(`[SVC] createAlert DB SUCCESS - alertId=${alert.id}, userId=${userId}, query="${alert.query}", region="${alert.region}", processingStatus=${alert.processingStatus}`);
+      this.logger.log(
+        `[SVC] createAlert DB SUCCESS - alertId=${alert.id}, userId=${userId}, query="${alert.query}", region="${alert.region}", processingStatus=${alert.processingStatus}`,
+      );
 
       // If not manual, schedule the recurring job
       if (alert.frequency !== AlertFrequency.MANUAL && alert.isActive) {
-        this.logger.log(`[SVC] createAlert scheduling recurring job for alertId=${alert.id}`);
+        this.logger.log(
+          `[SVC] createAlert scheduling recurring job for alertId=${alert.id}`,
+        );
         await this.scheduleAlert(alert);
       } else if (alert.frequency === AlertFrequency.MANUAL && alert.isActive) {
         // Auto-run MANUAL alerts immediately on creation
-        this.logger.log(`[SVC] createAlert AUTO-QUEUING manual alert ${alert.id} for immediate processing`);
+        this.logger.log(
+          `[SVC] createAlert AUTO-QUEUING manual alert ${alert.id} for immediate processing`,
+        );
         await this.alertsQueue.add(
           "process-alert",
           { alertId: alert.id, userId },
@@ -110,14 +131,20 @@ export class AlertsService {
             },
           },
         );
-        this.logger.log(`[SVC] createAlert AUTO-QUEUED manual alert ${alert.id}`);
+        this.logger.log(
+          `[SVC] createAlert AUTO-QUEUED manual alert ${alert.id}`,
+        );
       } else {
-        this.logger.log(`[SVC] createAlert NOT scheduling - frequency=${alert.frequency}, isActive=${alert.isActive}`);
+        this.logger.log(
+          `[SVC] createAlert NOT scheduling - frequency=${alert.frequency}, isActive=${alert.isActive}`,
+        );
       }
 
       return this.formatAlertResponse(alert);
     } catch (error) {
-      this.logger.error(`[SVC] createAlert DB FAILED - userId=${userId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[SVC] createAlert DB FAILED - userId=${userId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -126,7 +153,9 @@ export class AlertsService {
    * Get alert by ID
    */
   async getAlert(userId: string, alertId: string) {
-    this.logger.log(`[SVC] getAlert START - userId=${userId}, alertId=${alertId}`);
+    this.logger.log(
+      `[SVC] getAlert START - userId=${userId}, alertId=${alertId}`,
+    );
 
     const alert = await this.prisma.newsAlert.findFirst({
       where: { id: alertId, userId },
@@ -141,21 +170,36 @@ export class AlertsService {
     });
 
     if (!alert) {
-      this.logger.warn(`[SVC] getAlert NOT FOUND - alertId=${alertId}, userId=${userId}`);
+      this.logger.warn(
+        `[SVC] getAlert NOT FOUND - alertId=${alertId}, userId=${userId}`,
+      );
       throw new NotFoundException(`Alert not found: ${alertId}`);
     }
 
-    this.logger.log(`[SVC] getAlert FOUND - alertId=${alertId}, query="${alert.query}", region="${alert.region}", totalArticles=${alert._count.articles}, returnedArticles=${alert.articles.length}`);
+    this.logger.log(
+      `[SVC] getAlert FOUND - alertId=${alertId}, query="${alert.query}", region="${alert.region}", totalArticles=${alert._count.articles}, returnedArticles=${alert.articles.length}`,
+    );
 
     // Log location counts per article
-    const articlesWithLocations = alert.articles.filter(a => a.locations.length > 0);
-    const totalLocations = alert.articles.reduce((sum, a) => sum + a.locations.length, 0);
-    this.logger.log(`[SVC] getAlert LOCATION STATS - articlesWithLocations=${articlesWithLocations.length}/${alert.articles.length}, totalLocations=${totalLocations}`);
+    const articlesWithLocations = alert.articles.filter(
+      (a) => a.locations.length > 0,
+    );
+    const totalLocations = alert.articles.reduce(
+      (sum, a) => sum + a.locations.length,
+      0,
+    );
+    this.logger.log(
+      `[SVC] getAlert LOCATION STATS - articlesWithLocations=${articlesWithLocations.length}/${alert.articles.length}, totalLocations=${totalLocations}`,
+    );
 
     if (alert.articles.length > 0) {
-      this.logger.log(`[SVC] getAlert ARTICLE SAMPLE - first article: id=${alert.articles[0].id}, title="${alert.articles[0].title}", locationCount=${alert.articles[0].locations.length}`);
+      this.logger.log(
+        `[SVC] getAlert ARTICLE SAMPLE - first article: id=${alert.articles[0].id}, title="${alert.articles[0].title}", locationCount=${alert.articles[0].locations.length}`,
+      );
       if (alert.articles[0].locations.length > 0) {
-        this.logger.log(`[SVC] getAlert LOCATION SAMPLE - first location: ${JSON.stringify(alert.articles[0].locations[0])}`);
+        this.logger.log(
+          `[SVC] getAlert LOCATION SAMPLE - first location: ${JSON.stringify(alert.articles[0].locations[0])}`,
+        );
       }
     }
 
@@ -176,7 +220,9 @@ export class AlertsService {
       },
     });
 
-    this.logger.log(`[SVC] listAlerts FOUND - userId=${userId}, count=${alerts.length}`);
+    this.logger.log(
+      `[SVC] listAlerts FOUND - userId=${userId}, count=${alerts.length}`,
+    );
 
     const result = alerts.map((alert) => ({
       id: alert.id,
@@ -191,7 +237,9 @@ export class AlertsService {
       createdAt: alert.createdAt,
     }));
 
-    this.logger.log(`[SVC] listAlerts RESULT - alerts=${JSON.stringify(result.map(a => ({ id: a.id, query: a.query, articleCount: a.articleCount, isActive: a.isActive })))}`);
+    this.logger.log(
+      `[SVC] listAlerts RESULT - alerts=${JSON.stringify(result.map((a) => ({ id: a.id, query: a.query, articleCount: a.articleCount, isActive: a.isActive })))}`,
+    );
 
     return result;
   }
@@ -260,18 +308,24 @@ export class AlertsService {
    * Manually trigger an alert run
    */
   async runAlert(userId: string, alertId: string) {
-    this.logger.log(`[SVC] runAlert START - userId=${userId}, alertId=${alertId}`);
+    this.logger.log(
+      `[SVC] runAlert START - userId=${userId}, alertId=${alertId}`,
+    );
 
     const alert = await this.prisma.newsAlert.findFirst({
       where: { id: alertId, userId },
     });
 
     if (!alert) {
-      this.logger.warn(`[SVC] runAlert ALERT NOT FOUND - alertId=${alertId}, userId=${userId}`);
+      this.logger.warn(
+        `[SVC] runAlert ALERT NOT FOUND - alertId=${alertId}, userId=${userId}`,
+      );
       throw new NotFoundException(`Alert not found: ${alertId}`);
     }
 
-    this.logger.log(`[SVC] runAlert FOUND ALERT - alertId=${alertId}, query="${alert.query}", region="${alert.region}", isActive=${alert.isActive}, lastRunAt=${alert.lastRunAt?.toISOString() || 'never'}`);
+    this.logger.log(
+      `[SVC] runAlert FOUND ALERT - alertId=${alertId}, query="${alert.query}", region="${alert.region}", isActive=${alert.isActive}, lastRunAt=${alert.lastRunAt?.toISOString() || "never"}`,
+    );
 
     try {
       // Set processing status to PROCESSING
@@ -292,14 +346,18 @@ export class AlertsService {
         },
       );
 
-      this.logger.log(`[SVC] runAlert JOB QUEUED - alertId=${alertId}, jobId=${job.id}, jobName=${job.name}`);
+      this.logger.log(
+        `[SVC] runAlert JOB QUEUED - alertId=${alertId}, jobId=${job.id}, jobName=${job.name}`,
+      );
 
       return {
         jobId: job.id || "unknown",
         message: `Alert ${alertId} queued for processing`,
       };
     } catch (error) {
-      this.logger.error(`[SVC] runAlert QUEUE FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[SVC] runAlert QUEUE FAILED - alertId=${alertId}, error=${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -308,18 +366,30 @@ export class AlertsService {
    * Get all locations for user's alerts as GeoJSON
    */
   async getAlertsLocationsGeoJson(userId: string, alertIds?: string[]) {
-    this.logger.log(`[SVC] getAlertsLocationsGeoJson START - userId=${userId}, alertIds=${JSON.stringify(alertIds)}`);
+    this.logger.log(
+      `[SVC] getAlertsLocationsGeoJson START - userId=${userId}, alertIds=${JSON.stringify(alertIds)}`,
+    );
 
-    const whereClause: { userId: string; id?: { in: string[] }; isActive?: boolean } = { userId };
+    const whereClause: {
+      userId: string;
+      id?: { in: string[] };
+      isActive?: boolean;
+    } = { userId };
     if (alertIds && alertIds.length > 0) {
       whereClause.id = { in: alertIds };
-      this.logger.log(`[SVC] getAlertsLocationsGeoJson FILTERING by specific alertIds=${JSON.stringify(alertIds)}`);
+      this.logger.log(
+        `[SVC] getAlertsLocationsGeoJson FILTERING by specific alertIds=${JSON.stringify(alertIds)}`,
+      );
     } else {
       whereClause.isActive = true;
-      this.logger.log(`[SVC] getAlertsLocationsGeoJson FILTERING by isActive=true (all active alerts)`);
+      this.logger.log(
+        `[SVC] getAlertsLocationsGeoJson FILTERING by isActive=true (all active alerts)`,
+      );
     }
 
-    this.logger.log(`[SVC] getAlertsLocationsGeoJson WHERE clause=${JSON.stringify(whereClause)}`);
+    this.logger.log(
+      `[SVC] getAlertsLocationsGeoJson WHERE clause=${JSON.stringify(whereClause)}`,
+    );
 
     const alerts = await this.prisma.newsAlert.findMany({
       where: whereClause,
@@ -337,14 +407,23 @@ export class AlertsService {
       },
     });
 
-    this.logger.log(`[SVC] getAlertsLocationsGeoJson FOUND ${alerts.length} alerts`);
+    this.logger.log(
+      `[SVC] getAlertsLocationsGeoJson FOUND ${alerts.length} alerts`,
+    );
 
     // Detailed logging for each alert
     for (const alert of alerts) {
       const totalArticles = alert.articles.length;
-      const articlesWithLocations = alert.articles.filter(a => a.locations.length > 0).length;
-      const totalLocations = alert.articles.reduce((sum, a) => sum + a.locations.length, 0);
-      this.logger.log(`[SVC] getAlertsLocationsGeoJson ALERT ${alert.id} - query="${alert.query}", region="${alert.region}", articles=${totalArticles}, articlesWithLocations=${articlesWithLocations}, totalGeocodedLocations=${totalLocations}`);
+      const articlesWithLocations = alert.articles.filter(
+        (a) => a.locations.length > 0,
+      ).length;
+      const totalLocations = alert.articles.reduce(
+        (sum, a) => sum + a.locations.length,
+        0,
+      );
+      this.logger.log(
+        `[SVC] getAlertsLocationsGeoJson ALERT ${alert.id} - query="${alert.query}", region="${alert.region}", articles=${totalArticles}, articlesWithLocations=${articlesWithLocations}, totalGeocodedLocations=${totalLocations}`,
+      );
     }
 
     const features = alerts.flatMap((alert) =>
@@ -373,12 +452,18 @@ export class AlertsService {
       ),
     );
 
-    this.logger.log(`[SVC] getAlertsLocationsGeoJson RESULT - totalFeatures=${features.length}`);
+    this.logger.log(
+      `[SVC] getAlertsLocationsGeoJson RESULT - totalFeatures=${features.length}`,
+    );
 
     if (features.length === 0) {
-      this.logger.warn(`[SVC] getAlertsLocationsGeoJson NO FEATURES! This means no geocoded locations with lat/lng. Check: 1) Are there articles? 2) Do articles have locations? 3) Were locations successfully geocoded?`);
+      this.logger.warn(
+        `[SVC] getAlertsLocationsGeoJson NO FEATURES! This means no geocoded locations with lat/lng. Check: 1) Are there articles? 2) Do articles have locations? 3) Were locations successfully geocoded?`,
+      );
     } else {
-      this.logger.log(`[SVC] getAlertsLocationsGeoJson SAMPLE FEATURES - first 3: ${JSON.stringify(features.slice(0, 3).map(f => ({ mention: f.properties.mention, coords: f.geometry.coordinates, articleTitle: f.properties.articleTitle })))}`);
+      this.logger.log(
+        `[SVC] getAlertsLocationsGeoJson SAMPLE FEATURES - first 3: ${JSON.stringify(features.slice(0, 3).map((f) => ({ mention: f.properties.mention, coords: f.geometry.coordinates, articleTitle: f.properties.articleTitle })))}`,
+      );
     }
 
     return {
@@ -421,7 +506,9 @@ export class AlertsService {
       },
     });
 
-    this.logger.log(`[SVC] updateAlertAfterRun - alertId=${alertId}, processingStatus=COMPLETED, articlesFound=${articlesFound}`);
+    this.logger.log(
+      `[SVC] updateAlertAfterRun - alertId=${alertId}, processingStatus=COMPLETED, articlesFound=${articlesFound}`,
+    );
   }
 
   /**
@@ -432,26 +519,36 @@ export class AlertsService {
       where: { id: alertId },
       data: { processingStatus: AlertProcessingStatus.FAILED },
     });
-    this.logger.log(`[SVC] markAlertFailed - alertId=${alertId}, processingStatus=FAILED`);
+    this.logger.log(
+      `[SVC] markAlertFailed - alertId=${alertId}, processingStatus=FAILED`,
+    );
   }
 
   /**
    * Save articles for an alert
    */
   async saveAlertArticles(alertId: string, articles: ProcessedArticle[]) {
-    this.logger.log(`[SVC] saveAlertArticles START - alertId=${alertId}, articleCount=${articles.length}`);
-    this.logger.log(`[SVC] saveAlertArticles INCOMING ARTICLES - ${JSON.stringify(articles.map(a => ({ url: a.url, title: a.title, locationCount: a.locations?.length || 0 })))}`);
+    this.logger.log(
+      `[SVC] saveAlertArticles START - alertId=${alertId}, articleCount=${articles.length}`,
+    );
+    this.logger.log(
+      `[SVC] saveAlertArticles INCOMING ARTICLES - ${JSON.stringify(articles.map((a) => ({ url: a.url, title: a.title, locationCount: a.locations?.length || 0 })))}`,
+    );
 
     const alert = await this.prisma.newsAlert.findUnique({
       where: { id: alertId },
     });
 
     if (!alert) {
-      this.logger.error(`[SVC] saveAlertArticles ALERT NOT FOUND - alertId=${alertId}`);
+      this.logger.error(
+        `[SVC] saveAlertArticles ALERT NOT FOUND - alertId=${alertId}`,
+      );
       throw new NotFoundException(`Alert not found: ${alertId}`);
     }
 
-    this.logger.log(`[SVC] saveAlertArticles FOUND ALERT - alertId=${alertId}, query="${alert.query}", region="${alert.region}"`);
+    this.logger.log(
+      `[SVC] saveAlertArticles FOUND ALERT - alertId=${alertId}, query="${alert.query}", region="${alert.region}"`,
+    );
 
     let savedCount = 0;
     let errorCount = 0;
@@ -461,7 +558,9 @@ export class AlertsService {
 
     for (let i = 0; i < articles.length; i++) {
       const article = articles[i];
-      this.logger.log(`[SVC] saveAlertArticles PROCESSING ARTICLE ${i + 1}/${articles.length} - url=${article.url}, title="${article.title}", locations=${article.locations?.length || 0}`);
+      this.logger.log(
+        `[SVC] saveAlertArticles PROCESSING ARTICLE ${i + 1}/${articles.length} - url=${article.url}, title="${article.title}", locations=${article.locations?.length || 0}`,
+      );
 
       try {
         // Check for duplicate
@@ -470,13 +569,17 @@ export class AlertsService {
         });
 
         if (existing) {
-          this.logger.log(`[SVC] saveAlertArticles SKIPPING DUPLICATE - url=${article.url}`);
+          this.logger.log(
+            `[SVC] saveAlertArticles SKIPPING DUPLICATE - url=${article.url}`,
+          );
           skippedCount++;
           continue;
         }
 
         // Create article
-        this.logger.log(`[SVC] saveAlertArticles CREATING ARTICLE - url=${article.url}`);
+        this.logger.log(
+          `[SVC] saveAlertArticles CREATING ARTICLE - url=${article.url}`,
+        );
         const savedArticle = await this.prisma.newsArticle.create({
           data: {
             alertId,
@@ -493,23 +596,31 @@ export class AlertsService {
             status: ProcessingStatus.PROCESSING,
           },
         });
-        this.logger.log(`[SVC] saveAlertArticles ARTICLE CREATED - articleId=${savedArticle.id}`);
+        this.logger.log(
+          `[SVC] saveAlertArticles ARTICLE CREATED - articleId=${savedArticle.id}`,
+        );
 
         // Process locations - geocode and save
         const locationCount = article.locations?.length || 0;
-        this.logger.log(`[SVC] saveAlertArticles PROCESSING ${locationCount} LOCATIONS for articleId=${savedArticle.id}`);
+        this.logger.log(
+          `[SVC] saveAlertArticles PROCESSING ${locationCount} LOCATIONS for articleId=${savedArticle.id}`,
+        );
 
         for (let j = 0; j < (article.locations?.length || 0); j++) {
           const loc = article.locations[j];
           totalLocationsProcessed++;
-          this.logger.log(`[SVC] saveAlertArticles GEOCODING LOCATION ${j + 1}/${locationCount} - mention="${loc.mention}", type="${loc.mentionType}"`);
+          this.logger.log(
+            `[SVC] saveAlertArticles GEOCODING LOCATION ${j + 1}/${locationCount} - mention="${loc.mention}", type="${loc.mentionType}"`,
+          );
 
           const geocodeResult = await this.geocodingService.geocode(
             loc.mention,
             alert.region,
           );
 
-          this.logger.log(`[SVC] saveAlertArticles GEOCODE RESULT - mention="${loc.mention}", success=${geocodeResult.success}, lat=${geocodeResult.lat}, lng=${geocodeResult.lng}, error=${geocodeResult.error || 'none'}`);
+          this.logger.log(
+            `[SVC] saveAlertArticles GEOCODE RESULT - mention="${loc.mention}", success=${geocodeResult.success}, lat=${geocodeResult.lat}, lng=${geocodeResult.lng}, error=${geocodeResult.error || "none"}`,
+          );
 
           if (geocodeResult.success && geocodeResult.lat && geocodeResult.lng) {
             totalLocationsGeocoded++;
@@ -528,7 +639,9 @@ export class AlertsService {
               geocodeError: geocodeResult.error,
             },
           });
-          this.logger.log(`[SVC] saveAlertArticles LOCATION SAVED - mention="${loc.mention}", hasCoords=${geocodeResult.lat != null && geocodeResult.lng != null}`);
+          this.logger.log(
+            `[SVC] saveAlertArticles LOCATION SAVED - mention="${loc.mention}", hasCoords=${geocodeResult.lat != null && geocodeResult.lng != null}`,
+          );
         }
 
         // Mark article as completed
@@ -536,7 +649,9 @@ export class AlertsService {
           where: { id: savedArticle.id },
           data: { status: ProcessingStatus.COMPLETED },
         });
-        this.logger.log(`[SVC] saveAlertArticles ARTICLE COMPLETED - articleId=${savedArticle.id}`);
+        this.logger.log(
+          `[SVC] saveAlertArticles ARTICLE COMPLETED - articleId=${savedArticle.id}`,
+        );
 
         savedCount++;
       } catch (error) {
@@ -547,10 +662,14 @@ export class AlertsService {
       }
     }
 
-    this.logger.log(`[SVC] saveAlertArticles FINAL STATS - alertId=${alertId}, saved=${savedCount}, skipped=${skippedCount}, errors=${errorCount}, locationsProcessed=${totalLocationsProcessed}, locationsGeocoded=${totalLocationsGeocoded}`);
+    this.logger.log(
+      `[SVC] saveAlertArticles FINAL STATS - alertId=${alertId}, saved=${savedCount}, skipped=${skippedCount}, errors=${errorCount}, locationsProcessed=${totalLocationsProcessed}, locationsGeocoded=${totalLocationsGeocoded}`,
+    );
 
     if (totalLocationsGeocoded === 0 && totalLocationsProcessed > 0) {
-      this.logger.warn(`[SVC] saveAlertArticles WARNING - No locations were successfully geocoded! This means NO map pins will show.`);
+      this.logger.warn(
+        `[SVC] saveAlertArticles WARNING - No locations were successfully geocoded! This means NO map pins will show.`,
+      );
     }
 
     return { savedCount, skippedCount, errorCount };
@@ -569,22 +688,30 @@ export class AlertsService {
    * Chat with articles using a Letta agent
    */
   async chatWithArticles(userId: string, alertId: string, message: string) {
-    this.logger.log(`[SVC] chatWithArticles START - userId=${userId}, alertId=${alertId}, messageLength=${message.length}`);
+    this.logger.log(
+      `[SVC] chatWithArticles START - userId=${userId}, alertId=${alertId}, messageLength=${message.length}`,
+    );
 
     // Get or create chat agent for this alert
     let agentId = this.chatAgents.get(alertId);
 
     if (!agentId) {
-      this.logger.log(`[SVC] chatWithArticles - No existing agent, creating new one for alertId=${alertId}`);
+      this.logger.log(
+        `[SVC] chatWithArticles - No existing agent, creating new one for alertId=${alertId}`,
+      );
 
       const alert = await this.getAlert(userId, alertId);
 
       // Build article context from summaries
       const articleContext = alert.articles
-        .map((a) => `- "${a.title}" (${a.source}): ${a.summary || "No summary"}`)
+        .map(
+          (a) => `- "${a.title}" (${a.source}): ${a.summary || "No summary"}`,
+        )
         .join("\n");
 
-      this.logger.log(`[SVC] chatWithArticles - Built context with ${alert.articles.length} articles`);
+      this.logger.log(
+        `[SVC] chatWithArticles - Built context with ${alert.articles.length} articles`,
+      );
 
       // Create agent with articles in memory
       const agent = await this.lettaService.createAgent({
@@ -609,23 +736,39 @@ export class AlertsService {
 
       agentId = agent.id;
       this.chatAgents.set(alertId, agentId);
-      this.logger.log(`[SVC] chatWithArticles - Created agent ${agentId} for alertId=${alertId}`);
+      this.logger.log(
+        `[SVC] chatWithArticles - Created agent ${agentId} for alertId=${alertId}`,
+      );
     }
 
     // Send message and extract response
-    this.logger.log(`[SVC] chatWithArticles - Sending message to agent ${agentId}`);
+    this.logger.log(
+      `[SVC] chatWithArticles - Sending message to agent ${agentId}`,
+    );
     try {
-      const response = await this.lettaService.sendMessage(agentId, { content: message });
-      this.logger.log(`[SVC] chatWithArticles - sendMessage returned, responseType=${typeof response}`);
-      this.logger.log(`[SVC] chatWithArticles - Response structure: messages=${!!response?.messages}, stepcount=${response?.messages?.length || 0}`);
+      const response = await this.lettaService.sendMessage(agentId, {
+        content: message,
+      });
+      this.logger.log(
+        `[SVC] chatWithArticles - sendMessage returned, responseType=${typeof response}`,
+      );
+      this.logger.log(
+        `[SVC] chatWithArticles - Response structure: messages=${!!response?.messages}, stepcount=${response?.messages?.length || 0}`,
+      );
 
       const assistantResponse = this.extractAssistantResponse(response);
-      this.logger.log(`[SVC] chatWithArticles - Extracted response, length=${assistantResponse.length}`);
-      this.logger.log(`[SVC] chatWithArticles - Response preview - "${assistantResponse.substring(0, 150)}${assistantResponse.length > 150 ? '...' : ''}"`);
+      this.logger.log(
+        `[SVC] chatWithArticles - Extracted response, length=${assistantResponse.length}`,
+      );
+      this.logger.log(
+        `[SVC] chatWithArticles - Response preview - "${assistantResponse.substring(0, 150)}${assistantResponse.length > 150 ? "..." : ""}"`,
+      );
 
       return { response: assistantResponse, agentId };
     } catch (error) {
-      this.logger.error(`[SVC] chatWithArticles - FAILED to send message - ${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[SVC] chatWithArticles - FAILED to send message - ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw error;
     }
   }
@@ -634,38 +777,63 @@ export class AlertsService {
    * Extract the assistant's text response from Letta message response
    */
   private extractAssistantResponse(response: unknown): string {
-    this.logger.log(`[SVC] extractAssistantResponse START - responseType=${typeof response}`);
+    this.logger.log(
+      `[SVC] extractAssistantResponse START - responseType=${typeof response}`,
+    );
 
-    const r = response as { messages?: Array<{ message_type?: string; assistant_message?: string; content?: string }> };
+    const r = response as {
+      messages?: Array<{
+        message_type?: string;
+        assistant_message?: string;
+        content?: string;
+      }>;
+    };
 
     if (Array.isArray(r?.messages)) {
-      this.logger.log(`[SVC] extractAssistantResponse - Found ${r.messages.length} messages`);
+      this.logger.log(
+        `[SVC] extractAssistantResponse - Found ${r.messages.length} messages`,
+      );
 
       // Look for assistant_message type first (Letta's format)
       for (let i = r.messages.length - 1; i >= 0; i--) {
         const msg = r.messages[i];
-        this.logger.log(`[SVC] extractAssistantResponse - Message ${i}: type="${msg?.message_type}", hasAssistantMsg=${!!msg?.assistant_message}, hasContent=${!!msg?.content}`);
+        this.logger.log(
+          `[SVC] extractAssistantResponse - Message ${i}: type="${msg?.message_type}", hasAssistantMsg=${!!msg?.assistant_message}, hasContent=${!!msg?.content}`,
+        );
 
-        if (msg?.message_type === "assistant_message" && msg?.assistant_message) {
-          this.logger.log(`[SVC] extractAssistantResponse - Found assistant_message at index ${i}`);
+        if (
+          msg?.message_type === "assistant_message" &&
+          msg?.assistant_message
+        ) {
+          this.logger.log(
+            `[SVC] extractAssistantResponse - Found assistant_message at index ${i}`,
+          );
           return msg.assistant_message;
         }
       }
 
       // Fallback to content field
-      this.logger.log(`[SVC] extractAssistantResponse - Trying content fallback`);
+      this.logger.log(
+        `[SVC] extractAssistantResponse - Trying content fallback`,
+      );
       for (let i = r.messages.length - 1; i >= 0; i--) {
         const msg = r.messages[i];
         if (typeof msg?.content === "string" && msg.content) {
-          this.logger.log(`[SVC] extractAssistantResponse - Found content at index ${i}`);
+          this.logger.log(
+            `[SVC] extractAssistantResponse - Found content at index ${i}`,
+          );
           return msg.content;
         }
       }
     } else {
-      this.logger.warn(`[SVC] extractAssistantResponse - No messages array found in response`);
+      this.logger.warn(
+        `[SVC] extractAssistantResponse - No messages array found in response`,
+      );
     }
 
-    this.logger.error(`[SVC] extractAssistantResponse - Could not extract response from Letta response`);
+    this.logger.error(
+      `[SVC] extractAssistantResponse - Could not extract response from Letta response`,
+    );
     return "I couldn't generate a response. Please try again.";
   }
 
@@ -844,9 +1012,13 @@ export class AlertsService {
 
     // If still over max size, remove oldest entries
     if (this.ttsCache.size > this.TTS_CACHE_MAX_SIZE) {
-      const entries = Array.from(this.ttsCache.entries())
-        .sort((a, b) => a[1].timestamp - b[1].timestamp);
-      const toRemove = entries.slice(0, entries.length - this.TTS_CACHE_MAX_SIZE);
+      const entries = Array.from(this.ttsCache.entries()).sort(
+        (a, b) => a[1].timestamp - b[1].timestamp,
+      );
+      const toRemove = entries.slice(
+        0,
+        entries.length - this.TTS_CACHE_MAX_SIZE,
+      );
       for (const [key] of toRemove) {
         this.ttsCache.delete(key);
       }
@@ -861,8 +1033,10 @@ export class AlertsService {
     const elapsed = now - this.lastTTSRequest;
     if (elapsed < this.TTS_MIN_INTERVAL) {
       const waitTime = this.TTS_MIN_INTERVAL - elapsed;
-      this.logger.log(`[SVC] textToSpeech - Rate limiting: waiting ${waitTime}ms`);
-      await new Promise(resolve => setTimeout(resolve, waitTime));
+      this.logger.log(
+        `[SVC] textToSpeech - Rate limiting: waiting ${waitTime}ms`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
     this.lastTTSRequest = Date.now();
   }
@@ -874,23 +1048,30 @@ export class AlertsService {
     text: string,
     voice: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer" = "nova",
   ): Promise<Buffer> {
-    this.logger.log(`[SVC] textToSpeech START - textLength=${text.length}, voice=${voice}`);
+    this.logger.log(
+      `[SVC] textToSpeech START - textLength=${text.length}, voice=${voice}`,
+    );
 
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       this.logger.error("[SVC] textToSpeech - OPENAI_API_KEY not configured");
-      throw new BadRequestException("TTS service not configured. Please set OPENAI_API_KEY.");
+      throw new BadRequestException(
+        "TTS service not configured. Please set OPENAI_API_KEY.",
+      );
     }
 
     // Limit text length to avoid excessive API costs
     const maxLength = 4096;
-    const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+    const truncatedText =
+      text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 
     // Check cache first
     const cacheKey = this.getTTSCacheKey(truncatedText, voice);
     const cached = this.ttsCache.get(cacheKey);
     if (cached) {
-      this.logger.log(`[SVC] textToSpeech CACHE HIT - returning cached audio (${cached.buffer.length} bytes)`);
+      this.logger.log(
+        `[SVC] textToSpeech CACHE HIT - returning cached audio (${cached.buffer.length} bytes)`,
+      );
       return cached.buffer;
     }
 
@@ -904,7 +1085,7 @@ export class AlertsService {
       const response = await fetch("https://api.openai.com/v1/audio/speech", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -916,30 +1097,44 @@ export class AlertsService {
       });
 
       if (!response.ok) {
-        const errorText = await response.text().catch(() => response.statusText);
-        this.logger.error(`[SVC] textToSpeech FAILED - status=${response.status}, error=${errorText}`);
+        const errorText = await response
+          .text()
+          .catch(() => response.statusText);
+        this.logger.error(
+          `[SVC] textToSpeech FAILED - status=${response.status}, error=${errorText}`,
+        );
         if (response.status === 429) {
           // Rate limited - throw special error so frontend can use browser TTS
-          throw new BadRequestException("RATE_LIMITED:OpenAI TTS rate limit exceeded. Using browser fallback.");
+          throw new BadRequestException(
+            "RATE_LIMITED:OpenAI TTS rate limit exceeded. Using browser fallback.",
+          );
         }
         if (response.status === 401) {
-          throw new BadRequestException("OpenAI API key is invalid. Please check your OPENAI_API_KEY.");
+          throw new BadRequestException(
+            "OpenAI API key is invalid. Please check your OPENAI_API_KEY.",
+          );
         }
         throw new BadRequestException(`TTS API error: ${response.status}`);
       }
 
       const arrayBuffer = await response.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      this.logger.log(`[SVC] textToSpeech SUCCESS - audioSize=${buffer.length} bytes`);
+      this.logger.log(
+        `[SVC] textToSpeech SUCCESS - audioSize=${buffer.length} bytes`,
+      );
 
       // Cache the result
       this.ttsCache.set(cacheKey, { buffer, timestamp: Date.now() });
-      this.logger.log(`[SVC] textToSpeech CACHED - cacheSize=${this.ttsCache.size}`);
+      this.logger.log(
+        `[SVC] textToSpeech CACHED - cacheSize=${this.ttsCache.size}`,
+      );
 
       return buffer;
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
-      this.logger.error(`[SVC] textToSpeech ERROR - ${error instanceof Error ? error.message : String(error)}`);
+      this.logger.error(
+        `[SVC] textToSpeech ERROR - ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw new BadRequestException("Failed to generate speech");
     }
   }
@@ -948,7 +1143,9 @@ export class AlertsService {
    * Connect to Pipecat voice bot for an alert
    */
   async pipecatConnect(userId: string, alertId: string) {
-    this.logger.log(`[SVC] pipecatConnect START - userId=${userId}, alertId=${alertId}`);
+    this.logger.log(
+      `[SVC] pipecatConnect START - userId=${userId}, alertId=${alertId}`,
+    );
 
     // Verify alert exists and belongs to user
     const alert = await this.prisma.newsAlert.findFirst({
@@ -963,11 +1160,15 @@ export class AlertsService {
     });
 
     if (!alert) {
-      this.logger.error(`[SVC] pipecatConnect ALERT NOT FOUND - userId=${userId}, alertId=${alertId}`);
+      this.logger.error(
+        `[SVC] pipecatConnect ALERT NOT FOUND - userId=${userId}, alertId=${alertId}`,
+      );
       throw new NotFoundException(`Alert not found`);
     }
 
-    this.logger.log(`[SVC] pipecatConnect ALERT FOUND - alertId=${alertId}, articleCount=${alert.articles.length}`);
+    this.logger.log(
+      `[SVC] pipecatConnect ALERT FOUND - alertId=${alertId}, articleCount=${alert.articles.length}`,
+    );
 
     // In a real implementation, you would:
     // 1. Create or get a Daily.co room
@@ -980,15 +1181,19 @@ export class AlertsService {
     const sessionId = `session_${Date.now()}`;
     const roomName = `alert_${alertId}`;
     const roomUrl = `https://pipecat.daily.co/${roomName}`;
-    const token = Buffer.from(JSON.stringify({
-      user_name: `user_${userId}`,
-      user_id: userId,
-      room_name: roomName,
-      alert_id: alertId,
-      article_count: alert.articles.length,
-    })).toString('base64');
+    const token = Buffer.from(
+      JSON.stringify({
+        user_name: `user_${userId}`,
+        user_id: userId,
+        room_name: roomName,
+        alert_id: alertId,
+        article_count: alert.articles.length,
+      }),
+    ).toString("base64");
 
-    this.logger.log(`[SVC] pipecatConnect SUCCESS - sessionId=${sessionId}, roomUrl=${roomUrl}`);
+    this.logger.log(
+      `[SVC] pipecatConnect SUCCESS - sessionId=${sessionId}, roomUrl=${roomUrl}`,
+    );
 
     return {
       token,

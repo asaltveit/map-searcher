@@ -12,10 +12,13 @@ export class ImprovementsCronService {
   private getPythonExecutable(): string | null {
     for (const cmd of ["python3", "python"]) {
       try {
-        execSync(`${cmd} -c "import sys; sys.exit(0 if sys.version_info.major === 3 else 1)"`, {
-          stdio: "pipe",
-          encoding: "utf8",
-        });
+        execSync(
+          `${cmd} -c "import sys; sys.exit(0 if sys.version_info.major === 3 else 1)"`,
+          {
+            stdio: "pipe",
+            encoding: "utf8",
+          },
+        );
         return cmd;
       } catch {
         continue;
@@ -77,11 +80,15 @@ export class ImprovementsCronService {
     }
 
     return new Promise((resolve) => {
-      const proc = spawn(python, ["-u", scriptPath, "--backlog", backlogAbsolute, "--index", index], {
-        cwd: repoRoot,
-        env: { ...process.env },
-        stdio: ["ignore", "pipe", "pipe"],
-      });
+      const proc = spawn(
+        python,
+        ["-u", scriptPath, "--backlog", backlogAbsolute, "--index", index],
+        {
+          cwd: repoRoot,
+          env: { ...process.env },
+          stdio: ["ignore", "pipe", "pipe"],
+        },
+      );
 
       let stdout = "";
       let stderr = "";
@@ -121,7 +128,9 @@ export class ImprovementsCronService {
    * Enable with IMPROVEMENT_CRON_ENABLED=true.
    * Schedule via IMPROVEMENT_CRON_SCHEDULE (default: 2am daily).
    */
-  @Cron(process.env.IMPROVEMENT_CRON_SCHEDULE ?? CronExpression.EVERY_DAY_AT_2AM)
+  @Cron(
+    process.env.IMPROVEMENT_CRON_SCHEDULE ?? CronExpression.EVERY_DAY_AT_2AM,
+  )
   async handleScheduledRun(): Promise<void> {
     if (process.env.IMPROVEMENT_CRON_ENABLED !== "true") {
       this.logger.debug(

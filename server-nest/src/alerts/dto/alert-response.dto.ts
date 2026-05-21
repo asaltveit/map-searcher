@@ -21,7 +21,10 @@ export class AlertResponseDto {
   @ApiProperty({ description: "Whether alert is active" })
   isActive: boolean;
 
-  @ApiProperty({ enum: AlertProcessingStatus, description: "Processing status" })
+  @ApiProperty({
+    enum: AlertProcessingStatus,
+    description: "Processing status",
+  })
   processingStatus: AlertProcessingStatus;
 
   @ApiPropertyOptional({ description: "Last run timestamp" })
@@ -56,7 +59,10 @@ export class AlertListItemDto {
   @ApiProperty({ description: "Whether alert is active" })
   isActive: boolean;
 
-  @ApiProperty({ enum: AlertProcessingStatus, description: "Processing status" })
+  @ApiProperty({
+    enum: AlertProcessingStatus,
+    description: "Processing status",
+  })
   processingStatus: AlertProcessingStatus;
 
   @ApiPropertyOptional({ description: "Last run timestamp" })
@@ -105,7 +111,10 @@ export class AlertArticleDto {
 }
 
 export class AlertDetailDto extends AlertResponseDto {
-  @ApiProperty({ type: () => [AlertArticleDto], description: "Recent articles from this alert" })
+  @ApiProperty({
+    type: () => [AlertArticleDto],
+    description: "Recent articles from this alert",
+  })
   articles: AlertArticleDto[];
 }
 
@@ -170,7 +179,10 @@ export class AlertGeoJsonFeatureDto {
   @ApiProperty({ type: () => PointGeometryDto, description: "Point geometry" })
   geometry: PointGeometryDto;
 
-  @ApiProperty({ type: () => GeoJsonFeaturePropertiesDto, description: "Feature properties" })
+  @ApiProperty({
+    type: () => GeoJsonFeaturePropertiesDto,
+    description: "Feature properties",
+  })
   properties: GeoJsonFeaturePropertiesDto;
 }
 
@@ -178,7 +190,10 @@ export class AlertGeoJsonResponseDto {
   @ApiProperty({ example: "FeatureCollection", enum: ["FeatureCollection"] })
   type: "FeatureCollection";
 
-  @ApiProperty({ type: () => [AlertGeoJsonFeatureDto], description: "GeoJSON features" })
+  @ApiProperty({
+    type: () => [AlertGeoJsonFeatureDto],
+    description: "GeoJSON features",
+  })
   features: AlertGeoJsonFeatureDto[];
 }
 

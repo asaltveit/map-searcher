@@ -30,12 +30,7 @@ import { GeocodingService } from "../news-workflow/services/geocoding.service";
     }),
   ],
   controllers: [AlertsController],
-  providers: [
-    PrismaService,
-    AlertsService,
-    AlertProcessor,
-    GeocodingService,
-  ],
+  providers: [PrismaService, AlertsService, AlertProcessor, GeocodingService],
   exports: [AlertsService],
 })
 export class AlertsModule {}

@@ -135,7 +135,10 @@ describe("Agents API (e2e)", () => {
     it("should reject missing name", async () => {
       await supertest(app.getHttpServer())
         .post("/api/agents")
-        .send({ model: "openai/gpt-4o-mini", embedding: "openai/text-embedding-3-small" })
+        .send({
+          model: "openai/gpt-4o-mini",
+          embedding: "openai/text-embedding-3-small",
+        })
         .expect(400);
     });
 
