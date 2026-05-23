@@ -1,11 +1,20 @@
 {
   "name": "map-searcher",
   "private": true,
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.28.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/engines",
+      "@sentry-internal/node-cpu-profiler",
+      "prisma",
+      "protobufjs"
+    ]
+  },
   "scripts": {
     "lint": "pnpm -r run lint:check",
     "test": "pnpm -r run test",
-    "test:server": "pnpm --filter server-nest test",
+    "test:server": "pnpm --filter map-searcher-api test",
     "build": "pnpm -r run build",
     "typecheck": "pnpm -r run typecheck"
   }

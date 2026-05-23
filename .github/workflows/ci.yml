@@ -24,8 +24,8 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
-      - run: pnpm --filter server-nest prisma:generate
-      - run: pnpm --filter server-nest lint:check
+      - run: pnpm --filter map-searcher-api prisma:generate
+      - run: pnpm --filter map-searcher-api lint:check
       - run: pnpm --filter client lint
 
   test:
@@ -65,9 +65,9 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
-      - run: pnpm --filter server-nest prisma:generate
-      - run: pnpm --filter server-nest prisma db push
-      - run: pnpm --filter server-nest test
+      - run: pnpm --filter map-searcher-api prisma:generate
+      - run: pnpm --filter map-searcher-api prisma db push
+      - run: pnpm --filter map-searcher-api test
       - run: pnpm --filter client test
 
   build:
@@ -81,7 +81,7 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
-      - run: pnpm --filter server-nest prisma:generate
-      - run: pnpm --filter server-nest typecheck
-      - run: pnpm --filter server-nest build
+      - run: pnpm --filter map-searcher-api prisma:generate
+      - run: pnpm --filter map-searcher-api typecheck
+      - run: pnpm --filter map-searcher-api build
       - run: pnpm --filter client build

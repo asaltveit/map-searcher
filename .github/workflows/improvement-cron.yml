@@ -51,7 +51,7 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Generate Prisma client
-        run: pnpm --filter server-nest prisma:generate
+        run: pnpm --filter map-searcher-api prisma:generate
 
       - name: Run improvement PR agent
         env:
