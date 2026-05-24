@@ -4,6 +4,7 @@
   "schedule": ["before 6am on monday"],
   "labels": ["dependencies"],
   "platformAutomerge": true,
+  "requiredStatusChecks": ["lint", "test", "build"],
   "osvVulnerabilityAlerts": true,
   "packageRules": [
     {
@@ -21,6 +22,10 @@
     {
       "groupName": "prisma",
       "matchPackagePatterns": ["*prisma*"]
+    },
+    {
+      "groupName": "nest",
+      "matchPackagePatterns": ["*nestjs*", "@nestjs/*"]
     }
   ]
 }
