@@ -132,14 +132,14 @@ importers:
   server-nest:
     dependencies:
       '@bull-board/api':
-        specifier: ^7.0.0
-        version: 7.1.5(@bull-board/ui@7.1.5)
+        specifier: ^7.2.1
+        version: 7.2.1(@bull-board/ui@7.2.1)
       '@bull-board/express':
-        specifier: ^7.0.0
-        version: 7.1.5
+        specifier: ^7.2.1
+        version: 7.2.1
       '@bull-board/nestjs':
-        specifier: ^7.0.0
-        version: 7.1.5(@bull-board/api@7.1.5(@bull-board/ui@7.1.5))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23))(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        specifier: ^7.2.1
+        version: 7.2.1(@bull-board/api@7.2.1(@bull-board/ui@7.2.1))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23))(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@letta-ai/letta-client':
         specifier: ^1.10.3
         version: 1.12.1
@@ -570,26 +570,26 @@ packages:
     resolution: {integrity: sha512-ctxtJ/eA+t+6q2++vj5j7FYX3nRu311q1wfYH3xjlLOsczhlhxAg2FWNUXhpGvAw3BWo1xBcvOV6/YLc2r5FJw==}
     hasBin: true
 
-  '@bull-board/api@7.1.5':
-    resolution: {integrity: sha512-EW0sbTtGIysu9vipdVpPQeToPqOpPgVZTt+pn1Ut3gbSS/GLWbEgIfFtMmSQDUoSL9WH00RzjgUY5K+43nWh0A==}
+  '@bull-board/api@7.2.1':
+    resolution: {integrity: sha512-ldRG4POJLHf6oDrbDA7AsbTKliBmV4eySlwdUAumiRDtfvtbRSdXGE4Md2uPDova1r/ck7ExEe1+pHEQAZElqw==}
     peerDependencies:
-      '@bull-board/ui': 7.1.5
+      '@bull-board/ui': 7.2.1
 
-  '@bull-board/express@7.1.5':
-    resolution: {integrity: sha512-kp4SzhVjZlykryiQwcOhJjDhiLbBnZoAMoSgEstzqQ0raLw+jERRC6ryJ0MIQO+SO+Jv9EjjxrXCR8O2YSP/eg==}
+  '@bull-board/express@7.2.1':
+    resolution: {integrity: sha512-tBr/xV5letzKYPRGRkilTQZmfoCoy3mCuUo4M2dDoDKOhbrF360mK5v9/rIcSgYSyI9c7BgEgrve80LhmexNxQ==}
 
-  '@bull-board/nestjs@7.1.5':
-    resolution: {integrity: sha512-1y+HkjnDaZoSCXJRsiYfBNBVx+PX3I8x3Uv+SSJuSpt2vHifMRwFbChO3XDxeWXetT1eR+yqPVq6ub5eJwNOYQ==}
+  '@bull-board/nestjs@7.2.1':
+    resolution: {integrity: sha512-Uq2Z3+0ORgHJSw4TDV1kBrHdksRnK8CZdda63hrStduPnvKHPBxIZUGNfBN/vL08UqizpNkjFmNyNXiHOgf0LQ==}
     peerDependencies:
-      '@bull-board/api': ^7.1.5
+      '@bull-board/api': ^7.2.1
       '@nestjs/bull-shared': ^10.0.0 || ^11.0.0
       '@nestjs/common': ^9.0.0 || ^10.0.0 || ^11.0.0
       '@nestjs/core': ^9.0.0 || ^10.0.0 || ^11.0.0
       reflect-metadata: ^0.1.13 || ^0.2.0
       rxjs: ^7.8.1
 
-  '@bull-board/ui@7.1.5':
-    resolution: {integrity: sha512-2IkatKwNRx/1M9/lAZIptcxS1FPNq6icpp2M46Upwd4olVxs/ujF9Kvs+Ff9ExtIO/OgYfwx7mG2IprGZ+nQCg==}
+  '@bull-board/ui@7.2.1':
+    resolution: {integrity: sha512-O4ykrXrl2UJNHnhJrCvJxrw1ar+DlUBgyZUeZ8Ci+Ne5Wbq6rBv1gfpQH54/eu3IFbLso0S/kjc6WUGb2HPqZw==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -3843,13 +3843,17 @@ packages:
     resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  content-disposition@1.0.1:
-    resolution: {integrity: sha512-oIXISMynqSqm241k6kcQ5UwttDILMK4BiurCfGEREw6+X9jkkpEe5T9FZaApyLGGOnFuyMWZpdolTXMtvEJ08Q==}
+  content-disposition@1.1.0:
+    resolution: {integrity: sha512-5jRCH9Z/+DRP7rkvY83B+yGIGX96OYdJmzngqnw2SBSxqCFPd0w2km3s5iawpGX8krnwSGmF0FW5Nhr0Hfai3g==}
     engines: {node: '>=18'}
 
   content-type@1.0.5:
     resolution: {integrity: sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==}
     engines: {node: '>= 0.6'}
+
+  content-type@2.0.0:
+    resolution: {integrity: sha512-j/O/d7GcZCyNl7/hwZAb606rzqkyvaDctLmckbxLzHvFBzTJHuGEdodATcP3yIRoDrLHkIATJuvzbFlp/ki2cQ==}
+    engines: {node: '>=18'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -4099,8 +4103,8 @@ packages:
   effect@3.20.0:
     resolution: {integrity: sha512-qMLfDJscrNG8p/aw+IkT9W7fgj50Z4wG5bLBy0Txsxz8iUHjDIkOgO3SV0WZfnQbNG2VJYb0b+rDLMrhM4+Krw==}
 
-  ejs@5.0.2:
-    resolution: {integrity: sha512-IpbUaI/CAW86l3f+T8zN0iggSc0LmMZLcIW5eRVStLVNCoTXkE0YlncbbH50fp8Cl6zHIky0sW2uUbhBqGw0Jw==}
+  ejs@6.0.1:
+    resolution: {integrity: sha512-UaaM14yby8U3k02ihS1Bmj5Kz2d7CCQM1scxpgs4Mhkq8F1wR2gl3+Ts4h5Ne4Mnt7M9m4Dw7jsuMr3+xO4vZA==}
     engines: {node: '>=0.12.18'}
     hasBin: true
 
@@ -6269,8 +6273,8 @@ packages:
     resolution: {integrity: sha512-4EK3+xJl8Ts67nLYNwqw/dsFVnCf+qR7RgXSK9jEEm9unao3njwMDdmsdvoKBKHzxd7tCYz5e5M+SnMjdtXGQQ==}
     engines: {node: '>=0.6'}
 
-  qs@6.15.0:
-    resolution: {integrity: sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==}
+  qs@6.15.2:
+    resolution: {integrity: sha512-Rzq0KEyX/w/tEybncDgdkZrJgVUsUMk3xjh3t5bv3S1HTAtg+uOYt72+ZfwiQwKdysThkTBdL/rTi6HDmX9Ddw==}
     engines: {node: '>=0.6'}
 
   qs@6.5.5:
@@ -6640,6 +6644,10 @@ packages:
     resolution: {integrity: sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==}
     engines: {node: '>= 0.4'}
 
+  side-channel-list@1.0.1:
+    resolution: {integrity: sha512-mjn/0bi/oUURjc5Xl7IaWi/OJJJumuoJFQJfDDyO46+hBWsfaVM65TBHq2eoZBhzl9EchxOijpkbRC8SVBQU0w==}
+    engines: {node: '>= 0.4'}
+
   side-channel-map@1.0.1:
     resolution: {integrity: sha512-VCjCNfgMsby3tTdo02nbjtM/ewra6jPHmpThenkTYh8pG9ucZ/1P8So4u4FGBek/BjpOVsDCMoLA/iuBKIFXRA==}
     engines: {node: '>= 0.4'}
@@ -6650,6 +6658,10 @@ packages:
 
   side-channel@1.1.0:
     resolution: {integrity: sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==}
+    engines: {node: '>= 0.4'}
+
+  side-channel@1.1.1:
+    resolution: {integrity: sha512-6x6dK6zJdpTzF4sQeNYxwtvBzf6Eg4GtlesS94HOvTudUeyK2WXAaIfmDgsyslYrRBeFIlsi54AYsFGUuhmvrQ==}
     engines: {node: '>= 0.4'}
 
   siginfo@2.0.0:
@@ -7115,9 +7127,9 @@ packages:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
 
-  type-is@2.0.1:
-    resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
-    engines: {node: '>= 0.6'}
+  type-is@2.1.0:
+    resolution: {integrity: sha512-faYHw0anBbc/kWF3zFTEnxSFOAGUX9GFbOBthvDdLsIlEoWOFOtS0zgCiQYwIskL9iGXZL3kAXD8OoZ4GmMATA==}
+    engines: {node: '>= 18'}
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
@@ -7893,32 +7905,32 @@ snapshots:
     dependencies:
       css-tree: 3.2.1
 
-  '@bull-board/api@7.1.5(@bull-board/ui@7.1.5)':
+  '@bull-board/api@7.2.1(@bull-board/ui@7.2.1)':
     dependencies:
-      '@bull-board/ui': 7.1.5
+      '@bull-board/ui': 7.2.1
       redis-info: 3.1.0
 
-  '@bull-board/express@7.1.5':
+  '@bull-board/express@7.2.1':
     dependencies:
-      '@bull-board/api': 7.1.5(@bull-board/ui@7.1.5)
-      '@bull-board/ui': 7.1.5
-      ejs: 5.0.2
+      '@bull-board/api': 7.2.1(@bull-board/ui@7.2.1)
+      '@bull-board/ui': 7.2.1
+      ejs: 6.0.1
       express: 5.2.1
     transitivePeerDependencies:
       - supports-color
 
-  '@bull-board/nestjs@7.1.5(@bull-board/api@7.1.5(@bull-board/ui@7.1.5))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23))(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+  '@bull-board/nestjs@7.2.1(@bull-board/api@7.2.1(@bull-board/ui@7.2.1))(@nestjs/bull-shared@11.0.4(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23))(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
-      '@bull-board/api': 7.1.5(@bull-board/ui@7.1.5)
+      '@bull-board/api': 7.2.1(@bull-board/ui@7.2.1)
       '@nestjs/bull-shared': 11.0.4(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.23)
       '@nestjs/common': 11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.23(@nestjs/common@11.1.23(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.23)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
 
-  '@bull-board/ui@7.1.5':
+  '@bull-board/ui@7.2.1':
     dependencies:
-      '@bull-board/api': 7.1.5(@bull-board/ui@7.1.5)
+      '@bull-board/api': 7.2.1(@bull-board/ui@7.2.1)
 
   '@colors/colors@1.5.0':
     optional: true
@@ -10776,9 +10788,9 @@ snapshots:
       http-errors: 2.0.1
       iconv-lite: 0.7.2
       on-finished: 2.4.1
-      qs: 6.15.0
+      qs: 6.15.2
       raw-body: 3.0.2
-      type-is: 2.0.1
+      type-is: 2.1.0
     transitivePeerDependencies:
       - supports-color
 
@@ -11048,9 +11060,11 @@ snapshots:
 
   consola@3.4.2: {}
 
-  content-disposition@1.0.1: {}
+  content-disposition@1.1.0: {}
 
   content-type@1.0.5: {}
+
+  content-type@2.0.0: {}
 
   convert-source-map@2.0.0: {}
 
@@ -11268,7 +11282,7 @@ snapshots:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
 
-  ejs@5.0.2: {}
+  ejs@6.0.1: {}
 
   electron-to-chromium@1.5.283: {}
 
@@ -11742,7 +11756,7 @@ snapshots:
     dependencies:
       accepts: 2.0.0
       body-parser: 2.2.2
-      content-disposition: 1.0.1
+      content-disposition: 1.1.0
       content-type: 1.0.5
       cookie: 0.7.2
       cookie-signature: 1.2.2
@@ -11760,13 +11774,13 @@ snapshots:
       once: 1.4.0
       parseurl: 1.3.3
       proxy-addr: 2.0.7
-      qs: 6.15.0
+      qs: 6.15.2
       range-parser: 1.2.1
       router: 2.2.0
       send: 1.2.1
       serve-static: 2.2.1
       statuses: 2.0.2
-      type-is: 2.0.1
+      type-is: 2.1.0
       vary: 1.1.2
     transitivePeerDependencies:
       - supports-color
@@ -12213,7 +12227,7 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
       hasown: 2.0.2
-      side-channel: 1.1.0
+      side-channel: 1.1.1
 
   ioredis@5.10.1:
     dependencies:
@@ -13973,9 +13987,9 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
-  qs@6.15.0:
+  qs@6.15.2:
     dependencies:
-      side-channel: 1.1.0
+      side-channel: 1.1.1
 
   qs@6.5.5: {}
 
@@ -14415,6 +14429,11 @@ snapshots:
       es-errors: 1.3.0
       object-inspect: 1.13.4
 
+  side-channel-list@1.0.1:
+    dependencies:
+      es-errors: 1.3.0
+      object-inspect: 1.13.4
+
   side-channel-map@1.0.1:
     dependencies:
       call-bound: 1.0.4
@@ -14435,6 +14454,14 @@ snapshots:
       es-errors: 1.3.0
       object-inspect: 1.13.4
       side-channel-list: 1.0.0
+      side-channel-map: 1.0.1
+      side-channel-weakmap: 1.0.2
+
+  side-channel@1.1.1:
+    dependencies:
+      es-errors: 1.3.0
+      object-inspect: 1.13.4
+      side-channel-list: 1.0.1
       side-channel-map: 1.0.1
       side-channel-weakmap: 1.0.2
 
@@ -14885,9 +14912,9 @@ snapshots:
       media-typer: 0.3.0
       mime-types: 2.1.35
 
-  type-is@2.0.1:
+  type-is@2.1.0:
     dependencies:
-      content-type: 1.0.5
+      content-type: 2.0.0
       media-typer: 1.1.0
       mime-types: 3.0.2
 
