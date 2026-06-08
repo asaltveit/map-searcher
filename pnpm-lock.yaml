@@ -17,8 +17,8 @@ importers:
         specifier: ^1.7.0
         version: 1.9.0
       '@pipecat-ai/client-react':
-        specifier: ^1.5.0
-        version: 1.5.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^1.6.0
+        version: 1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@pipecat-ai/daily-transport':
         specifier: ^1.6.1
         version: 1.6.6(@pipecat-ai/client-js@1.9.0)
@@ -96,7 +96,7 @@ importers:
         specifier: ^25
         version: 25.2.3
       '@types/react':
-        specifier: ^19.2.17
+        specifier: ^19
         version: 19.2.17
       '@types/react-dom':
         specifier: ^19
@@ -1937,8 +1937,8 @@ packages:
   '@pipecat-ai/client-js@1.9.0':
     resolution: {integrity: sha512-0pAmbKlYug7GL/8Zb8+KUB3KCNtnpwOl0MYhCWNiCfSIUSuQbDRbLBROPWVL8Aktj8PyANwQpPWQUq38m0bCag==}
 
-  '@pipecat-ai/client-react@1.5.0':
-    resolution: {integrity: sha512-WGqg4d4JgdnG8nuY11AmhIHD8xvbuSAGophthwJwtkuOqe0NTA64nl06ypLBXmOruZFXCDE+eZQRDf172hK8Xw==}
+  '@pipecat-ai/client-react@1.6.0':
+    resolution: {integrity: sha512-JE3BnUTTXfaXxpIhZF0z1jtMGNAvxFcR9BqWkdHxmUqs45NNqK8D0hFEK661Ov7pU1fAOrYaDu/qbNg1sE/YcA==}
     peerDependencies:
       '@pipecat-ai/client-js': '*'
       react: '>=18'
@@ -5220,8 +5220,8 @@ packages:
   jose@4.14.4:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
 
-  jotai@2.17.0:
-    resolution: {integrity: sha512-DBPT7Vx7E7R/ZJL7Uq7yUA9+LLR0IRiRM+Bw5ugVwv8L8++RjlXVXZ2//ccucypc5lcyuHOW09rYcW77RurduQ==}
+  jotai@2.20.0:
+    resolution: {integrity: sha512-b5GAqgmXmXzB4WPaTH26ppk9Sl7AA9WSQX7yfdM+gJ1rFROiWcVbi97gFuN/yVCojOcbcvop2sfLL+fjxW0JVg==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@babel/core': '>=7.0.0'
@@ -9171,10 +9171,10 @@ snapshots:
       typed-emitter: 2.1.0
       uuid: 10.0.0
 
-  '@pipecat-ai/client-react@1.5.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@pipecat-ai/client-react@1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@pipecat-ai/client-js': 1.9.0
-      jotai: 2.17.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7)
+      jotai: 2.20.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     transitivePeerDependencies:
@@ -12875,7 +12875,7 @@ snapshots:
 
   jose@4.14.4: {}
 
-  jotai@2.17.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7):
+  jotai@2.20.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7):
     optionalDependencies:
       '@babel/core': 7.29.0
       '@babel/template': 7.28.6
