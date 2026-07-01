@@ -21,7 +21,7 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter map-searcher-api prisma:generate
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:17-alpine
+        image: postgres:18-alpine
         env:
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
@@ -46,7 +46,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis:7-alpine
+        image: redis:8-alpine
         ports:
           - 6379:6379
         options: >-
@@ -62,7 +62,7 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter map-searcher-api prisma:generate
@@ -78,7 +78,7 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter map-searcher-api prisma:generate
