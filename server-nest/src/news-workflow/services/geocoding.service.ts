@@ -16,6 +16,13 @@ interface NominatimResult {
   importance: number;
 }
 
+interface LocationIQResult {
+  lat: string;
+  lon: string;
+  display_name: string;
+  importance?: number;
+}
+
 @Injectable()
 export class GeocodingService {
   private readonly logger = new Logger(GeocodingService.name);
@@ -64,7 +71,7 @@ export class GeocodingService {
         throw new Error(`Nominatim returned ${response.status}`);
       }
 
-      const results: NominatimResult[] = await response.json();
+      const results = (await response.json()) as NominatimResult[];
       this.logger.log(
         `[GEOCODE] Nominatim results count: ${results?.length || 0}`,
       );
@@ -147,7 +154,7 @@ export class GeocodingService {
         throw new Error(`LocationIQ returned ${response.status}`);
       }
 
-      const results = await response.json();
+      const results = (await response.json()) as LocationIQResult[];
       this.logger.log(
         `[GEOCODE-LIQ] LocationIQ results count: ${results?.length || 0}`,
       );

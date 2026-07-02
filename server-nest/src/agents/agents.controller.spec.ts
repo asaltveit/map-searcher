@@ -107,7 +107,7 @@ describe("AgentsController", () => {
   describe("listAgents", () => {
     it("should return list of agents for user", async () => {
       const agents = [mockAgent];
-      agentsService.listAgents.mockResolvedValue(agents as never);
+      agentsService.listAgents.mockResolvedValue(agents);
 
       const result = await controller.listAgents(mockRequest);
 
@@ -163,7 +163,7 @@ describe("AgentsController", () => {
 
   describe("deleteAgent", () => {
     it("should delete agent", async () => {
-      agentsService.deleteAgent.mockResolvedValue(undefined as never);
+      agentsService.deleteAgent.mockResolvedValue(undefined);
 
       await controller.deleteAgent(mockRequest, mockAgentId);
 
@@ -308,7 +308,7 @@ describe("AgentsController", () => {
   describe("agent tools", () => {
     it("should list agent tools", async () => {
       const mockTools = [{ id: "tool-1", name: "web_search" }];
-      agentsService.listAgentTools.mockResolvedValue(mockTools as never);
+      agentsService.listAgentTools.mockResolvedValue(mockTools);
 
       const result = await controller.listAgentTools(mockRequest, mockAgentId);
 

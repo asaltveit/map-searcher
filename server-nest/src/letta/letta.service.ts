@@ -162,20 +162,7 @@ export class LettaService implements OnModuleInit {
           },
         ],
       });
-      this.logger.log(
-        `[LETTA] sendMessage RESPONSE RECEIVED - type=${typeof response}, hasMessages=${!!(response as any).messages}`,
-      );
-      if ((response as any).messages) {
-        this.logger.log(
-          `[LETTA] sendMessage RESPONSE - messageCount=${(response as any).messages.length}`,
-        );
-        for (let i = 0; i < (response as any).messages.length; i++) {
-          const msg = (response as any).messages[i];
-          this.logger.log(
-            `[LETTA] sendMessage MESSAGE ${i + 1} - type="${msg.message_type || msg.role}", hasContent=${!!(msg.content || msg.assistant_message || msg.tool_return)}`,
-          );
-        }
-      }
+      this.logSendMessageResponse(response);
       return response;
     } catch (error) {
       const normalized = this.normalizeError(
@@ -202,6 +189,42 @@ export class LettaService implements OnModuleInit {
       );
     }
     return new Error(`${context}: ${String(error)}`);
+  }
+
+  private logSendMessageResponse(response: unknown): void {
+    const hasMessages =
+      typeof response === "object" &&
+      response !== null &&
+      "messages" in response &&
+      Array.isArray(response.messages);
+
+    this.logger.log(
+      `[LETTA] sendMessage RESPONSE RECEIVED - type=${typeof response}, hasMessages=${hasMessages}`,
+    );
+
+    if (!hasMessages) {
+      return;
+    }
+
+    const messages = (response as { messages: unknown[] }).messages;
+    this.logger.log(
+      `[LETTA] sendMessage RESPONSE - messageCount=${messages.length}`,
+    );
+
+    for (let i = 0; i < messages.length; i++) {
+      const msg = messages[i];
+      let messageType = "unknown";
+      if (typeof msg === "object" && msg !== null) {
+        if ("message_type" in msg && typeof msg.message_type === "string") {
+          messageType = msg.message_type;
+        } else if ("role" in msg && typeof msg.role === "string") {
+          messageType = msg.role;
+        }
+      }
+      this.logger.log(
+        `[LETTA] sendMessage MESSAGE ${i + 1} - type="${messageType}"`,
+      );
+    }
   }
 
   async listMessages(agentId: string, params: ListMessagesParams = {}) {

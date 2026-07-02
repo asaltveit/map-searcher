@@ -237,7 +237,7 @@ describe("AgentsService", () => {
   describe("deleteAgent", () => {
     it("should delete agent from Letta and local DB", async () => {
       (prismaService.agent.findFirst as jest.Mock).mockResolvedValue(mockAgent);
-      lettaService.deleteAgent.mockResolvedValue(undefined as never);
+      lettaService.deleteAgent.mockResolvedValue(undefined);
       (prismaService.agent.delete as jest.Mock).mockResolvedValue(mockAgent);
 
       await service.deleteAgent(mockUserId, mockAgentId);
@@ -342,7 +342,7 @@ describe("AgentsService", () => {
     it("should list agent tools", async () => {
       (prismaService.agent.findFirst as jest.Mock).mockResolvedValue(mockAgent);
       const mockTools = [{ id: "tool-1", name: "web_search" }];
-      lettaService.listAgentTools.mockResolvedValue(mockTools as never);
+      lettaService.listAgentTools.mockResolvedValue(mockTools);
 
       const result = await service.listAgentTools(mockUserId, mockAgentId);
 

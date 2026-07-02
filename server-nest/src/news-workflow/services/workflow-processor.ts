@@ -1,6 +1,7 @@
 import { Processor, WorkerHost } from "@nestjs/bullmq";
 import { Logger } from "@nestjs/common";
 import { Job } from "bullmq";
+import { parseArticleObject } from "../../common/json.utils";
 import { LettaService } from "../../letta/letta.service";
 import { TracingService } from "../../tracing/tracing.service";
 import {
@@ -260,16 +261,8 @@ Focus on articles that mention specific locations within ${workflow.region}.
     const objectMatches = text.match(/\{[\s\S]*\}/);
     if (objectMatches) {
       try {
-        const parsed = JSON.parse(objectMatches[0]);
-        // If it's a single article, wrap in array
-        if (parsed.url && parsed.title) {
-          return [parsed];
-        }
-        // If it has an articles property, use that
-        if (parsed.articles && Array.isArray(parsed.articles)) {
-          return parsed.articles;
-        }
-        return parsed;
+        const parsed: unknown = JSON.parse(objectMatches[0]);
+        return parseArticleObject(parsed);
       } catch {
         // Not valid JSON
       }

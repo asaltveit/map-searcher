@@ -12,7 +12,9 @@ interface JwtPayload {
 
 // Extract JWT from HTTP-only cookie
 const extractFromCookie = (req: Request): string | null => {
-  return req?.cookies?.access_token || null;
+  const cookies = req.cookies as Record<string, unknown> | undefined;
+  const token = cookies?.access_token;
+  return typeof token === "string" ? token : null;
 };
 
 @Injectable()

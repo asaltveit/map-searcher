@@ -89,7 +89,7 @@ export class WorkflowController {
       "Get current map state (GeoJSON + optional view) from last map agent run",
   })
   @ApiResponse({ status: 200, description: "Map state or empty when none" })
-  async getMapState(@Req() req: Express.Request): Promise<MapState | null> {
+  getMapState(@Req() req: Express.Request): MapState | null {
     const userId =
       (req as Express.Request & { userId?: string }).userId ?? "default";
     return this.workflowService.getMapState(userId);

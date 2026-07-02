@@ -5,6 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { JwtStrategy } from "./jwt.strategy";
+import { JwtAuthGuard } from "./jwt-auth.guard";
 import { PrismaService } from "../prisma.service";
 import { AgentsModule } from "../agents/agents.module";
 
@@ -22,6 +23,7 @@ import { AgentsModule } from "../agents/agents.module";
     forwardRef(() => AgentsModule),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PrismaService],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, PrismaService],
+  exports: [JwtAuthGuard],
 })
 export class AuthModule {}
