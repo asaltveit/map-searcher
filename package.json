@@ -2,15 +2,6 @@
   "name": "map-searcher",
   "private": true,
   "packageManager": "pnpm@11.5.3",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@nestjs/core",
-      "@prisma/engines",
-      "@sentry-internal/node-cpu-profiler",
-      "prisma",
-      "protobufjs"
-    ]
-  },
   "scripts": {
     "lint": "pnpm -r run lint:check",
     "test": "pnpm -r run test",
