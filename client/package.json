@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "lint:check": "eslint",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -45,7 +46,7 @@
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^6.0.2",
+    "@vitejs/plugin-react": "^5.2.0",
     "eslint": "^9.23.0",
     "eslint-config-next": "16.2.7",
     "jest-axe": "^10.0.0",
