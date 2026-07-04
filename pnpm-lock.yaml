@@ -17,8 +17,8 @@ importers:
         specifier: ^1.7.0
         version: 1.9.0
       '@pipecat-ai/client-react':
-        specifier: ^1.5.0
-        version: 1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^1.7.1
+        version: 1.7.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@pipecat-ai/daily-transport':
         specifier: ^1.6.1
         version: 1.6.6(@pipecat-ai/client-js@1.9.0)
@@ -2004,8 +2004,8 @@ packages:
   '@pipecat-ai/client-js@1.9.0':
     resolution: {integrity: sha512-0pAmbKlYug7GL/8Zb8+KUB3KCNtnpwOl0MYhCWNiCfSIUSuQbDRbLBROPWVL8Aktj8PyANwQpPWQUq38m0bCag==}
 
-  '@pipecat-ai/client-react@1.6.0':
-    resolution: {integrity: sha512-JE3BnUTTXfaXxpIhZF0z1jtMGNAvxFcR9BqWkdHxmUqs45NNqK8D0hFEK661Ov7pU1fAOrYaDu/qbNg1sE/YcA==}
+  '@pipecat-ai/client-react@1.7.1':
+    resolution: {integrity: sha512-dhoutYkoQ1zQ2KVX36ckKE57lx2Ao6Dbehrw8U1UwCpfOOjMGWit0bsVmCMAgr9Co8PkOrSO9ZsBLBeyVJN7wA==}
     peerDependencies:
       '@pipecat-ai/client-js': '*'
       react: '>=18'
@@ -5385,8 +5385,8 @@ packages:
   jose@4.14.4:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
 
-  jotai@2.20.0:
-    resolution: {integrity: sha512-b5GAqgmXmXzB4WPaTH26ppk9Sl7AA9WSQX7yfdM+gJ1rFROiWcVbi97gFuN/yVCojOcbcvop2sfLL+fjxW0JVg==}
+  jotai@2.20.1:
+    resolution: {integrity: sha512-dnuKfU/GLi8B28RRMjQ3AfoN7kfzP8o41+AX2FmITZqEMY8PHnjABq+VkEooomLwYaGjda+pgy0yFSjaHX/ZPg==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@babel/core': '>=7.0.0'
@@ -6268,6 +6268,10 @@ packages:
 
   picomatch@4.0.4:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+    engines: {node: '>=12'}
+
+  picomatch@4.0.5:
+    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
   pirates@4.0.7:
@@ -9428,10 +9432,10 @@ snapshots:
       typed-emitter: 2.1.0
       uuid: 10.0.0
 
-  '@pipecat-ai/client-react@1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@pipecat-ai/client-react@1.7.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@pipecat-ai/client-js': 1.9.0
-      jotai: 2.20.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7)
+      jotai: 2.20.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     transitivePeerDependencies:
@@ -12262,6 +12266,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+  fdir@6.5.0(picomatch@4.0.5):
+    optionalDependencies:
+      picomatch: 4.0.5
+
   file-entry-cache@8.0.0:
     dependencies:
       flat-cache: 4.0.1
@@ -13275,7 +13283,7 @@ snapshots:
 
   jose@4.14.4: {}
 
-  jotai@2.20.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7):
+  jotai@2.20.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7):
     optionalDependencies:
       '@babel/core': 7.29.0
       '@babel/template': 7.28.6
@@ -14142,6 +14150,8 @@ snapshots:
   picomatch@2.3.2: {}
 
   picomatch@4.0.4: {}
+
+  picomatch@4.0.5: {}
 
   pirates@4.0.7: {}
 
@@ -15571,8 +15581,8 @@ snapshots:
   vite@7.3.1(@types/node@25.9.2)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0):
     dependencies:
       esbuild: 0.27.7
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
       postcss: 8.5.16
       rollup: 4.62.2
       tinyglobby: 0.2.17
