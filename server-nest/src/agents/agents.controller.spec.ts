@@ -107,7 +107,7 @@ describe("AgentsController", () => {
   describe("listAgents", () => {
     it("should return list of agents for user", async () => {
       const agents = [mockAgent];
-      agentsService.listAgents.mockResolvedValue(agents);
+      agentsService.listAgents.mockResolvedValue(agents as never);
 
       const result = await controller.listAgents(mockRequest);
 
