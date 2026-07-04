@@ -14,14 +14,14 @@ importers:
         specifier: ^5.2.2
         version: 5.4.0(react-hook-form@7.78.0(react@19.2.7))
       '@pipecat-ai/client-js':
-        specifier: ^1.7.0
-        version: 1.9.0
+        specifier: ^1.12.0
+        version: 1.12.0
       '@pipecat-ai/client-react':
-        specifier: ^1.5.0
-        version: 1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^1.7.1
+        version: 1.7.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.12.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@pipecat-ai/daily-transport':
-        specifier: ^1.6.1
-        version: 1.6.6(@pipecat-ai/client-js@1.9.0)
+        specifier: ^1.6.7
+        version: 1.6.7(@pipecat-ai/client-js@1.12.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.15
         version: 1.1.16(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2001,20 +2001,20 @@ packages:
   '@paralleldrive/cuid2@2.3.1':
     resolution: {integrity: sha512-XO7cAxhnTZl0Yggq6jOgjiOHhbgcO4NqFqwSmQpjK3b6TEE6Uj/jfSk6wzYyemh3+I0sHirKSetjQwn5cZktFw==}
 
-  '@pipecat-ai/client-js@1.9.0':
-    resolution: {integrity: sha512-0pAmbKlYug7GL/8Zb8+KUB3KCNtnpwOl0MYhCWNiCfSIUSuQbDRbLBROPWVL8Aktj8PyANwQpPWQUq38m0bCag==}
+  '@pipecat-ai/client-js@1.12.0':
+    resolution: {integrity: sha512-TKHuxTfnO5Eq9VpmSqaPsV0y9lQ+jkb7aEG5MRsmjkhxyhhOW2ljMPwMDzOt+lwS89ZRtk12FUKEaRR/+yBGGg==}
 
-  '@pipecat-ai/client-react@1.6.0':
-    resolution: {integrity: sha512-JE3BnUTTXfaXxpIhZF0z1jtMGNAvxFcR9BqWkdHxmUqs45NNqK8D0hFEK661Ov7pU1fAOrYaDu/qbNg1sE/YcA==}
+  '@pipecat-ai/client-react@1.7.1':
+    resolution: {integrity: sha512-dhoutYkoQ1zQ2KVX36ckKE57lx2Ao6Dbehrw8U1UwCpfOOjMGWit0bsVmCMAgr9Co8PkOrSO9ZsBLBeyVJN7wA==}
     peerDependencies:
       '@pipecat-ai/client-js': '*'
       react: '>=18'
       react-dom: '>=18'
 
-  '@pipecat-ai/daily-transport@1.6.6':
-    resolution: {integrity: sha512-P2WxrSLe72wS6M16DCh6tYgbD5KtCsb3iN5xRiuy6TJdbQ5OVAr2O1YWBxAlFyyxrxn6/GGCGS8n6I4giPAnHw==}
+  '@pipecat-ai/daily-transport@1.6.7':
+    resolution: {integrity: sha512-2McxtPrRGuvJY6CdNnhVoJshBWZi7Q6hAE1IiK1rGwGrUn5bly7hoQc7oMCPm/K4aRts7F6ZeP6FqRmUb+O8kQ==}
     peerDependencies:
-      '@pipecat-ai/client-js': ~1.11.0
+      '@pipecat-ai/client-js': ~1.12.0
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -7448,9 +7448,8 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
-  uuid@10.0.0:
-    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+  uuid@11.1.1:
+    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
     hasBin: true
 
   uuid@14.0.1:
@@ -9419,18 +9418,18 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.8.0
 
-  '@pipecat-ai/client-js@1.9.0':
+  '@pipecat-ai/client-js@1.12.0':
     dependencies:
       '@types/events': 3.0.3
       bowser: 2.14.1
       clone-deep: 4.0.1
       events: 3.3.0
       typed-emitter: 2.1.0
-      uuid: 10.0.0
+      uuid: 11.1.1
 
-  '@pipecat-ai/client-react@1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@pipecat-ai/client-react@1.7.1(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.12.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@pipecat-ai/client-js': 1.9.0
+      '@pipecat-ai/client-js': 1.12.0
       jotai: 2.20.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@types/react@19.2.17)(react@19.2.7)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
@@ -9439,10 +9438,10 @@ snapshots:
       - '@babel/template'
       - '@types/react'
 
-  '@pipecat-ai/daily-transport@1.6.6(@pipecat-ai/client-js@1.9.0)':
+  '@pipecat-ai/daily-transport@1.6.7(@pipecat-ai/client-js@1.12.0)':
     dependencies:
       '@daily-co/daily-js': 0.90.0
-      '@pipecat-ai/client-js': 1.9.0
+      '@pipecat-ai/client-js': 1.12.0
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -15517,7 +15516,7 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
-  uuid@10.0.0: {}
+  uuid@11.1.1: {}
 
   uuid@14.0.1: {}
 

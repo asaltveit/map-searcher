@@ -5,6 +5,8 @@
   "labels": ["dependencies"],
   "platformAutomerge": true,
   "osvVulnerabilityAlerts": true,
+  "ignorePaths": ["**/package-lock.json"],
+  "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
       "matchUpdateTypes": ["patch", "minor"],
@@ -25,6 +27,10 @@
     {
       "groupName": "nest",
       "matchPackageNames": ["*nestjs*", "@nestjs/*"]
+    },
+    {
+      "groupName": "pipecat",
+      "matchPackageNames": ["@pipecat-ai/*"]
     }
   ]
 }

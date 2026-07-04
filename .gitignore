@@ -6,3 +6,5 @@ client/node_modules/
 dist/
 client/dist/
 actionlint
+package-lock.json
+**/package-lock.json
