@@ -20,8 +20,8 @@ importers:
         specifier: ^1.5.0
         version: 1.6.0(@babel/core@7.29.0)(@babel/template@7.28.6)(@pipecat-ai/client-js@1.9.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@pipecat-ai/daily-transport':
-        specifier: ^1.6.1
-        version: 1.6.6(@pipecat-ai/client-js@1.9.0)
+        specifier: ^1.6.7
+        version: 1.6.7(@pipecat-ai/client-js@1.9.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.15
         version: 1.1.16(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2011,10 +2011,10 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@pipecat-ai/daily-transport@1.6.6':
-    resolution: {integrity: sha512-P2WxrSLe72wS6M16DCh6tYgbD5KtCsb3iN5xRiuy6TJdbQ5OVAr2O1YWBxAlFyyxrxn6/GGCGS8n6I4giPAnHw==}
+  '@pipecat-ai/daily-transport@1.6.7':
+    resolution: {integrity: sha512-2McxtPrRGuvJY6CdNnhVoJshBWZi7Q6hAE1IiK1rGwGrUn5bly7hoQc7oMCPm/K4aRts7F6ZeP6FqRmUb+O8kQ==}
     peerDependencies:
-      '@pipecat-ai/client-js': ~1.11.0
+      '@pipecat-ai/client-js': ~1.12.0
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -6270,6 +6270,10 @@ packages:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.5:
+    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
+    engines: {node: '>=12'}
+
   pirates@4.0.7:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
@@ -9439,7 +9443,7 @@ snapshots:
       - '@babel/template'
       - '@types/react'
 
-  '@pipecat-ai/daily-transport@1.6.6(@pipecat-ai/client-js@1.9.0)':
+  '@pipecat-ai/daily-transport@1.6.7(@pipecat-ai/client-js@1.9.0)':
     dependencies:
       '@daily-co/daily-js': 0.90.0
       '@pipecat-ai/client-js': 1.9.0
@@ -12262,6 +12266,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+  fdir@6.5.0(picomatch@4.0.5):
+    optionalDependencies:
+      picomatch: 4.0.5
+
   file-entry-cache@8.0.0:
     dependencies:
       flat-cache: 4.0.1
@@ -14143,6 +14151,8 @@ snapshots:
 
   picomatch@4.0.4: {}
 
+  picomatch@4.0.5: {}
+
   pirates@4.0.7: {}
 
   pkg-dir@4.2.0:
@@ -15571,8 +15581,8 @@ snapshots:
   vite@7.3.1(@types/node@25.9.2)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0):
     dependencies:
       esbuild: 0.27.7
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
       postcss: 8.5.16
       rollup: 4.62.2
       tinyglobby: 0.2.17
