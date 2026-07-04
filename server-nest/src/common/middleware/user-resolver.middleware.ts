@@ -36,8 +36,9 @@ export class UserResolverMiddleware implements NestMiddleware {
     }
 
     // Try cookie
-    const cookieId = req.cookies?.[ANON_COOKIE];
-    if (cookieId && typeof cookieId === "string" && cookieId.length <= 128) {
+    const cookies = req.cookies as Record<string, unknown> | undefined;
+    const cookieId = cookies?.[ANON_COOKIE];
+    if (typeof cookieId === "string" && cookieId.length <= 128) {
       req.userId = cookieId.replace(/[^a-zA-Z0-9_-]/g, "") || "default";
       return next();
     }

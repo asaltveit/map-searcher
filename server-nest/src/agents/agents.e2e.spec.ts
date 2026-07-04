@@ -225,7 +225,7 @@ describe("Agents API (e2e)", () => {
   describe("DELETE /api/agents/:id", () => {
     it("should delete agent", async () => {
       mockFn(mockPrismaService.agent.findFirst).mockResolvedValue(mockAgent);
-      mockLettaService.deleteAgent.mockResolvedValue(undefined as never);
+      mockLettaService.deleteAgent.mockResolvedValue(undefined);
       mockFn(mockPrismaService.agent.delete).mockResolvedValue(mockAgent);
 
       await supertest(app.getHttpServer())

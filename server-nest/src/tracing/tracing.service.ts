@@ -1,5 +1,15 @@
 import { Injectable, Logger } from "@nestjs/common";
 
+type WeaveOp = <T extends (...args: never[]) => unknown>(
+  fn: T,
+  opts: { name: string },
+) => T;
+
+interface WeaveModule {
+  init?: (projectId: string) => Promise<void>;
+  op?: WeaveOp;
+}
+
 /**
  * Optional W&B Weave tracing service.
  * Only active when WANDB_API_KEY is set.
@@ -8,7 +18,7 @@ import { Injectable, Logger } from "@nestjs/common";
 @Injectable()
 export class TracingService {
   private readonly logger = new Logger(TracingService.name);
-  private op: any = null;
+  private op: WeaveOp | null = null;
   private initialized = false;
 
   /**
@@ -117,7 +127,7 @@ export class TracingService {
     if (!process.env.WANDB_API_KEY) return false;
 
     try {
-      const weave = await import("weave");
+      const weave = (await import("weave")) as WeaveModule;
       // Skip login() when WANDB_API_KEY is already set (e.g. from .env). login() tries to
       // write to ~/.netrc and warns if it can't; init() uses process.env.WANDB_API_KEY.
       if (weave.init && typeof weave.init === "function") {

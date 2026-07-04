@@ -37,7 +37,7 @@ describe("ToolsService", () => {
   describe("listTools", () => {
     it("should return list of tools", async () => {
       const tools = [mockTool];
-      lettaService.listTools.mockResolvedValue(tools as never);
+      lettaService.listTools.mockResolvedValue(tools);
 
       const result = await service.listTools({});
 
@@ -58,7 +58,7 @@ describe("ToolsService", () => {
 
   describe("getTool", () => {
     it("should return tool by id", async () => {
-      lettaService.getTool.mockResolvedValue(mockTool as never);
+      lettaService.getTool.mockResolvedValue(mockTool);
 
       const result = await service.getTool("tool-123");
 
@@ -69,7 +69,7 @@ describe("ToolsService", () => {
 
   describe("createTool", () => {
     it("should create a custom tool", async () => {
-      lettaService.createTool.mockResolvedValue(mockTool as never);
+      lettaService.createTool.mockResolvedValue(mockTool);
 
       const result = await service.createTool({
         sourceCode: 'def my_tool(): return "hello"',
@@ -88,7 +88,7 @@ describe("ToolsService", () => {
 
   describe("deleteTool", () => {
     it("should delete a tool", async () => {
-      lettaService.deleteTool.mockResolvedValue(undefined as never);
+      lettaService.deleteTool.mockResolvedValue(undefined);
 
       await service.deleteTool("tool-123");
 

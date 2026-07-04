@@ -19,10 +19,11 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - uses: pnpm/action-setup@v6
+          cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: npm i -g vercel
 

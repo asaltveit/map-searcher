@@ -1,6 +1,7 @@
 import { Injectable, Logger, BadRequestException } from "@nestjs/common";
 import Redis from "ioredis";
 import { v4 as uuidv4 } from "uuid";
+import { isRecord } from "../common/json.utils";
 
 export interface ResearchEntry {
   id: string;
@@ -40,9 +41,44 @@ export class ResearchService {
     }
   }
 
-  private sanitizeString(s: any, maxLen: number): string {
-    if (s == null) return "";
-    return String(s).slice(0, maxLen);
+  private sanitizeString(s: unknown, maxLen: number): string {
+    const value = this.toPrimitiveString(s);
+    if (!value) return "";
+    return value.slice(0, maxLen);
+  }
+
+  private toPrimitiveString(value: unknown): string | undefined {
+    if (value == null) return undefined;
+    if (typeof value === "string") return value;
+    if (typeof value === "number" || typeof value === "boolean") {
+      return String(value);
+    }
+    return undefined;
+  }
+
+  private parseResearchEntry(
+    raw: string,
+    id: string,
+    source: ResearchEntry["source"],
+  ): ResearchEntry | null {
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (!isRecord(parsed)) {
+        return null;
+      }
+
+      return {
+        id,
+        content: this.toPrimitiveString(parsed.content) ?? "",
+        source_url: this.toPrimitiveString(parsed.source_url) ?? "",
+        title: this.toPrimitiveString(parsed.title)?.slice(0, MAX_TITLE_LENGTH),
+        created_at:
+          this.toPrimitiveString(parsed.created_at) ?? new Date().toISOString(),
+        source,
+      };
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -62,20 +98,16 @@ export class ResearchService {
       for (const key of userKeys) {
         const raw = await r.get(key);
         if (!raw) continue;
-        try {
-          const entry = JSON.parse(raw);
-          const content = (entry.content || "").toLowerCase();
-          const title = (entry.title || "").toLowerCase();
-          if (q && content.indexOf(q) === -1 && title.indexOf(q) === -1)
-            continue;
-          results.push({
-            ...entry,
-            id: key.split(":").pop()!,
-            source: "user",
-          });
-        } catch {
-          /* skip */
-        }
+        const entry = this.parseResearchEntry(
+          raw,
+          key.split(":").pop()!,
+          "user",
+        );
+        if (!entry) continue;
+        const content = entry.content.toLowerCase();
+        const title = (entry.title ?? "").toLowerCase();
+        if (q && content.indexOf(q) === -1 && title.indexOf(q) === -1) continue;
+        results.push(entry);
       }
     }
 
@@ -87,22 +119,18 @@ export class ResearchService {
       if (enableHybrid && key.startsWith(`research:${userId}:`)) continue;
       const raw = await r.get(key);
       if (!raw) continue;
-      try {
-        const entry = JSON.parse(raw);
-        const content = (entry.content || "").toLowerCase();
-        const title = (entry.title || "").toLowerCase();
-        if (q && content.indexOf(q) === -1 && title.indexOf(q) === -1) continue;
-        const id = key.includes("library")
-          ? key.split(":").pop()!
-          : key.replace("research:", "");
-        results.push({
-          ...entry,
-          id,
-          source: key.includes("library") ? "library" : "user",
-        });
-      } catch {
-        /* skip */
-      }
+      const id = key.includes("library")
+        ? key.split(":").pop()!
+        : key.replace("research:", "");
+      const source: ResearchEntry["source"] = key.includes("library")
+        ? "library"
+        : "user";
+      const entry = this.parseResearchEntry(raw, id, source);
+      if (!entry) continue;
+      const content = entry.content.toLowerCase();
+      const title = (entry.title ?? "").toLowerCase();
+      if (q && content.indexOf(q) === -1 && title.indexOf(q) === -1) continue;
+      results.push(entry);
     }
 
     results.sort((a, b) =>

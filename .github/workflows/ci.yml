@@ -66,7 +66,7 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile --prefer-offline
       - run: pnpm --filter map-searcher-api prisma:generate
-      - run: pnpm --filter map-searcher-api prisma db push
+      - run: pnpm --filter map-searcher-api prisma:push
       - run: pnpm --filter map-searcher-api test
       - run: pnpm --filter client test
 

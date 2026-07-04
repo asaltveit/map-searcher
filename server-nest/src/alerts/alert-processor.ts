@@ -1,6 +1,7 @@
 import { Processor, WorkerHost } from "@nestjs/bullmq";
 import { Logger } from "@nestjs/common";
 import { Job } from "bullmq";
+import { isRecord, parseArticleObject } from "../common/json.utils";
 import { LettaService } from "../letta/letta.service";
 import { TracingService } from "../tracing/tracing.service";
 import {
@@ -376,7 +377,7 @@ Focus on articles that mention specific locations within ${alert.region}.
         `[PROCESSOR] extractJsonFromText - FOUND ARRAY JSON pattern, length=${jsonMatches[0].length}`,
       );
       try {
-        const parsed = JSON.parse(jsonMatches[0]);
+        const parsed: unknown = JSON.parse(jsonMatches[0]);
         this.logger.log(
           `[PROCESSOR] extractJsonFromText - PARSED ARRAY successfully, isArray=${Array.isArray(parsed)}, length=${Array.isArray(parsed) ? parsed.length : "N/A"}`,
         );
@@ -394,23 +395,13 @@ Focus on articles that mention specific locations within ${alert.region}.
         `[PROCESSOR] extractJsonFromText - FOUND OBJECT JSON pattern, length=${objectMatches[0].length}`,
       );
       try {
-        const parsed = JSON.parse(objectMatches[0]);
+        const parsed: unknown = JSON.parse(objectMatches[0]);
         this.logger.log(
-          `[PROCESSOR] extractJsonFromText - PARSED OBJECT successfully, keys=${Object.keys(parsed).join(",")}`,
+          `[PROCESSOR] extractJsonFromText - PARSED OBJECT successfully, keys=${
+            isRecord(parsed) ? Object.keys(parsed).join(",") : "none"
+          }`,
         );
-        if (parsed.url && parsed.title) {
-          this.logger.log(
-            `[PROCESSOR] extractJsonFromText - Single article object detected`,
-          );
-          return [parsed];
-        }
-        if (parsed.articles && Array.isArray(parsed.articles)) {
-          this.logger.log(
-            `[PROCESSOR] extractJsonFromText - Articles wrapper detected, count=${parsed.articles.length}`,
-          );
-          return parsed.articles;
-        }
-        return parsed;
+        return parseArticleObject(parsed);
       } catch (e) {
         this.logger.warn(
           `[PROCESSOR] extractJsonFromText - FAILED to parse object JSON: ${e instanceof Error ? e.message : String(e)}`,

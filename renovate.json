@@ -4,7 +4,6 @@
   "schedule": ["before 6am on monday"],
   "labels": ["dependencies"],
   "platformAutomerge": true,
-  "requiredStatusChecks": ["lint", "test", "build"],
   "osvVulnerabilityAlerts": true,
   "packageRules": [
     {
@@ -13,19 +12,19 @@
     },
     {
       "groupName": "react",
-      "matchPackagePatterns": ["*react*"]
+      "matchPackageNames": ["*react*"]
     },
     {
       "groupName": "eslint",
-      "matchPackagePatterns": ["*eslint*"]
+      "matchPackageNames": ["*eslint*"]
     },
     {
       "groupName": "prisma",
-      "matchPackagePatterns": ["*prisma*"]
+      "matchPackageNames": ["*prisma*"]
     },
     {
       "groupName": "nest",
-      "matchPackagePatterns": ["*nestjs*", "@nestjs/*"]
+      "matchPackageNames": ["*nestjs*", "@nestjs/*"]
     }
   ]
 }

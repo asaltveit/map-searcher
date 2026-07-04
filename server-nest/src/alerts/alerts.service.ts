@@ -4,6 +4,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from "@nestjs/common";
+import { createHash } from "crypto";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
 import { PrismaService } from "../prisma.service";
@@ -203,7 +204,7 @@ export class AlertsService {
       }
     }
 
-    return this.formatAlertDetail(alert as AlertWithArticles);
+    return this.formatAlertDetail(alert);
   }
 
   /**
@@ -911,7 +912,9 @@ export class AlertsService {
       }
     } catch (error) {
       this.logger.warn(
-        `Error removing scheduled job for alert ${alertId}: ${error}`,
+        `Error removing scheduled job for alert ${alertId}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
       );
     }
   }
@@ -978,7 +981,7 @@ export class AlertsService {
 
   private parseLocationType(type: string): LocationType {
     const normalized = type.toUpperCase();
-    if (Object.values(LocationType).includes(normalized as LocationType)) {
+    if ((Object.values(LocationType) as string[]).includes(normalized)) {
       return normalized as LocationType;
     }
     return LocationType.OTHER;
@@ -988,9 +991,7 @@ export class AlertsService {
    * Generate a cache key for TTS
    */
   private getTTSCacheKey(text: string, voice: string): string {
-    // Simple hash - combine text and voice
-    const crypto = require("crypto");
-    return crypto.createHash("md5").update(`${voice}:${text}`).digest("hex");
+    return createHash("md5").update(`${voice}:${text}`).digest("hex");
   }
 
   /**

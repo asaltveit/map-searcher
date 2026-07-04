@@ -92,11 +92,11 @@ export class ImprovementsCronService {
 
       let stdout = "";
       let stderr = "";
-      proc.stdout?.on("data", (chunk) => {
+      proc.stdout?.on("data", (chunk: Buffer) => {
         stdout += chunk.toString();
         this.logger.debug(chunk.toString().trim());
       });
-      proc.stderr?.on("data", (chunk) => {
+      proc.stderr?.on("data", (chunk: Buffer) => {
         stderr += chunk.toString();
         this.logger.warn(chunk.toString().trim());
       });

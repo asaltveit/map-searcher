@@ -3,14 +3,7 @@ import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
 import { PrismaService } from "../prisma.service";
 import { StartWorkflowDto } from "./dto/start-workflow.dto";
-import {
-  WorkflowStatus,
-  ProcessingStatus,
-  LocationType,
-  type NewsWorkflow,
-  type NewsArticle,
-  type ArticleLocation,
-} from "@prisma/client";
+import { WorkflowStatus, ProcessingStatus, LocationType } from "@prisma/client";
 import { GeocodingService } from "./services/geocoding.service";
 
 export const NEWS_WORKFLOW_QUEUE = "news-workflow";
@@ -32,10 +25,6 @@ export interface ProcessedArticle {
     context?: string;
   }>;
 }
-
-type WorkflowWithArticles = NewsWorkflow & {
-  articles: (NewsArticle & { locations: ArticleLocation[] })[];
-};
 
 @Injectable()
 export class NewsWorkflowService {
@@ -143,7 +132,7 @@ export class NewsWorkflowService {
       throw new NotFoundException(`Workflow not found: ${workflowId}`);
     }
 
-    const typedWorkflow = workflow as WorkflowWithArticles;
+    const typedWorkflow = workflow;
 
     // Count locations
     const allLocations = typedWorkflow.articles.flatMap((a) => a.locations);
@@ -216,7 +205,7 @@ export class NewsWorkflowService {
       throw new NotFoundException(`Workflow not found: ${workflowId}`);
     }
 
-    const typedWorkflow = workflow as WorkflowWithArticles;
+    const typedWorkflow = workflow;
 
     const features = typedWorkflow.articles.flatMap((article) =>
       article.locations
@@ -406,7 +395,7 @@ export class NewsWorkflowService {
 
   private parseLocationType(type: string): LocationType {
     const normalized = type.toUpperCase();
-    if (Object.values(LocationType).includes(normalized as LocationType)) {
+    if ((Object.values(LocationType) as string[]).includes(normalized)) {
       return normalized as LocationType;
     }
     return LocationType.OTHER;
