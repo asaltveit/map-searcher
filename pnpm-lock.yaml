@@ -228,8 +228,8 @@ importers:
         specifier: ^14.0.1
         version: 14.0.1
       weave:
-        specifier: ^0.15.0
-        version: 0.15.1
+        specifier: ^0.16.0
+        version: 0.16.1
     devDependencies:
       '@apideck/portman':
         specifier: ^1.34.0
@@ -7442,8 +7442,8 @@ packages:
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
-  weave@0.15.1:
-    resolution: {integrity: sha512-R3PY9hIiERXKPBPs7wRRoDpLztBEZB2cOa18ZWpyHXeohfBBB2A9VKtAmA6d6MDUWC/LDX3c8GoJ6TK3iKDvRg==}
+  weave@0.16.1:
+    resolution: {integrity: sha512-quYA2bJRCNzVFFJqFv2dMU81+Zt8Xd7oL3w1F+9CNvUSWbs/CILWGxXI7pdLFD+JUiHDimKF6s/MFj8P69fpNA==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -15292,7 +15292,7 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
-  weave@0.15.1:
+  weave@0.16.1:
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/exporter-trace-otlp-proto': 0.53.0(@opentelemetry/api@1.9.1)
