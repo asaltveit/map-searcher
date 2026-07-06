@@ -6,7 +6,7 @@ allowBuilds:
   '@nestjs/core': true
   '@prisma/engines': true
   '@scarf/scarf': false
-  '@sentry-internal/node-cpu-profiler': true
+  '@sentry/node-cpu-profiler': true
   esbuild: true
   msgpackr-extract: true
   prisma: true
