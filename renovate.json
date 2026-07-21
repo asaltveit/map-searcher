@@ -7,6 +7,12 @@
   "osvVulnerabilityAlerts": true,
   "ignorePaths": ["**/package-lock.json"],
   "postUpdateOptions": ["pnpmDedupe"],
+  "toolSettings": {
+    "nodeMaxMemory": 1536
+  },
+  "env": {
+    "PNPM_MAX_WORKERS": "1"
+  },
   "packageRules": [
     {
       "matchUpdateTypes": ["patch", "minor"],
