@@ -2,6 +2,10 @@ packages:
   - client
   - server-nest
 
+# Reduce peak memory during lockfile regeneration (Renovate / pnpm install).
+trustLockfile: true
+networkConcurrency: 4
+
 allowBuilds:
   '@nestjs/core': true
   '@prisma/engines': true
